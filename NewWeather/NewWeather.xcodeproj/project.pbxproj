@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		A72F8C5F20BF1732003E6F90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F8C5E20BF1732003E6F90 /* AppDelegate.swift */; };
 		A72F8C6120BF1732003E6F90 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F8C6020BF1732003E6F90 /* ViewController.swift */; };
-		A72F8C6420BF1732003E6F90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A72F8C6220BF1732003E6F90 /* Main.storyboard */; };
 		A72F8C6620BF1736003E6F90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A72F8C6520BF1736003E6F90 /* Assets.xcassets */; };
 		A72F8C6920BF1736003E6F90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A72F8C6720BF1736003E6F90 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -18,7 +17,6 @@
 		A72F8C5B20BF1731003E6F90 /* NewWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A72F8C5E20BF1732003E6F90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A72F8C6020BF1732003E6F90 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		A72F8C6320BF1732003E6F90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A72F8C6520BF1736003E6F90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A72F8C6820BF1736003E6F90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A72F8C6A20BF1736003E6F90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -56,7 +54,6 @@
 			children = (
 				A72F8C5E20BF1732003E6F90 /* AppDelegate.swift */,
 				A72F8C6020BF1732003E6F90 /* ViewController.swift */,
-				A72F8C6220BF1732003E6F90 /* Main.storyboard */,
 				A72F8C6520BF1736003E6F90 /* Assets.xcassets */,
 				A72F8C6720BF1736003E6F90 /* LaunchScreen.storyboard */,
 				A72F8C6A20BF1736003E6F90 /* Info.plist */,
@@ -124,7 +121,6 @@
 			files = (
 				A72F8C6920BF1736003E6F90 /* LaunchScreen.storyboard in Resources */,
 				A72F8C6620BF1736003E6F90 /* Assets.xcassets in Resources */,
-				A72F8C6420BF1732003E6F90 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,14 +139,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		A72F8C6220BF1732003E6F90 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A72F8C6320BF1732003E6F90 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		A72F8C6720BF1736003E6F90 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -291,7 +279,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -310,7 +298,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
