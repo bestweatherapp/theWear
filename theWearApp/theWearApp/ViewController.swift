@@ -66,8 +66,19 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else {
             let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-            cell.textLabel?.text = cities?[indexPath.row]
+            if cities![indexPath.row].count > 30 {
+                let splittedCity = cities![indexPath.row].components(separatedBy: ",")
+                var additionalText = ""
+                for i in 1..<splittedCity.count {
+                    additionalText += splittedCity[i]
+                }
+                cell.textLabel?.text = "\(splittedCity[0]),\n\(additionalText)"
+            } else {
+                cell.textLabel?.text = cities![indexPath.row]
+            }
+
             cell.textLabel?.textAlignment = .center
+            cell.textLabel?.numberOfLines = 2
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             cell.backgroundColor = .clear
             return cell
@@ -564,7 +575,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             print("iPhone 6")
             
            slideOutMenu.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: -290, bottom: 0, right: 0), size: .init(width: 250, height: 0))
-            favouriteCitiesTableView.anchor(top: slideOutMenu.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: slideOutMenu.bottomAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 150, left: 0, bottom: 150, right: 0), size: .init(width: 0, height: 0))
+            favouriteCitiesTableView.anchor(top: slideOutMenu.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: slideOutMenu.bottomAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 150, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
             updateWithCurrentLocationButton.anchor(top: nil, leading: slideOutMenu.leadingAnchor, bottom: favouriteCitiesTableView.topAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 0, left: 15, bottom: 15, right: 15), size: .init(width: 0, height: 15))
             settingsButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 25, bottom: 0, right: 0), size: .init(width: 35, height: 35))
             addCityButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 25), size: .init(width: 35, height: 35))            

@@ -85,7 +85,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self?.suitableCititesTableView.reloadData()
             self?.SuitableCitiesRequest(inputText: correctText!)
         }
-    
         pendingRequestWorkItem = requestWorkitem
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: requestWorkitem)
     }
