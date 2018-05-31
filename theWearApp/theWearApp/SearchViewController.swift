@@ -9,7 +9,7 @@
 import UIKit
 
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    // TODO: Check apixu - google integration
     private var pendingRequestWorkItem: DispatchWorkItem?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -25,8 +25,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dismiss(animated: true, completion: nil)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "upF"), object: nil)
+        // TODO: Rascharit how to send correct city
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":self.suitableCities[(suitableCititesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current)])
     }
     
     private let searchTextField: UITextField = {
@@ -78,11 +78,12 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         pendingRequestWorkItem?.cancel()
-        
+        let text = textField.text
+        let correctText = text?.folding(options: .diacriticInsensitive, locale: .current)
         let requestWorkitem = DispatchWorkItem {[weak self] in
             self?.suitableCities = [String]()
             self?.suitableCititesTableView.reloadData()
-            self?.SuitableCitiesRequest(inputText: textField.text!)
+            self?.SuitableCitiesRequest(inputText: correctText!)
         }
     
         pendingRequestWorkItem = requestWorkitem

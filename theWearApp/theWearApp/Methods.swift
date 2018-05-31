@@ -36,8 +36,12 @@ class Methods
             comment_ += " Mind the freezing! Stay warm. "
         case 3..<7:
             comment_ += " Quite cool, put on a jacket . "
-        case 7..<13:
-            comment_ += " Comfortable weather, put on a cape of a windbreaker. "
+        case 7..<9:
+            comment_ += " Comfortable weather, put on a cape of a windbreaker with a jumper under it. "
+        case 9..<11:
+            comment_ += " Comfortable weather, put on a cape of a windbreaker with a longsleeve under it. "
+        case 11..<13:
+            comment_ += " Comfortable weather, put on a cape of a windbreaker with a t-shirt under it. "
         case 13..<17:
             comment_ += " Quite warm, put on some light clothes but also take a jumper. "
         case 17..<20:
@@ -85,8 +89,9 @@ class Methods
     
     func GetFutureComment (day: ForecastDay, avgmorning : Double, avgday : Double, avgevening : Double) -> String {
         var comment = ""
-        comment += day.condition!
-        comment += " "
+        // TODO: Поместить под Forecast For Label
+       // comment += day.condition!
+        //comment += " "
         switch Int((day.temperature_avg)!)
         {
         case -40 ..< -30 :
@@ -116,7 +121,7 @@ class Methods
         case  25..<35:
             if (Int((day.temperature_avg)!) > 29) && (Int(day.avghumidity!) > 70)
             {
-                comment += " Very hot outside. Mind the dehydrayion! "
+                comment += " Very hot outside. Mind the dehydration! "
             }
             else { comment += " Very hot outside. Mind the sunstroke, please! "}
         case 35..<43:

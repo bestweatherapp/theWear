@@ -80,13 +80,25 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             eveningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![18].icon!)
             nightTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![0].icon!)
             
-            morningTemp.attributedText = NSAttributedString(string: "\(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![7].temperature!)°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            adviceInDetailedViewLabel.attributedText = NSAttributedString(string: allCommentsForDetailedView[(forecastTableView.indexPathForSelectedRow?.row)!], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
-            afternoonTemp.attributedText = NSAttributedString(string: "\(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![12].temperature!)°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            forecastForLabel.attributedText = NSAttributedString(string: "Forecast for \n\(convertDateFormaterForDailyForecastForDetailedView("\(self.currentForecastCity.AllForecastDay![indexPath.row].date!)"))", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
-            eveningTemp.attributedText = NSAttributedString(string: "\(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![18].temperature!)°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            morningTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![7].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
-            nightTemp.attributedText = NSAttributedString(string: "\(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![0].temperature!)°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            afternoonTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![12].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            
+            eveningTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![18].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            
+            nightTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![0].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            
+            morningTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![7].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            
+            afternoonTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![12].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            
+            eveningTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![18].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            
+            nightTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![0].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
                 UIView.animate(withDuration: 0.5) {
@@ -142,6 +154,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var allHourlyTemps = [String](repeating: "", count: 12)
     var allHourlyTempsIcons = [String](repeating: "", count: 12)
     var currentForecastCity = ForecastCity() // полная информация
+    var allCommentsForDetailedView = [String]()
     
     private let slideOutMenu: UIView = {
         let view = UIView()
@@ -312,22 +325,58 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }()
     private let morningTemp: UILabel = {
         let text = UILabel()
-        text.translatesAutoresizingMaskIntoConstraints = false
+        text.textAlignment = .center
         return text
     }()
     private let afternoonTemp: UILabel = {
         let text = UILabel()
-        text.translatesAutoresizingMaskIntoConstraints = false
+        text.textAlignment = .center
         return text
     }()
     private let eveningTemp: UILabel = {
         let text = UILabel()
-        text.translatesAutoresizingMaskIntoConstraints = false
+        text.textAlignment = .center
         return text
     }()
     private let nightTemp: UILabel = {
         let text = UILabel()
+        text.textAlignment = .center
+        return text
+    }()
+    
+    private let morningTempFeelsLike: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        return text
+    }()
+    private let afternoonTempFeelsLike: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        return text
+    }()
+    private let eveningTempFeelsLike: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        return text
+    }()
+    private let nightTempFeelsLike: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        return text
+    }()
+    
+    private let forecastForLabel: UILabel = {
+        let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
+        text.textAlignment = .center
+        text.numberOfLines = 2
+        return text
+    }()
+    private let adviceInDetailedViewLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        text.numberOfLines = 6
+        text.sizeToFit()
         return text
     }()
     
@@ -469,31 +518,37 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         blurEffectView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         self.blurEffectView.isHidden = true
         
+        
         view.addSubview(slideOutMenu)
         slideOutMenu.addSubview(favouriteCitiesTableView)
         slideOutMenu.addSubview(updateWithCurrentLocationButton)
         slideOutMenu.addSubview(settingsButton)
         slideOutMenu.addSubview(addCityButton)
         view.addSubview(detailedView)
-        [morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, closeDetailedViewButton, morningTemp, afternoonTemp, eveningTemp, nightTemp].forEach { detailedView.addSubview($0)}
+        [morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, closeDetailedViewButton, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, forecastForLabel, adviceInDetailedViewLabel].forEach { detailedView.addSubview($0)}
         
-        morningTempIcon.anchor(top: detailedView.topAnchor, leading: detailedView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 125, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        afternoonTempIcon.anchor(top: detailedView.topAnchor, leading: morningTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 125, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        eveningTempIcon.anchor(top: detailedView.topAnchor, leading: afternoonTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 125, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        nightTempIcon.anchor(top: detailedView.topAnchor, leading: eveningTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 125, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        adviceInDetailedViewLabel.anchor(top: morningTempFeelsLike.bottomAnchor, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 30, left: 30, bottom: 0, right: 30), size: .init(width: 0, height: 0))
         
-        morningTemp.centerXAnchor.constraint(equalTo: morningTempIcon.centerXAnchor).isActive = true
-        morningTemp.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        morningTemp.topAnchor.constraint(equalTo: morningTempIcon.bottomAnchor, constant: 25).isActive = true
-        afternoonTemp.centerXAnchor.constraint(equalTo: afternoonTempIcon.centerXAnchor).isActive = true
-        afternoonTemp.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        afternoonTemp.topAnchor.constraint(equalTo: afternoonTempIcon.bottomAnchor, constant: 25).isActive = true
-        eveningTemp.centerXAnchor.constraint(equalTo: eveningTempIcon.centerXAnchor).isActive = true
-        eveningTemp.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        eveningTemp.topAnchor.constraint(equalTo: eveningTempIcon.bottomAnchor, constant: 25).isActive = true
-        nightTemp.centerXAnchor.constraint(equalTo: nightTempIcon.centerXAnchor).isActive = true
-        nightTemp.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        nightTemp.topAnchor.constraint(equalTo: nightTempIcon.bottomAnchor, constant: 25).isActive = true
+        forecastForLabel.anchor(top: nil, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 0, left: 50, bottom: 0, right: 50), size: .init(width: 0, height: 45))
+        forecastForLabel.centerYAnchor.constraint(equalTo: closeDetailedViewButton.centerYAnchor).isActive = true
+        
+        morningTempIcon.anchor(top: detailedView.topAnchor, leading: detailedView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        afternoonTempIcon.anchor(top: detailedView.topAnchor, leading: morningTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        eveningTempIcon.anchor(top: detailedView.topAnchor, leading: afternoonTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        nightTempIcon.anchor(top: detailedView.topAnchor, leading: eveningTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        
+        morningTemp.anchor(top: morningTempIcon.bottomAnchor, leading: morningTempIcon.leadingAnchor, bottom: nil, trailing: morningTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        afternoonTemp.anchor(top: afternoonTempIcon.bottomAnchor, leading: afternoonTempIcon.leadingAnchor, bottom: nil, trailing: afternoonTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        eveningTemp.anchor(top: eveningTempIcon.bottomAnchor, leading: eveningTempIcon.leadingAnchor, bottom: nil, trailing: eveningTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        nightTemp.anchor(top: nightTempIcon.bottomAnchor, leading: nightTempIcon.leadingAnchor, bottom: nil, trailing: nightTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        
+        morningTempFeelsLike.anchor(top: morningTemp.bottomAnchor, leading: morningTempIcon.leadingAnchor, bottom: nil, trailing: morningTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        afternoonTempFeelsLike.anchor(top: afternoonTemp.bottomAnchor, leading: afternoonTempIcon.leadingAnchor, bottom: nil, trailing: afternoonTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        eveningTempFeelsLike.anchor(top: eveningTemp.bottomAnchor, leading: eveningTempIcon.leadingAnchor, bottom: nil, trailing: eveningTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        nightTempFeelsLike.anchor(top: nightTemp.bottomAnchor, leading: nightTempIcon.leadingAnchor, bottom: nil, trailing: nightTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        
+        
+        
         
         closeDetailedViewButton.anchor(top: detailedView.topAnchor, leading: nil, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 25, height: 25))
         
@@ -545,8 +600,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func UpdateInfo(location: String) {
-        
         var allDates = [String]()
+        var allCommentsForDetailedView = [String]() // Add new var for all comments
         var allTempsdays = [String]()
         var allTempsdaysIcons = [String]()
         var allHours = [String]()
@@ -594,7 +649,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     } else {
                         allDates.append("\(convertDateFormaterForDailyForecastForDateDescription(date_!))\n\(convertDateFormaterForDailyForecastForDate(date_!))")
                     }
-                    let comment_ = ""
+                    var comment_ = ""
                     guard let maxtemp_ = day["maxtemp_c"] as? Double else {return}
                     guard let mintemp_ = day["mintemp_c"] as? Double else {return}
                     guard let avgtemp_ = day["avgtemp_c"] as? Double else {return}
@@ -633,7 +688,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     allTempsdays.append("\(Int(round(newDay.AllHours![12].temperature!)))°  \(Int(round(newDay.AllHours![0].temperature!)))°")
                     newDay.date = date_!
                     allDays.append(newDay)
+                    let methods = Methods()
+                    comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![7].temperature!, avgday: newDay.AllHours![12].temperature!, avgevening: newDay.AllHours![18].temperature!)
+                    allCommentsForDetailedView.append(comment_)
+                    
                 }
+                self.allCommentsForDetailedView = allCommentsForDetailedView
                 self.allDates = allDates
                 self.allTemps = allTempsdays
                 self.allTempsIcons = allTempsdaysIcons
@@ -652,7 +712,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         }
                     }
                 } else {
-                    for i in (self.hour)...(self.hour)+12 {
+                    for i in (self.hour)..<(self.hour)+12 {
                         allHours.append("\(i):00")
                         allHourlyTemps.append("\(String(describing: Int(round(allDays[0].AllHours![i].temperature!))))°C")
                         allHourlyTempsIcons.append("https:" + allDays[0].AllHours![i].icon!)
@@ -686,24 +746,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.favouriteCitiesTableView.reloadData()
     }
     
-    @objc func ClosingSearchVC() {
-        self.forecastTableView.isUserInteractionEnabled = true
-        self.forecastCollectionView.isUserInteractionEnabled = true
-        self.searchButton.isUserInteractionEnabled = true
-        self.bottomStackView.isUserInteractionEnabled = true
-        self.topStackView.isUserInteractionEnabled = true
-        self.middleStackView.isUserInteractionEnabled = true
-        self.currentTemperature.isUserInteractionEnabled = true
-        self.currentCondition.isUserInteractionEnabled = true
-        self.currentAdvice.isUserInteractionEnabled = true
-        self.currentLocation.isUserInteractionEnabled = true
-        self.searchButton.isEnabled = true
-        UIView.animate(withDuration: 0.5) {
-            self.blurEffectView.effect = nil
-        }
-        self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
-    }
-    
     private let weaLabel: UILabel = {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
@@ -735,6 +777,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return text
     }()
     
+    func catchNotification(notification: Notification) -> Void {
+        guard let name = notification.userInfo!["name"] as? String else {return}
+        UpdateInfo(location: name)
+        UIView.animate(withDuration: 0.5) {
+            self.blurEffectView.effect = nil
+        }
+        self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -745,7 +795,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         view.backgroundColor = .lightBlue
         NotificationCenter.default.addObserver(self, selector: #selector(UpdateFavourits), name: NSNotification.Name(rawValue: "upF"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ClosingSearchVC), name: NSNotification.Name(rawValue: "closeSVC"), object: nil)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "closeSVC"), object: nil, queue: nil, using: catchNotification)
         
         locationManager.requestAlwaysAuthorization()
         if CLLocationManager.locationServicesEnabled()
@@ -765,7 +815,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forecastCollectionView.register(HourCell.self, forCellWithReuseIdentifier: "collectionViewCell")
         LayOut()
         
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(Animation), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(Animation), userInfo: nil, repeats: false)
         Animate()
         UpdateInfo(location: "Current location")
     }
@@ -773,14 +823,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private func Animate() {
         self.theLabel.frame.origin.x = 0
         self.weaLabel.frame.origin.x = 0
-        UIView.animate(withDuration: 3, delay: 0.25, options: [.autoreverse, .repeat], animations: {
+        UIView.animate(withDuration: 2.2, delay: 0.25, options: [.autoreverse, .repeat], animations: {
             self.theLabel.frame.origin.x += 155
             self.weaLabel.frame.origin.x -= 100
         })
     }
     
     @objc private func Animation() {
-            UIView.animate(withDuration: 1, animations: {
+            UIView.animate(withDuration: 5, animations: {
                 self.splashScreen.alpha = 0
                 self.weaLabel.alpha = 0
                 self.theLabel.alpha = 0
