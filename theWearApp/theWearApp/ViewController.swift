@@ -120,7 +120,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             self.currentAdvice.isUserInteractionEnabled = true
             self.currentLocation.isUserInteractionEnabled = true
             self.searchButton.isEnabled = true
-            UpdateInfo(location: cities![(favouriteCitiesTableView.indexPathForSelectedRow?.row)!])
+            UpdateInfo(location: cities![(favouriteCitiesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current))
             UIView.animate(withDuration: 0.4) {
                     self.slideOutMenu.frame.origin.x = -250
                     self.blurEffectView.effect = nil

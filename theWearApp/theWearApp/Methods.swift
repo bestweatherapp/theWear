@@ -35,13 +35,13 @@ class Methods
         case 0..<3:
             comment_ += " Mind the freezing! Stay warm. "
         case 3..<7:
-            comment_ += " Quite cool, put on a jacket . "
+            comment_ += " Quite cool, put on a jacket. "
         case 7..<9:
-            comment_ += " Comfortable weather, put on a cape of a windbreaker with a jumper under it. "
+            comment_ += " Comfortable weather, put on a jumper and a cape or a windbreaker. "
         case 9..<11:
-            comment_ += " Comfortable weather, put on a cape of a windbreaker with a longsleeve under it. "
+            comment_ += " Comfortable weather, put on a longsleeve and a cape or a windbreaker. "
         case 11..<13:
-            comment_ += " Comfortable weather, put on a cape of a windbreaker with a t-shirt under it. "
+            comment_ += " Comfortable weather, put on a t-shirt and a cape or a windbreaker. "
         case 13..<17:
             comment_ += " Quite warm, put on some light clothes but also take a jumper. "
         case 17..<20:
@@ -54,6 +54,16 @@ class Methods
             comment_ += " Extremely hot! Put on the lightest clothes. "
         default:
             comment_ = " There is no comment "
+        }
+        switch (Current.wind_speed!)
+        {
+        case 7...9:
+            comment_ += " Mind strong wind!"
+        case 9...20:
+            comment_ += " Mind very strong wind! "
+        case 20...50:
+            comment_ += " Extremely strong wind! "
+            default: comment_ += ""
         }
         return comment_
     }
