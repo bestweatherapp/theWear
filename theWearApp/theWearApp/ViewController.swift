@@ -746,6 +746,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @objc func UpdateFavourits() {
         self.favouriteCitiesTableView.reloadData()
     }
+    @objc func CloseSVC() {
+        UIView.animate(withDuration: 0.5) {
+            self.blurEffectView.effect = nil
+        }
+        self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
+    }
     
     private let weaLabel: UILabel = {
         let text = UILabel()
@@ -797,6 +803,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         view.backgroundColor = .lightBlue
         NotificationCenter.default.addObserver(self, selector: #selector(UpdateFavourits), name: NSNotification.Name(rawValue: "upF"), object: nil)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "closeSVC"), object: nil, queue: nil, using: catchNotification)
+        NotificationCenter.default.addObserver(self, selector: #selector(CloseSVC), name: NSNotification.Name(rawValue: "closeSVCA"), object: nil)
         
         locationManager.requestAlwaysAuthorization()
         if CLLocationManager.locationServicesEnabled()
@@ -824,14 +831,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private func Animate() {
         self.theLabel.frame.origin.x = 0
         self.weaLabel.frame.origin.x = 0
-        UIView.animate(withDuration: 0.2, delay: 0.25, options: [.autoreverse, .repeat], animations: {
+        UIView.animate(withDuration: 2, delay: 0.25, options: [.autoreverse, .repeat], animations: {
             self.theLabel.frame.origin.x += 155
             self.weaLabel.frame.origin.x -= 100
         })
     }
     
     @objc private func Animation() {
-            UIView.animate(withDuration: 5, animations: {
+            UIView.animate(withDuration: 2, animations: {
                 self.splashScreen.alpha = 0
                 self.weaLabel.alpha = 0
                 self.theLabel.alpha = 0
