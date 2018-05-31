@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7EBC80420C03455008A7C58 /* UserNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EBC80320C03455008A7C58 /* UserNotifications.swift */; };
 		BA20553720B52BBD00EB9DDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA20553620B52BBD00EB9DDC /* AppDelegate.swift */; };
 		BA20553920B52BBD00EB9DDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA20553820B52BBD00EB9DDC /* ViewController.swift */; };
 		BA20553E20B52BBD00EB9DDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA20553D20B52BBD00EB9DDC /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A7EBC80320C03455008A7C58 /* UserNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotifications.swift; sourceTree = "<group>"; };
 		BA20553320B52BBC00EB9DDC /* theWearApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = theWearApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA20553620B52BBD00EB9DDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA20553820B52BBD00EB9DDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				BA5630EB20B8755C0052FAD2 /* DateFormaterFunctions.swift */,
 				BA71B91A20BA01DF008DABAF /* SettingsViewController.swift */,
 				BAD6485C20BE0D6B003B2E9A /* AddCityViewController.swift */,
+				A7EBC80320C03455008A7C58 /* UserNotifications.swift */,
 			);
 			path = theWearApp;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				BA5630E820B76B950052FAD2 /* Methods.swift in Sources */,
 				BA71B91B20BA01DF008DABAF /* SettingsViewController.swift in Sources */,
 				BAD6485D20BE0D6B003B2E9A /* AddCityViewController.swift in Sources */,
+				A7EBC80420C03455008A7C58 /* UserNotifications.swift in Sources */,
 				BA20553720B52BBD00EB9DDC /* AppDelegate.swift in Sources */,
 				BA5630EA20B771E50052FAD2 /* Reading_Methods.swift in Sources */,
 				BA5630DE20B629710052FAD2 /* DayCell.swift in Sources */,

@@ -26,7 +26,6 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dismiss(animated: true, completion: nil)
         cities?.append(self.suitableCities[indexPath.row])
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil)
         NotificationCenter.default.post(name: Notification.Name(rawValue: "upF"), object: nil)
     }
     
