@@ -409,16 +409,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         transition.subtype = kCATransitionReveal
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         self.view.window?.layer.add(transition, forKey: kCATransition)
-        self.forecastTableView.isUserInteractionEnabled = false
-        self.forecastCollectionView.isUserInteractionEnabled = false
-        self.searchButton.isUserInteractionEnabled = false
-        self.bottomStackView.isUserInteractionEnabled = false
-        self.topStackView.isUserInteractionEnabled = false
-        self.middleStackView.isUserInteractionEnabled = false
-        self.currentTemperature.isUserInteractionEnabled = false
-        self.currentCondition.isUserInteractionEnabled = false
-        self.currentAdvice.isUserInteractionEnabled = false
-        self.currentLocation.isUserInteractionEnabled = false
         self.blurEffectView.isHidden = false
         UIView.animate(withDuration: 0.5) {
             self.blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.regular)
@@ -778,8 +768,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }()
     
     func catchNotification(notification: Notification) -> Void {
-        guard let name = notification.userInfo!["name"] as? String else {return}
-        UpdateInfo(location: name)
+        guard let name = notification.userInfo!["name"] else {return}
+        UpdateInfo(location: "\(name)")
         UIView.animate(withDuration: 0.5) {
             self.blurEffectView.effect = nil
         }
@@ -823,7 +813,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private func Animate() {
         self.theLabel.frame.origin.x = 0
         self.weaLabel.frame.origin.x = 0
-        UIView.animate(withDuration: 2.2, delay: 0.25, options: [.autoreverse, .repeat], animations: {
+        UIView.animate(withDuration: 0.2, delay: 0.25, options: [.autoreverse, .repeat], animations: {
             self.theLabel.frame.origin.x += 155
             self.weaLabel.frame.origin.x -= 100
         })
