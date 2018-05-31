@@ -86,6 +86,7 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
                     if let pred = predictions[i] as? [String : AnyObject] {
                         if let description = pred["description"] as? String {
                             self.suitableCities.append(description)
+                            SaveCity(cities: self.suitableCities)
                         }
                     }
                 }
@@ -101,6 +102,7 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
         let button = UIButton()
         button.setImage(UIImage(named: "close"), for: .normal)
         button.addTarget(self, action: #selector(CloseAddVC), for: .touchUpInside)
+        
         return button
     }()
     

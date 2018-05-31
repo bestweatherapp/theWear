@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         {  scheduleNotification(at: createDate( hour: 8, minute: 30), body: "New notification", titles: "Hello, programmers!")}
         else
         {
-            let alert = UIAlertController(title: "Error", message: "Sorry, no onternet connection!", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Error", message: "Sorry, no internet connection!", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             alert.present(alert, animated: true)
             applicationWillTerminate(application)
