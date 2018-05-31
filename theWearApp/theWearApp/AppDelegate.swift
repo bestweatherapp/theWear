@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 print("D'oh")
             }
-           
+           //
         }
         if (CheckInternet.Connection())
         {  scheduleNotification(at: createDate( hour: 8, minute: 30), body: "New notification", titles: "Hello, programmers!")}
