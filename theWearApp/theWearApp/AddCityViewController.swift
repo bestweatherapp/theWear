@@ -55,19 +55,23 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
         var text = textField.text!
         if (methods.ContainsCyrillyc(text: text))
         {
-            textField.text = nil
+            //textField.text = nil
             textField.text = ""
-            
+            self.suitableCititesTableView.dataSource = nil
+            self.suitableCititesTableView.reloadData()
+            return
         }
         else{
-        let requestWorkitem = DispatchWorkItem {[weak self] in
+            self.suitableCititesTableView.dataSource = self
+            let correctText = text.folding(options: .diacriticInsensitive, locale: .current)
+            let requestWorkitem = DispatchWorkItem {[weak self] in
             self?.suitableCities = [String]()
             self?.suitableCititesTableView.reloadData()
-            self?.SuitableCitiesRequest(inputText: textField.text!)
+            self?.SuitableCitiesRequest(inputText: correctText)
         }
         
         pendingRequestWorkItem = requestWorkitem
-       // DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: requestWorkitem)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: requestWorkitem)
         }
     }
     
