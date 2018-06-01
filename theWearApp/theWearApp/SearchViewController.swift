@@ -77,8 +77,18 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
+        var methods = Methods()
         pendingRequestWorkItem?.cancel()
-        let text = textField.text
+        var text = textField.text
+        print (methods.ContainsCyrillyc(text: text!))
+        if (methods.ContainsCyrillyc(text: text!) == true)
+        {
+            textField.text = nil
+            textField.text = ""
+            
+        }
+        else
+        {
         let correctText = text?.folding(options: .diacriticInsensitive, locale: .current)
         let requestWorkitem = DispatchWorkItem {[weak self] in
             self?.suitableCities = [String]()
@@ -87,12 +97,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         pendingRequestWorkItem = requestWorkitem
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: requestWorkitem)
+        }
     }
     
     var suitableCities = [String]()
     
     func SuitableCitiesRequest(inputText: String) {
         let input = inputText.replacingOccurrences(of: " ", with: "%20")
+       
         let url = URL(string: "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=\(input)&types=(cities)&language=en&key=AIzaSyDCBBOmhf9mpqKW0T-2d3zaCdB-LpJmKTc")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             guard error == nil else {
@@ -157,3 +169,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
 }
+
+
+    
+

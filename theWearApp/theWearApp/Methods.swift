@@ -295,5 +295,17 @@ class Methods
         }
         return comment
     }
+    func ContainsCyrillyc (text : String)-> (Bool)
+    {
+        var index : [Int]
+        let characters = CharacterSet(charactersIn: "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгдежзийклмнопрстуфхцчшщьюя")
+        if text.rangeOfCharacter(from: characters) != nil {
+            
+            print("yes")
+            return true
+        }
+        return false
+    }
 }
+
 
