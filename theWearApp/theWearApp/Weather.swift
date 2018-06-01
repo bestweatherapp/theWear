@@ -48,16 +48,16 @@ class ForecastHour
 class ForecastDay : Methods
 {
     var date: String? = ""
-    var condition : String?//
-    var avg_temp_c: Double?//
-    var temperature_max:Double?//
-    var temperature_min:Double?//
-    var temperature_avg:Double?//
-    var windSpeed_max:Double?//
-    var avghumidity: Double?//
-    var comment: String?//
+    var condition : String?
+    var avg_temp_c: Double?
+    var temperature_max:Double?
+    var temperature_min:Double?
+    var temperature_avg:Double?
+    var windSpeed_max:Double?
+    var avghumidity: Double?
+    var comment: String?
     var iconURL : String?
-    var uv : Double?//
+    var uv : Double?
     var AllHours :  [ForecastHour]?
     init(avg_temp_c : Double, date: String,temperature_avg:Double,temperature_max:Double,temperature_min:Double, windSpeed_max:Double, iconURL : String, avghumidity: Double,  comment: String, condition : String, uv : Double, forecastHours : [ForecastHour])
     {
