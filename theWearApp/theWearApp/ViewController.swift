@@ -603,6 +603,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func UpdateInfo(location: String) {
+        
         var allDates = [String]()
         var allCommentsForDetailedView = [String]() // Add new var for all comments
         var allTempsdays = [String]()
@@ -613,6 +614,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let current_ = Current()
         let currentLocation : CLLocation!
         currentLocation = locationManager.location
+        if (currentLocation != nil)
+        {
         let correctLocation = location.replacingOccurrences(of: " ", with: "%20")
         let urlString = (location == "Current location") ? "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(String(describing: currentLocation.coordinate.latitude)),\(String(describing: currentLocation.coordinate.longitude))&days=7" : "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(correctLocation)&days=7"
         guard let url = URL(string: urlString) else { return }
@@ -740,6 +743,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 }
                 }.resume()
         }
+        }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -797,6 +801,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       // UpdateInfo(location: "Current location")
         view.addSubview(backgroundImage)
         backgroundImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -828,6 +833,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(Animation), userInfo: nil, repeats: false)
         Animate()
         UpdateInfo(location: "Current location")
+       
     }
     
     private func Animate() {

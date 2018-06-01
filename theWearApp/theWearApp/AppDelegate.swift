@@ -17,16 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let center = UNUserNotificationCenter.current()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
       
-        //test
-       // let localNotification:UILocalNotification = UILocalNotification()
-       // localNotification.alertAction = ""
-       // localNotification.alertBody = "Don't forget to check current weather"
-       // localNotification.fireDate = NSDate(timeIntervalSinceNow: 6) as Date
-       // UIApplication.shared.scheduleLocalNotification(localNotification)
-        
-         //  let test:UILocalNotification = UILocalNotification()
-       //   test.alertBody = "Test"
-      //    test.fi
         self.center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             if granted {
                 print("Yay!")
@@ -54,6 +44,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if !(UserDefaults.standard.bool(forKey: "firstTimeOpened")) {
+            self.center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+                if granted {
+                    print("Yay!")
+                } else {
+                    print("D'oh")
+                }
+                //
+            }
             self.locationManager.requestAlwaysAuthorization()
             self.window?.rootViewController = ViewController()
         } else {
@@ -78,6 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        //locationManager.requestAlwaysAuthorization()
         window?.makeKeyAndVisible()
         window?.rootViewController = ViewController()
     }

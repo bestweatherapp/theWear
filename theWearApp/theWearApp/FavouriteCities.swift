@@ -11,6 +11,7 @@ import Foundation
 var cities : [String]?
 
 func SaveCity(cities: [String]) {
+    UserDefaults.standard.removeObject(forKey: "cities")
     UserDefaults.standard.set(cities, forKey: "cities")
 }
 

@@ -11,7 +11,7 @@ import UIKit
 class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private var pendingRequestWorkItem: DispatchWorkItem?
-    
+  //  var favourites = []()
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return suitableCities.count
     }
@@ -25,7 +25,9 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dismiss(animated: true, completion: nil)
-        cities?.append(self.suitableCities[indexPath.row])
+        if (!(cities?.contains(self.suitableCities[indexPath.row]))!)
+        { cities?.append(self.suitableCities[indexPath.row]) }
+        
         NotificationCenter.default.post(name: Notification.Name(rawValue: "upF"), object: nil)
     }
     
@@ -69,7 +71,6 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
             self?.suitableCititesTableView.reloadData()
             self?.SuitableCitiesRequest(inputText: correctText)
         }
-        
         pendingRequestWorkItem = requestWorkitem
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: requestWorkitem)
         }
@@ -78,6 +79,10 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
     var suitableCities = [String]()
     
     func SuitableCitiesRequest(inputText: String) {
+        var favourites = [String]()
+        if (UserDefaults.standard.array(forKey: "cities") != nil)
+        { favourites = UserDefaults.standard.array(forKey: "cities") as! [String]}
+        
         let input = inputText.replacingOccurrences(of: " ", with: "%20")
         let url = URL(string: "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=\(input)&types=(cities)&language=en&key=AIzaSyDCBBOmhf9mpqKW0T-2d3zaCdB-LpJmKTc")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
@@ -99,7 +104,7 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
                     if let pred = predictions[i] as? [String : AnyObject] {
                         if let description = pred["description"] as? String {
                             self.suitableCities.append(description)
-                            SaveCity(cities: self.suitableCities)
+                           
                         }
                     }
                 }
