@@ -148,6 +148,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedOutside()
         view.backgroundColor = .clear
         suitableCititesTableView.delegate = self
         suitableCititesTableView.dataSource = self

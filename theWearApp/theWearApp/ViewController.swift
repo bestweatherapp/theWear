@@ -497,6 +497,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return blur
     }()
     
+    var leadConstr: CGFloat = -290
+    
     private func LayOut() {
     
         bottomStackView.addArrangedSubview(forecastCollectionView)
@@ -574,7 +576,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         case 1334:
             print("iPhone 6")
             
-           slideOutMenu.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: -290, bottom: 0, right: 0), size: .init(width: 250, height: 0))
+            slideOutMenu.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: self.leadConstr, bottom: 0, right: 0), size: .init(width: 250, height: 0))
             favouriteCitiesTableView.anchor(top: slideOutMenu.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: slideOutMenu.bottomAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 150, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
             updateWithCurrentLocationButton.anchor(top: nil, leading: slideOutMenu.leadingAnchor, bottom: favouriteCitiesTableView.topAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 0, left: 15, bottom: 15, right: 15), size: .init(width: 0, height: 15))
             settingsButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 25, bottom: 0, right: 0), size: .init(width: 35, height: 35))
@@ -880,6 +882,16 @@ extension UIView {
             heightAnchor.constraint(equalToConstant: size.height).isActive = true
         }
         
+    }
+}
+extension UIViewController {
+    func hideKeyboardWhenTappedOutside() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.HideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    @objc func HideKeyboard() {
+        view.endEditing(true)
     }
 }
 

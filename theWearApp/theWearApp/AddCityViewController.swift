@@ -110,6 +110,7 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedOutside()
         suitableCititesTableView.delegate = self
         suitableCititesTableView.dataSource = self
         view.backgroundColor = UIColor(white: 1, alpha: 0.99)
