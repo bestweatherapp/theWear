@@ -51,7 +51,15 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
  
     @objc func textFieldDidChange(_ textField: UITextField) {
         pendingRequestWorkItem?.cancel()
-        
+        var methods = Methods ()
+        var text = textField.text!
+        if (methods.ContainsCyrillyc(text: text))
+        {
+            textField.text = nil
+            textField.text = ""
+            
+        }
+        else{
         let requestWorkitem = DispatchWorkItem {[weak self] in
             self?.suitableCities = [String]()
             self?.suitableCititesTableView.reloadData()
@@ -59,7 +67,8 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         pendingRequestWorkItem = requestWorkitem
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: requestWorkitem)
+       // DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: requestWorkitem)
+        }
     }
     
     var suitableCities = [String]()
