@@ -17,6 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let center = UNUserNotificationCenter.current()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
       
+        //test
+       // let localNotification:UILocalNotification = UILocalNotification()
+       // localNotification.alertAction = ""
+       // localNotification.alertBody = "Don't forget to check current weather"
+       // localNotification.fireDate = NSDate(timeIntervalSinceNow: 6) as Date
+       // UIApplication.shared.scheduleLocalNotification(localNotification)
+        
+         //  let test:UILocalNotification = UILocalNotification()
+       //   test.alertBody = "Test"
+      //    test.fi
         self.center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             if granted {
                 print("Yay!")
@@ -26,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            //
         }
         if (CheckInternet.Connection())
-        {  scheduleNotification(at: createDate( hour: 8, minute: 30), body: "New notification", titles: "Hello, programmers!")}
+        {  scheduleNotification(at: createDate( hour: 8, minute: 45), body: "New notification", titles: "Hello, programmers!")}
         else
         {
             let alert = UIAlertController(title: "Error", message: "Sorry, no internet connection!", preferredStyle: .alert)
