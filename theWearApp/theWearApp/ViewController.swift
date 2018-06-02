@@ -91,9 +91,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             eveningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![18].icon!)
             nightTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![0].icon!)
             
-            maxWinS.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].windSpeed_max!)))", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            maxWinSpeedLabel.attributedText = NSAttributedString(string: "Maximum wind speed: \(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].windSpeed_max!))) mPs", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
-            avgHum.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].avghumidity!)))%", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            avgHumidityLabel.attributedText = NSAttributedString(string: "Average Humidity: \(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].avghumidity!)))%", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            
+            sunriseLabel.attributedText = NSAttributedString(string: String(self.currentForecastCity.AllForecastDay![indexPath.row].sunrise!.dropLast(3)), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            sunsetLabel.attributedText = NSAttributedString(string: String(self.currentForecastCity.AllForecastDay![indexPath.row].sunset!.dropLast(3)), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
             adviceInDetailedViewLabel.attributedText = NSAttributedString(string: allCommentsForDetailedView[(forecastTableView.indexPathForSelectedRow?.row)!], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
@@ -529,34 +532,39 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let maxWinSpeedLabel: UILabel = {
         let text = UILabel()
         text.textAlignment = .left
-        text.attributedText = NSAttributedString(string: "Maximum wind speed", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-        return text
-    }()
-    
-    private let maxWinS: UILabel = {
-        let text = UILabel()
-        text.textAlignment = .right
         return text
     }()
     
     private let avgHumidityLabel: UILabel = {
         let text = UILabel()
         text.textAlignment = .left
-        text.attributedText = NSAttributedString(string: "Average Humidity", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
         return text
     }()
-    
-    private let avgHum: UILabel = {
-        let text = UILabel()
-        text.textAlignment = .right
-        return text
-    }()
-    
+
     private let descrLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.attributedText = NSAttributedString(string: "Description", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
         return label
+    }()
+    
+    private let sunriseImage: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "sunrise"))
+        return image
+    }()
+    private let sunsetImage: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "sunset"))
+        return image
+    }()
+    private let sunriseLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        return text
+    }()
+    private let sunsetLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        return text
     }()
     
     var leadConstr: CGFloat = -290
@@ -617,7 +625,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         blurEffectView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         self.blurEffectView.isHidden = true
         
-        
         view.addSubview(slideOutMenu)
         slideOutMenu.addSubview(favouriteCitiesTableView)
         slideOutMenu.addSubview(updateWithCurrentLocationButton)
@@ -625,28 +632,31 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         slideOutMenu.addSubview(addCityButton)
         view.addSubview(detailedView)
         [scrollView, closeDetailedViewButton, forecastForLabel].forEach {detailedView.addSubview($0)}
-        [maxWinS, morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, topLine, leftFeelsLikeLine, rightFeelsLikeLine, leftDescriptionLine, rightDescriptionLine, feelsLikeLabel, descrLabel, clothesLabel, DetailsLabel, maxWinSpeedLabel, avgHumidityLabel, avgHum].forEach {scrollView.addSubview($0)}
+        [morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, topLine, leftFeelsLikeLine, rightFeelsLikeLine, leftDescriptionLine, rightDescriptionLine, feelsLikeLabel, descrLabel, clothesLabel, DetailsLabel, maxWinSpeedLabel, avgHumidityLabel, sunriseImage, sunsetImage, sunriseLabel, sunsetLabel].forEach {scrollView.addSubview($0)}
         
         clothesLabel.anchor(top: adviceInDetailedViewLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         clothesLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
+        sunriseLabel.anchor(top: sunriseImage.bottomAnchor, leading: scrollView.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: nil, padding: .init(top: 5, left: 35, bottom: 20, right: 0), size: .init(width: 40, height: 30))
+        sunsetLabel.anchor(top: sunsetImage.bottomAnchor, leading: scrollView.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: nil, padding: .init(top: 5, left: 150, bottom: 20, right: 0), size: .init(width: 40, height: 30))
+        
+        sunriseImage.anchor(top: avgHumidityLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 35, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        sunsetImage.anchor(top: avgHumidityLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 150, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        
         DetailsLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         DetailsLabel.anchor(top: clothesLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         
-        maxWinS.anchor(top: DetailsLabel.bottomAnchor, leading: nil, bottom: nil, trailing: scrollView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 0, height: 30))
         maxWinSpeedLabel.anchor(top: DetailsLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: 25, bottom: 0, right: 0), size: .init(width: 0, height: 30))
         
-        avgHumidityLabel.anchor(top: maxWinSpeedLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: 25, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        avgHum.anchor(top: maxWinSpeedLabel.bottomAnchor, leading: nil, bottom: scrollView.bottomAnchor, trailing: scrollView.trailingAnchor, padding: .init(top: 35, left: 0, bottom: 0, right: 25), size: .init(width: 0, height: 30))
-        
-        
+        avgHumidityLabel.anchor(top: maxWinSpeedLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 25, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+
         feelsLikeLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         feelsLikeLabel.centerYAnchor.constraint(equalTo: leftFeelsLikeLine.centerYAnchor).isActive = true
         
         descrLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         descrLabel.centerYAnchor.constraint(equalTo: leftDescriptionLine.centerYAnchor).isActive = true
         
-        scrollView.anchor(top: closeDetailedViewButton.bottomAnchor, leading: detailedView.leadingAnchor, bottom: detailedView.bottomAnchor, trailing: detailedView.trailingAnchor, padding: .init(top: 5, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        scrollView.anchor(top: closeDetailedViewButton.bottomAnchor, leading: detailedView.leadingAnchor, bottom: detailedView.bottomAnchor, trailing: detailedView.trailingAnchor, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         
         adviceInDetailedViewLabel.anchor(top: morningTempFeelsLike.bottomAnchor, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 30, left: 30, bottom: 0, right: 30), size: .init(width: 0, height: 0))
         
