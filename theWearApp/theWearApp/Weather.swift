@@ -57,10 +57,14 @@ class ForecastDay : Methods
     var avghumidity: Double?
     var comment: String?
     var iconURL : String?
+    var sunrise : String?
+    var sunset : String?
     var uv : Double?
     var AllHours :  [ForecastHour]?
-    init(avg_temp_c : Double, date: String,temperature_avg:Double,temperature_max:Double,temperature_min:Double, windSpeed_max:Double, iconURL : String, avghumidity: Double,  comment: String, condition : String, uv : Double, forecastHours : [ForecastHour])
+    init(avg_temp_c : Double, date: String,temperature_avg:Double,temperature_max:Double,temperature_min:Double, windSpeed_max:Double, iconURL : String, avghumidity: Double,  comment: String, condition : String, uv : Double, forecastHours : [ForecastHour], sunset : String, sunrise : String)
     {
+        self.sunset = sunset
+        self.sunrise = sunrise 
         self.avg_temp_c = avg_temp_c
         self.condition = condition
         self.temperature_avg=temperature_avg

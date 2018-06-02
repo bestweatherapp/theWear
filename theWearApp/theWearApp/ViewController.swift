@@ -783,6 +783,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     guard let condition_ = text["text"] as? String else {return}
                     guard let iconUrl  = text["icon"] as? String else {return}
                     allTempsdaysIcons.append("https:" + iconUrl)
+                    guard let astro = day1["astro"] as? [String: AnyObject] else {return}
+                    guard var sunrise = astro["sunrise"] as? String? else {return}
+                    guard var sunset = astro["sunset"] as? String? else {return}
                     guard let hoursArr = day1["hour"] as? [AnyObject] else {return}
                     var counter = 24 // days
                     for object in hoursArr {
@@ -806,7 +809,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                             counter -= 1
                         }
                     }
-                    let newDay = ForecastDay(avg_temp_c: avgtemp_, date: date_!,temperature_avg: avgtemp_, temperature_max: maxtemp_, temperature_min: mintemp_, windSpeed_max: wind_max_!, iconURL: iconUrl, avghumidity: avghum_, comment: comment_, condition: condition_, uv: uv_, forecastHours: allhoursForDay as! [ForecastHour])
+                    let newDay = ForecastDay(avg_temp_c: avgtemp_, date: date_!, temperature_avg: avgtemp_, temperature_max: maxtemp_, temperature_min: mintemp_, windSpeed_max: wind_max_!, iconURL: iconUrl, avghumidity: avghum_, comment: comment_, condition: condition_, uv: uv_, forecastHours: allhoursForDay as! [ForecastHour], sunset : sunset!, sunrise : sunrise!)
                     allTempsdays.append("\(Int(round(newDay.AllHours![12].temperature!)))°  \(Int(round(newDay.AllHours![0].temperature!)))°")
                     newDay.date = date_!
                     allDays.append(newDay)

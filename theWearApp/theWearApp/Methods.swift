@@ -121,13 +121,13 @@ class Methods
         case 3..<7 where Int(day.avghumidity!)>70:
             comment += " Feels cool and humid. Put on a coat and probably a scarf. "
         case 3..<7:
-            comment += " Feels cool, put on a coat. "
+            comment += " Feels cool, put on a coat "
         case 7..<13:
             comment += " Comfortable cool weather. Put on a cape or a windbreaker. "
         case 13..<20:
             comment += " Feels warm, put on some light clothes but also take a jumper. "
         case 20..<25:
-            comment += " Comfortable warm weather. Put on a T-shirt or polo and jeans. "
+            comment += " Comfortable warm weather. Put on a T-shirt and jeans. "
         case  25..<35:
             if (Int((day.temperature_avg)!) > 29) && (Int(day.avghumidity!) > 70)
             {
