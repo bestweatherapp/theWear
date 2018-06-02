@@ -91,6 +91,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             eveningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![18].icon!)
             nightTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![0].icon!)
             
+            maxWinS.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].windSpeed_max!)))", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            
+            avgHum.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].avghumidity!)))%", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            
             adviceInDetailedViewLabel.attributedText = NSAttributedString(string: allCommentsForDetailedView[(forecastTableView.indexPathForSelectedRow?.row)!], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
             forecastForLabel.attributedText = NSAttributedString(string: "Forecast for \n\(convertDateFormaterForDailyForecastForDetailedView("\(self.currentForecastCity.AllForecastDay![indexPath.row].date!)"))", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
@@ -111,7 +115,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             nightTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![0].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
                 UIView.animate(withDuration: 0.5) {
                     self.topStackView.frame.origin.x = -self.view.frame.width
                     self.middleStackView.frame.origin.x = -self.view.frame.width
@@ -302,6 +306,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
+        view.showsVerticalScrollIndicator = false
         return view
     }()
     
@@ -523,7 +528,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }()
     private let maxWinSpeedLabel: UILabel = {
         let text = UILabel()
-        text.attributedText = NSAttributedString(string: "Wind", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+        text.textAlignment = .left
+        text.attributedText = NSAttributedString(string: "Maximum wind speed", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+        return text
+    }()
+    
+    private let maxWinS: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .right
+        return text
+    }()
+    
+    private let avgHumidityLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .left
+        text.attributedText = NSAttributedString(string: "Average Humidity", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+        return text
+    }()
+    
+    private let avgHum: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .right
         return text
     }()
     
@@ -556,19 +581,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         rightDescriptionLine.layer.borderWidth = 0.5
         rightDescriptionLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
     
-        let leftClothesLine = UIView(frame: CGRect(x: 25, y: 0, width: 110, height: 0.5))
-        leftClothesLine.layer.borderWidth = 0.5
-        leftClothesLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
-        let rightClothesLine = UIView(frame: CGRect(x: 190, y: 0, width: 110, height: 0.5))
-        rightClothesLine.layer.borderWidth = 0.5
-        rightClothesLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
+//        let leftClothesLine = UIView(frame: CGRect(x: 25, y: self.clothesLabel.frame.origin.y + 310, width: 110, height: 0.5))
+//        leftClothesLine.layer.borderWidth = 0.5
+//        leftClothesLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
+//
+//        let rightClothesLine = UIView(frame: CGRect(x: 190, y: self.clothesLabel.frame.origin.y + 310, width: 110, height: 0.5))
+//        rightClothesLine.layer.borderWidth = 0.5
+//        rightClothesLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
         
-        let leftDetailesLine = UIView(frame: CGRect(x: 25, y: 440, width: 110, height: 0.5))
-        leftDetailesLine.layer.borderWidth = 0.5
-        leftDetailesLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
-        let rightDetailsLine = UIView(frame: CGRect(x: 190, y: 440, width: 110, height: 0.5))
-        rightDetailsLine.layer.borderWidth = 0.5
-        rightDetailsLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
+//        let leftDetailesLine = UIView(frame: CGRect(x: 25, y: 440, width: 110, height: 0.5))
+//        leftDetailesLine.layer.borderWidth = 0.5
+//        leftDetailesLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
+//        let rightDetailsLine = UIView(frame: CGRect(x: 190, y: 440, width: 110, height: 0.5))
+//        rightDetailsLine.layer.borderWidth = 0.5
+//        rightDetailsLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
         
         
         bottomStackView.addArrangedSubview(forecastCollectionView)
@@ -599,14 +625,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         slideOutMenu.addSubview(addCityButton)
         view.addSubview(detailedView)
         [scrollView, closeDetailedViewButton, forecastForLabel].forEach {detailedView.addSubview($0)}
-        [morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, topLine, leftFeelsLikeLine, rightFeelsLikeLine, leftDescriptionLine, rightDescriptionLine, feelsLikeLabel, descrLabel, clothesLabel, leftClothesLine, rightClothesLine, leftDetailesLine, rightDetailsLine, DetailsLabel, maxWinSpeedLabel].forEach {scrollView.addSubview($0)}
-        
+        [maxWinS, morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, topLine, leftFeelsLikeLine, rightFeelsLikeLine, leftDescriptionLine, rightDescriptionLine, feelsLikeLabel, descrLabel, clothesLabel, DetailsLabel, maxWinSpeedLabel, avgHumidityLabel, avgHum].forEach {scrollView.addSubview($0)}
         
         clothesLabel.anchor(top: adviceInDetailedViewLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         clothesLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
         DetailsLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         DetailsLabel.anchor(top: clothesLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        
+        maxWinS.anchor(top: DetailsLabel.bottomAnchor, leading: nil, bottom: nil, trailing: scrollView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 0, height: 30))
+        maxWinSpeedLabel.anchor(top: DetailsLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: 25, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        
+        avgHumidityLabel.anchor(top: maxWinSpeedLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: 25, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        avgHum.anchor(top: maxWinSpeedLabel.bottomAnchor, leading: nil, bottom: scrollView.bottomAnchor, trailing: scrollView.trailingAnchor, padding: .init(top: 35, left: 0, bottom: 0, right: 25), size: .init(width: 0, height: 30))
+        
         
         feelsLikeLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         feelsLikeLabel.centerYAnchor.constraint(equalTo: leftFeelsLikeLine.centerYAnchor).isActive = true
