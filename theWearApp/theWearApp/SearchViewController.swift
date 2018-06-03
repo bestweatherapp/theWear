@@ -45,6 +45,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 30
         view.backgroundColor = UIColor(white: 1, alpha: 0.9)
+        view.layer.shadowColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80).cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize(width: -1, height: 1)
+        view.layer.shadowRadius = 5
         return view
     }()
     

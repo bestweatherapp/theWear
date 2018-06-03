@@ -14,8 +14,6 @@
 		BA20553E20B52BBD00EB9DDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA20553D20B52BBD00EB9DDC /* Assets.xcassets */; };
 		BA20554120B52BBD00EB9DDC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA20553F20B52BBD00EB9DDC /* LaunchScreen.storyboard */; };
 		BA5630D720B5E2F90052FAD2 /* WelcomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5630D620B5E2F90052FAD2 /* WelcomePage.swift */; };
-		BA5630D920B5EA110052FAD2 /* PageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5630D820B5EA110052FAD2 /* PageCell.swift */; };
-		BA5630DB20B5EB0E0052FAD2 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5630DA20B5EB0E0052FAD2 /* Page.swift */; };
 		BA5630DE20B629710052FAD2 /* DayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5630DD20B629710052FAD2 /* DayCell.swift */; };
 		BA5630E020B6297D0052FAD2 /* HourCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5630DF20B6297D0052FAD2 /* HourCell.swift */; };
 		BA5630E220B6A5DD0052FAD2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5630E120B6A5DD0052FAD2 /* SearchViewController.swift */; };
@@ -32,6 +30,9 @@
 		BA5630FB20B8D3E50052FAD2 /* SF-Pro-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA5630FA20B8D3CB0052FAD2 /* SF-Pro-Display-Bold.otf */; };
 		BA71B91920B9B621008DABAF /* SF-Pro-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA71B91820B9B606008DABAF /* SF-Pro-Display-Ultralight.otf */; };
 		BA71B91B20BA01DF008DABAF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA71B91A20BA01DF008DABAF /* SettingsViewController.swift */; };
+		BAA29D4B20C432B6003BB361 /* SecondPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA29D4A20C432B6003BB361 /* SecondPage.swift */; };
+		BAA29D4D20C43FF5003BB361 /* FirstPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA29D4C20C43FF5003BB361 /* FirstPage.swift */; };
+		BAA29D4F20C44008003BB361 /* ThirdPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA29D4E20C44008003BB361 /* ThirdPage.swift */; };
 		BAD6485D20BE0D6B003B2E9A /* AddCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD6485C20BE0D6B003B2E9A /* AddCityViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,8 +46,6 @@
 		BA20554020B52BBD00EB9DDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA20554220B52BBD00EB9DDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA5630D620B5E2F90052FAD2 /* WelcomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePage.swift; sourceTree = "<group>"; };
-		BA5630D820B5EA110052FAD2 /* PageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageCell.swift; sourceTree = "<group>"; };
-		BA5630DA20B5EB0E0052FAD2 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		BA5630DD20B629710052FAD2 /* DayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCell.swift; sourceTree = "<group>"; };
 		BA5630DF20B6297D0052FAD2 /* HourCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourCell.swift; sourceTree = "<group>"; };
 		BA5630E120B6A5DD0052FAD2 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +62,9 @@
 		BA5630FA20B8D3CB0052FAD2 /* SF-Pro-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Bold.otf"; sourceTree = "<group>"; };
 		BA71B91820B9B606008DABAF /* SF-Pro-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Ultralight.otf"; sourceTree = "<group>"; };
 		BA71B91A20BA01DF008DABAF /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		BAA29D4A20C432B6003BB361 /* SecondPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPage.swift; sourceTree = "<group>"; };
+		BAA29D4C20C43FF5003BB361 /* FirstPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPage.swift; sourceTree = "<group>"; };
+		BAA29D4E20C44008003BB361 /* ThirdPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPage.swift; sourceTree = "<group>"; };
 		BAD6485C20BE0D6B003B2E9A /* AddCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCityViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -123,8 +125,9 @@
 			isa = PBXGroup;
 			children = (
 				BA5630D620B5E2F90052FAD2 /* WelcomePage.swift */,
-				BA5630D820B5EA110052FAD2 /* PageCell.swift */,
-				BA5630DA20B5EB0E0052FAD2 /* Page.swift */,
+				BAA29D4C20C43FF5003BB361 /* FirstPage.swift */,
+				BAA29D4A20C432B6003BB361 /* SecondPage.swift */,
+				BAA29D4E20C44008003BB361 /* ThirdPage.swift */,
 			);
 			path = WelcomePage;
 			sourceTree = "<group>";
@@ -226,14 +229,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA5630D720B5E2F90052FAD2 /* WelcomePage.swift in Sources */,
+				BAA29D4D20C43FF5003BB361 /* FirstPage.swift in Sources */,
 				BA5630E420B739CD0052FAD2 /* FavouriteCities.swift in Sources */,
 				BA5630EC20B8755C0052FAD2 /* DateFormaterFunctions.swift in Sources */,
 				BA5630E020B6297D0052FAD2 /* HourCell.swift in Sources */,
 				BA5630E220B6A5DD0052FAD2 /* SearchViewController.swift in Sources */,
 				A7BB513B20C09E43003AD0D0 /* InternetConnection.swift in Sources */,
 				BA5630E620B76B730052FAD2 /* Weather.swift in Sources */,
+				BAA29D4F20C44008003BB361 /* ThirdPage.swift in Sources */,
 				BA20553920B52BBD00EB9DDC /* ViewController.swift in Sources */,
-				BA5630D920B5EA110052FAD2 /* PageCell.swift in Sources */,
+				BAA29D4B20C432B6003BB361 /* SecondPage.swift in Sources */,
 				BA5630E820B76B950052FAD2 /* Methods.swift in Sources */,
 				BA71B91B20BA01DF008DABAF /* SettingsViewController.swift in Sources */,
 				BAD6485D20BE0D6B003B2E9A /* AddCityViewController.swift in Sources */,
@@ -241,7 +246,6 @@
 				BA20553720B52BBD00EB9DDC /* AppDelegate.swift in Sources */,
 				BA5630EA20B771E50052FAD2 /* Reading_Methods.swift in Sources */,
 				BA5630DE20B629710052FAD2 /* DayCell.swift in Sources */,
-				BA5630DB20B5EB0E0052FAD2 /* Page.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

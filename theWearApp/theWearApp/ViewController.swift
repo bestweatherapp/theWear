@@ -220,6 +220,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let view = UIView()
         view.backgroundColor = UIColor(white: 1, alpha: 0.9)
         view.layer.cornerRadius = 30
+        view.layer.shadowColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80).cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize(width: -1, height: 1)
+        view.layer.shadowRadius = 5
         return view
     }()
     
@@ -293,6 +297,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         tableView.layer.cornerRadius = 30
         tableView.backgroundColor = UIColor(white: 1, alpha: 0.9)
         tableView.showsVerticalScrollIndicator = false
+        tableView.layer.shadowColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80).cgColor
+        tableView.layer.shadowOpacity = 0.5
+        tableView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        tableView.layer.shadowRadius = 10
         return tableView
     }()
     
@@ -304,8 +312,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         collectionView.backgroundColor = UIColor(white: 1, alpha: 0.9)
         collectionView.isScrollEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.layer.shadowColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80).cgColor
+        collectionView.layer.shadowOpacity = 0.5
+        collectionView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        collectionView.layer.shadowRadius = 10
         return collectionView
     }()
+    
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()

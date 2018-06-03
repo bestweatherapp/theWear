@@ -50,7 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 } else {
                     print("D'oh")
                 }
-                //
             }
             self.locationManager.requestAlwaysAuthorization()
             self.window?.rootViewController = ViewController()

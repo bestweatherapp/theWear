@@ -9,29 +9,20 @@
 import UIKit
 
 extension UIColor {
-    static var dark = UIColor(red: 36/255, green: 34/255, blue: 34/255, alpha: 1)
+    static var dark = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)
     static var lightBlue = UIColor(red: 124/255, green: 214/255, blue: 255/255, alpha: 1)
 }
 class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    let pages = [
-        Page(imageName: "page1", headerText: "theWear - это лучшее погодное приложение", bodyText: "\n\n\nОно предоставляет точнейший прогноз погоды, но также вы сможете посмотреть совет по одежде, которую следовало бы надеть на текущий момент или предстоящий день"),
-        Page(imageName: "page2", headerText: "Бла бла бла", bodyText: "\n\n\nТут должно быть какое-нибудь дополнительное описание, но мне лень"),
-        Page(imageName: "page3", headerText: "Пользуйтесь уведомлениями", bodyText: "\n\n\nБлагодаря уведомлениям вы сможете получать изменённый прогноз погоды, сводку по погоде с утра на предстоящий день и много много другого, поэтому подключайте уведомления без регистрации и смс")
-    ]
-    
     private let backgroundImageView: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "defaultWelcome")
-        view.frame = view.bounds
-        return view
+        let image = UIImageView(image: UIImage(named: "BlurDefaultBackground"))
+        return image
     }()
     
     private lazy var pageControl: UIPageControl = {
         let pc = UIPageControl()
         pc.currentPage = 0
-        pc.numberOfPages = pages.count
+        pc.numberOfPages = 3
         pc.currentPageIndicatorTintColor = .dark
         pc.pageIndicatorTintColor = UIColor(white: 1, alpha: 0.9)
         return pc
@@ -59,7 +50,7 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
     
     @objc private func handleNext() {
         previousButton.setTitle("Back", for: .normal)
-        let nextIndex = min(pageControl.currentPage + 1, pages.count - 1)
+        let nextIndex = min(pageControl.currentPage + 1, 2)
         let indexPath = IndexPath(item: nextIndex, section: 0)
         if indexPath.item == 2 {
             nextButton.setTitle("Start", for: .normal)
@@ -90,35 +81,30 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
     
     fileprivate func setupBottomControls() {
         let bottomControlsStackView = UIStackView(arrangedSubviews: [previousButton, pageControl, nextButton])
-        bottomControlsStackView.translatesAutoresizingMaskIntoConstraints = false
         bottomControlsStackView.distribution = .fillEqually
         view.addSubview(bottomControlsStackView)
-        
-        NSLayoutConstraint.activate([
-            bottomControlsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            bottomControlsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            bottomControlsStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            bottomControlsStackView.heightAnchor.constraint(equalToConstant: 50)
-            ])
+        bottomControlsStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 50))
     }
     
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let x = targetContentOffset.pointee.x
         pageControl.currentPage = Int(x / view.frame.width)
+        previousButton.setTitle("Back", for: .normal)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .lightBlue
-        setupBottomControls()
-        collectionView?.backgroundColor = .clear
-        collectionView?.register(PageCell.self, forCellWithReuseIdentifier: "pageId")
+        collectionView?.backgroundView = backgroundImageView
+        collectionView?.register(FirstPage.self, forCellWithReuseIdentifier: "FirstPage")
+        collectionView?.register(SecondPage.self, forCellWithReuseIdentifier: "SecondPage")
+        collectionView?.register(ThirdPage.self, forCellWithReuseIdentifier: "ThirdPage")
         collectionView?.isPagingEnabled = true
         collectionView?.showsHorizontalScrollIndicator = false
+        setupBottomControls()
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pages.count
+        return 3
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -126,13 +112,24 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pageId", for: indexPath) as! PageCell
-        let page = pages[indexPath.item]
-        cell.page = page
-        return cell
+        if indexPath.row == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstPage", for: indexPath) as! FirstPage
+            return cell
+        } else if indexPath.row == 1 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SecondPage", for: indexPath) as! SecondPage
+            return cell
+        } else if indexPath.row == 2 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThirdPage", for: indexPath) as! ThirdPage
+            return cell
+        }
+        return collectionView.dequeueReusableCell(withReuseIdentifier: "FirstPage", for: indexPath) as! FirstPage
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.height)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
