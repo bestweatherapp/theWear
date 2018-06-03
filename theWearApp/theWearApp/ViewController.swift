@@ -142,6 +142,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             UIView.animate(withDuration: 0.4) {
                     self.slideOutMenu.frame.origin.x = -250
                     self.blurEffectView.effect = nil
+                    let initialIndex = 0
+                    let indexPath = IndexPath(item: initialIndex, section: 0)
+                    self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                    self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
             }
             self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
         }
@@ -485,6 +489,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.currentLocation.isUserInteractionEnabled = true
         self.searchButton.isEnabled = true
         UIView.animate(withDuration: 0.4) {
+            let initialIndex = 0
+            let indexPath = IndexPath(item: initialIndex, section: 0)
+            self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
             self.slideOutMenu.frame.origin.x = -250
             self.blurEffectView.effect = nil
         }
@@ -935,8 +943,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func catchNotification(notification: Notification) -> Void {
         guard let name = notification.userInfo!["name"] else {return}
         UpdateInfo(location: "\(name)")
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: 0.4) {
             self.blurEffectView.effect = nil
+                let initialIndex = 0
+                let indexPath = IndexPath(item: initialIndex, section: 0)
+                self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
         }
         self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
     }
