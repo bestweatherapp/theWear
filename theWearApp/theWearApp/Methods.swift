@@ -58,7 +58,7 @@ class Methods
         switch (Current.wind_speed!)
         {
         case 7...9:
-            comment_ += " Mind strong wind!"
+            comment_ += " Mind strong wind! "
         case 9...20:
             comment_ += " Mind very strong wind! "
         case 20...50:
@@ -67,11 +67,11 @@ class Methods
         }
         if (day.uv! > 6.5 && day.uv! < 8)
         {
-            comment_ += " High UV."
+            comment_ += " High UV. "
         }
         if (day.uv! > 8  )
         {
-            comment_ += " Very high UV!"
+            comment_ += " Very high UV! "
         }
         return comment_
     }
@@ -86,10 +86,10 @@ class Methods
         {
             if (thunderanytime == false)
             {
-                if ((element.condition!.range(of: "thunder")) != nil) || ((element.condition! == "Thundery outbreaks possible, be careful"))
+                if ((element.condition!.range(of: "thunder")) != nil) || ((element.condition! == "Thundery outbreaks possible, be careful "))
                 {
                     thunderanytime = true
-                    comment += "Don't forget your umbrella!"
+                    comment += "Don't forget your umbrella! "
                 }
             }
         }
@@ -98,62 +98,127 @@ class Methods
             {
                 if (rainanytime == false) && (thunderanytime == false){
                     rainanytime = true
-                    comment += " Don't forget your umbrella!"}
+                    comment += " Don't forget your umbrella! "}
             }
         }
         return comment
     }
     
-    
-    func GetFutureComment (day: ForecastDay, avgmorning : Double, avgday : Double, avgevening : Double) -> String {
+    func GetFutureComment (day: ForecastDay, avgmorning : Double, avgday : Double, avgevening : Double) -> (String,[String]) {
         var comment = ""
         // TODO: Поместить под Forecast For Label
        // comment += day.condition!
         //comment += " "
+        var images = [String]()
         switch Int((day.temperature_avg)!)
         {
         case -40 ..< -30 :
             comment += " Extremely cold! Avoid being outside unless dressed up properly! "
+            images.append("coat_winter.png")
+            images.append("jeans.png")
+            images.append("uggi.png")
+            images.append("cap.png")
+            images.append("gloves.png")
+            images.append("scarf.png")
         case -30 ..< -10:
             comment += " Very cold weather. Put on all the warmes clothes and don't say outside for too much. "
+            images.append("coat_winter.png")
+            images.append("jeans.png")
+            images.append("uggi.png")
+            images.append("cap.png")
+            images.append("gloves.png")
+            images.append("scarf.png")
         case -10 ..< -5:
             comment +=  " Cold frosty weather. Put on a winter coat, scarf and gloves. "
+            images.append("coat-3.png")
+            images.append("jeans.png")
+            images.append("snickers.png")
+            images.append("cap.png")
+            images.append("gloves.png")
+            images.append("scarf.png")
         case -5 ..< -3:
             comment +=  " Feels cold and freezing. Put on a coat. "
+            images.append("coat-3.png")
+            images.append("jeans.png")
+            images.append("snickers.png")
+            images.append("cap.png")
         case -3 ..< 0:
             comment += " Freezing weather. Dress warmly. "
+            images.append("coat-3.png")
+            images.append("jeans.png")
+            images.append("snickers.png")
+            images.append("cap.png")
         case 0..<3 where Int(day.avghumidity!)>70:
             comment += " Freezing and humid weather. Put on a coat, gloves and a scarf.  "
+            images.append("coat-3.png")
+            images.append("jeans.png")
+            images.append("snickers.png")
+             images.append("gloves.png")
+             images.append("scarf.png")
         case 0..<3 :
             comment += " Freezing and humid weather. Put on a coat. "
+            images.append("coat-3.png")
+            images.append("jeans.png")
+            images.append("snickers.png")
         case 3..<7 where Int(day.avghumidity!)>70:
             comment += " Feels cool and humid. Put on a coat and probably a scarf. "
+            images.append("jacket.png")
+            images.append("jeans.png")
+            images.append("snickers.png")
         case 3..<7:
-            comment += " Feels cool, put on a coat "
+            comment += " Feels cool, put on a coat. "
+            images.append("jacket_.png")
+            images.append("jeans.png")
+            images.append("sneakers.png")
         case 7..<13:
             comment += " Comfortable cool weather. Put on a jacket. "
+            images.append("jacket.png")
+            images.append("jeans.png")
+            images.append("sneakers.png")
         case 13..<18:
             comment += " Feels warm, probably put on a hoodie and jeans. "
+            images.append("hoody.png")
+            images.append("jeans.png")
+            images.append("sneakers.png")
         case 18..<20:
             comment += " Feels warm, probably put on a longsleeve and jeans. "
+            images.append("longsleeve.png")
+            images.append("jeans.png")
+            images.append("sneakers.png")
         case 20..<23:
-            comment += " Feels warm, probably put on a shirt and jeans "
+            comment += " Feels warm, probably put on a shirt and jeans. "
+            images.append("shirt.png")
+            images.append("jeans.png")
+            images.append("sneakers.png")
         case 23..<25:
             comment += " Comfortable warm weather. Put on a T-shirt and jeans. "
+            images.append("polo.png")
+            images.append("jeans.png")
+            images.append("sneakers.png")
         case  25..<35:
             if (Int((day.temperature_avg)!) > 29) && (Int(day.avghumidity!) > 70)
             {
                 comment += " Very hot outside. Mind the dehydration! Put on a t-shirt and shorts. "
+                images.append("polo.png")
+                images.append("chino-shirts.png")
+                images.append("sneakers.png")
             }
             else { comment += " Very hot outside. Mind the sunstroke, please! "}
         case 35..<43:
             if (Int(day.avghumidity!)>30)
             {
                 comment += " Enormously hot, might be unbearable. Avoid being outside for too long! Don't wear dark colors.  "
+                images.append("tshirt.png")
+                images.append("chino-shirts.png")
+                images.append("flops.png")
             }
             else { comment += " Extremely hot. Be careful and avoid the sunlight. Don't wear dark colors."}
         case 43..<50:
             comment += " Enormously hot. Mind the risk of a sunstroke. Avoid being outside! Put on the lighest clothes. "
+            images.append("tshirt.png")
+            images.append("chino-shirts.png")
+            images.append("flops.png")
+            
         default:
             comment = "There is no comment "
         }
@@ -194,7 +259,6 @@ class Methods
                         break
                     }
                 }
-                
             }
         }
         for element in day.AllHours!{
@@ -231,59 +295,71 @@ class Methods
         if (thundermorning && thunderday && thunderevening)
         {
             comment += " Thunders during all day. "
+            images.append("umbrella.png")
         }
         else if (thundermorning && thunderday)
         {
             comment += " Thunders in the first part of the day. "
+            images.append("umbrella.png")
         }
         else if (thunderevening && thundernight)
         {
             comment += " Thunders in the second part of the day. "
+            images.append("umbrella.png")
         }
         else if (thundermorning)
         {
             comment += " Mind thunders in the morning! "
+            images.append("umbrella.png")
         }
         else if (thunderday)
         {
             comment += " Mind thunders in the afternoon! "
+            images.append("umbrella.png")
         }
         else if (thunderevening)
         {
             comment += " Mind thunders in the evening! "
+            images.append("umbrella.png")
         }
         else {
             if (dayflag && morningflag && eveningflag)
             {
                 comment += " Rain possible during all the day. Don't forget your umbrella! "
+                images.append("umbrella.png")
             }
             else if (dayflag && morningflag)
             {
                 comment += " Rain  possible in the first the day. Don't forget your umbrella! "
+                images.append("umbrella.png")
             }
             else if (eveningflag && nightflag)
             {
-                comment += " Rain possible in the second the day. Don't forget your umbrella!"
+                comment += " Rain possible in the second the day. Don't forget your umbrella! "
+                images.append("umbrella.png")
             }
             else if (morningflag)
             {
                 comment += " Rain possible in the morning, take an umbrella. "
+                images.append("umbrella.png")
             }
             else if (dayflag)
             {
                 comment += " Rain possible in the afternoon, take an umbrella. "
+                images.append("umbrella.png")
             }
             else if (eveningflag)
             {
                 comment += " Rain possible in the evening, take an umbrella. "
+                images.append("umbrella.png")
             }
         }
         if (avgday - avgmorning > 5 )
         {
             if (avgday < 20)
-            {comment += " Significantly warmer in the afternoon "}
+            {comment += " Significantly warmer in the afternoon. "}
             else
-            {comment += " Significantly hotter in the afternoon  "}
+            {comment += " Significantly hotter in the afternoon. "}
         }
         if (avgevening - avgday > 5) && (avgday > 5)
         {
@@ -292,6 +368,7 @@ class Methods
         if (Int(day.uv!) > 8 )//проверка!!! Анадырь 3999
         {
             comment += " Mind high UV index. Don't forget about sun-protecting products "
+            images.append("glasses.png")
         }
         if (day.temperature_max! - day.temperature_min! > 12)
         {
@@ -305,7 +382,7 @@ class Methods
         {
             comment += " Mind very strong wind! "
         }
-        return comment
+        return (comment, images)
     }
     func ContainsCyrillyc (text : String)-> (Bool)
     {
