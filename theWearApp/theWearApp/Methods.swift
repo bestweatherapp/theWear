@@ -30,25 +30,25 @@ class Methods
             comment_ += " Extremely cold. Avoid being outside unless dressed properly! "
         case -30 ..< -10:
             comment_ += " Very cold. Dress warmly! "
-        case -10..<0:
+        case -10 ..< -5:
             comment_ +=  " Frosty weather, put on your coat, scarf and gloves. "
+        case -5 ..< -3:
+            comment_ +=  " Frosty weather, put on your coat. "
         case 0..<3:
-            comment_ += " Mind the freezing! Stay warm. "
+            comment_ += " Mind the freezing! Stay warm, put on a coat. "
         case 3..<7:
-            comment_ += " Quite cool, put on a jacket. "
-        case 7..<9:
-            comment_ += " Comfortable weather, put on a jumper and a cape or a windbreaker. "
-        case 9..<11:
-            comment_ += " Comfortable weather, put on a longsleeve and a cape or a windbreaker. "
-        case 11..<13:
-            comment_ += " Comfortable weather, put on a t-shirt and a cape or a windbreaker. "
-        case 13..<17:
-            comment_ += " Quite warm, put on some light clothes but also take a jumper. "
-        case 17..<20:
+            comment_ += " Quite cool, put on a coat. "
+        case 7..<13:
+            comment_ += " Comfortable weather, put on a jacket. "
+        case 13..<18:
+            comment_ += " Quite warm, put on a hoodie and jeans. "
+        case 18..<20:
             comment_ += " Warm weather, put on a longsleeve and jeans. "
-        case 20..<25:
-            comment_ += " Comfortable warm weather, put on a t-shirt or polo "
-        case  25..<30:
+        case 20..<23:
+            comment_ += " Comfortable warm weather, put on shirt. "
+        case 23..<25:
+            comment_ += " Comfortable warm weather, put on a t-shirt and jeans. "
+        case  25..<35:
             comment_ += " Hot weather, better put on a t-shirt and shorts  "
         case 30..<50:
             comment_ += " Extremely hot! Put on the lightest clothes. "
@@ -71,7 +71,7 @@ class Methods
         }
         if (day.uv! > 8  )
         {
-            comment_ += " Very hihg UV!"
+            comment_ += " Very high UV!"
         }
         return comment_
     }
@@ -134,17 +134,17 @@ class Methods
         case 7..<13:
             comment += " Comfortable cool weather. Put on a jacket. "
         case 13..<18:
-            comment += " Feels warm, probably put on a hoodie. "
+            comment += " Feels warm, probably put on a hoodie and jeans. "
         case 18..<20:
-            comment += " Feels warm, probably put on a longsleeve. "
+            comment += " Feels warm, probably put on a longsleeve and jeans. "
         case 20..<23:
-            comment += " Feels warm, probably put on a shirt. "
+            comment += " Feels warm, probably put on a shirt and jeans "
         case 23..<25:
             comment += " Comfortable warm weather. Put on a T-shirt and jeans. "
         case  25..<35:
             if (Int((day.temperature_avg)!) > 29) && (Int(day.avghumidity!) > 70)
             {
-                comment += " Very hot outside. Mind the dehydration! "
+                comment += " Very hot outside. Mind the dehydration! Put on a t-shirt and shorts. "
             }
             else { comment += " Very hot outside. Mind the sunstroke, please! "}
         case 35..<43:
@@ -154,7 +154,7 @@ class Methods
             }
             else { comment += " Extremely hot. Be careful and avoid the sunlight. Don't wear dark colors."}
         case 43..<50:
-            comment += " Enormously hot. Mind the risk of a sunstroke. Avoid being outside! "
+            comment += " Enormously hot. Mind the risk of a sunstroke. Avoid being outside! Put on the lighest clothes. "
         default:
             comment = "There is no comment "
         }
