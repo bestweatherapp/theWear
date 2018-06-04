@@ -73,11 +73,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.temperatureIcon.contentMode = .scaleToFill
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             cell.temperatureIcon.downloadedFrom(link: allTempsIcons[indexPath.row])
-           
             var views = [cell.view1, cell.view2, cell.view3, cell.view4, cell.view5, cell.view6, cell.view7]
+            views.forEach {$0.image = UIImage(named: "t")}
             DispatchQueue.main.async {
+                cell.clothes.isScrollEnabled = false
                 for i in 0...6 {
                     if self.allClothesForForecastTableView[indexPath.row].indices.contains(i) {
+                        if i >= 5 {
+                            cell.clothes.isScrollEnabled = true
+                        }
                         views[i].image = UIImage(named: self.allClothesForForecastTableView[indexPath.row][i])
                     }
                 }
@@ -1021,6 +1025,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        hideKeyboardWhenTappedOutside()
        // UpdateInfo(location: "Current location")
         view.addSubview(backgroundImage)
         backgroundImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true

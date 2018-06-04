@@ -138,13 +138,13 @@ class Methods
             images.append("gloves")
             images.append("scarf")
         case -5 ..< -3:
-            comment +=  " Feels cold and freezing. Put on a coat. "
+            comment +=  " Feels cold and freezing. Put on a coat and a cap. "
             images.append("coat-3")
             images.append("jeans")
             images.append("snickers")
             images.append("cap")
         case -3 ..< 0:
-            comment += " Freezing weather. Dress warmly. "
+            comment += " Freezing weather. Dress warmly, put on a coat and probably a cap. "
             images.append("coat-3")
             images.append("jeans")
             images.append("snickers")
@@ -157,7 +157,7 @@ class Methods
              images.append("gloves")
              images.append("scarf")
         case 0..<3 :
-            comment += " Freezing and humid weather. Put on a coat. "
+            comment += " Freezing and humid weather. Put on a coat and jeans. "
             images.append("coat-3")
             images.append("jeans")
             images.append("snickers")
@@ -167,12 +167,12 @@ class Methods
             images.append("jeans")
             images.append("snickers")
         case 3..<7:
-            comment += " Feels cool, put on a coat. "
+            comment += " Feels cool, put on a jacket and jeans. "
             images.append("jacket_")
             images.append("jeans")
             images.append("sneakers")
         case 7..<13:
-            comment += " Comfortable cool weather. Put on a jacket. "
+            comment += " Comfortable cool weather. Put on a jacket and jeans. "
             images.append("jacket")
             images.append("jeans")
             images.append("sneakers")
@@ -201,10 +201,14 @@ class Methods
             {
                 comment += " Very hot outside. Mind the dehydration! Put on a t-shirt and shorts. "
                 images.append("polo")
-                images.append("chino-shirts")
+                images.append("chino-shorts")
                 images.append("sneakers")
             }
-            else { comment += " Very hot outside. Mind the sunstroke, please! "}
+            else { comment += " Very hot outside. Mind the sunstroke, please! "
+                images.append("polo")
+                images.append("chino-shorts")
+                images.append("sneakers")
+            }
         case 35..<43:
             if (Int(day.avghumidity!)>30)
             {
@@ -217,7 +221,7 @@ class Methods
         case 43..<50:
             comment += " Enormously hot. Mind the risk of a sunstroke. Avoid being outside! Put on the lighest clothes. "
             images.append("tshirt")
-            images.append("chino-shirts")
+            images.append("chino-shorts")
             images.append("flops")
             
         default:
