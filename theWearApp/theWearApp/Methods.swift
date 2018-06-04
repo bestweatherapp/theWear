@@ -121,7 +121,7 @@ class Methods
             images.append("cap.png")
             images.append("gloves.png")
             images.append("scarf.png")
-        case -30 ..< -10:
+        case -30 ..< -10:////
             comment += " Very cold weather. Put on all the warmes clothes and don't say outside for too much. "
             images.append("coat_winter.png")
             images.append("jeans.png")
