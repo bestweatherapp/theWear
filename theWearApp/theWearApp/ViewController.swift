@@ -899,8 +899,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     let methods = Methods()
                     var realComment = ""
                     comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![7].temperature!, avgday: newDay.AllHours![12].temperature!, avgevening: newDay.AllHours![18].temperature!)
-                    realComment = comment_.0
-                    allClothesForForecastTableView.append(comment_.1)
+            //        realComment = comment_.0
+             //       allClothesForForecastTableView.append(comment_.1)
                     allCommentsForDetailedView.append(realComment)
                 }
                 self.allCommentsForDetailedView = allCommentsForDetailedView
