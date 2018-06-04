@@ -214,10 +214,14 @@ class Methods
             {
                 comment += " Enormously hot, might be unbearable. Avoid being outside for too long! Don't wear dark colors.  "
                 images.append("tshirt")
-                images.append("chino-shirts")
+                images.append("chino-shorts")
+//                images.append("flops")
+            }
+            else { comment += " Extremely hot. Be careful and avoid the sunlight. Don't wear dark colors."
+                images.append("tshirt")
+                images.append("chino-shorts")
                 images.append("flops")
             }
-            else { comment += " Extremely hot. Be careful and avoid the sunlight. Don't wear dark colors."}
         case 43..<50:
             comment += " Enormously hot. Mind the risk of a sunstroke. Avoid being outside! Put on the lighest clothes. "
             images.append("tshirt")
