@@ -925,7 +925,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                         let methods = Methods()
                         let forecastday_ = self.currentForecastCity.AllForecastDay![0]
-                        var comment = methods.GetCurrentComment(Current : current_)
+                        var comment = methods.GetCurrentComment(Current : current_, day : forecastday_)
                         comment += methods.GetThunderComment(forecastday: forecastday_)
                         self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
 

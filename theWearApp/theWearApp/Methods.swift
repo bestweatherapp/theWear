@@ -9,7 +9,7 @@
 import Foundation
 class Methods
 {
-    func GetCurrentComment (Current : Current) -> String {
+    func GetCurrentComment (Current : Current, day : ForecastDay) -> String {
         var comment_ = ""
         switch (Double(Current.temp!)) {
         case -1..<10:
@@ -64,6 +64,14 @@ class Methods
         case 20...50:
             comment_ += " Extremely strong wind! "
             default: comment_ += ""
+        }
+        if (day.uv! > 6.5 && day.uv! < 8)
+        {
+            comment_ += " High UV."
+        }
+        if (day.uv! > 8  )
+        {
+            comment_ += " Very hihg UV!"
         }
         return comment_
     }
@@ -123,10 +131,14 @@ class Methods
         case 3..<7:
             comment += " Feels cool, put on a coat "
         case 7..<13:
-            comment += " Comfortable cool weather. Put on a cape or a windbreaker. "
-        case 13..<20:
-            comment += " Feels warm, put on some light clothes but also take a jumper. "
-        case 20..<25:
+            comment += " Comfortable cool weather. Put on a jacket. "
+        case 13..<18:
+            comment += " Feels warm, probably put on a hoodie. "
+        case 18..<20:
+            comment += " Feels warm, probably put on a longsleeve. "
+        case 20..<23:
+            comment += " Feels warm, probably put on a shirt. "
+        case 23..<25:
             comment += " Comfortable warm weather. Put on a T-shirt and jeans. "
         case  25..<35:
             if (Int((day.temperature_avg)!) > 29) && (Int(day.avghumidity!) > 70)
