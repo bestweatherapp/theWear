@@ -396,12 +396,14 @@ class Methods
     func ContainsCyrillyc (text : String)-> (Bool)
     {
         var index : [Int]
-        let characters = CharacterSet(charactersIn: "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгдежзийклмнопрстуфхцчшщьюя")
-        if text.rangeOfCharacter(from: characters) != nil {
-            
-            print("yes")
-            return true
-        }
+        let characters =  "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"
+        let eng = Array(characters)
+        let chars = Array(text)
+        var flag = false
+       for char in chars
+        {if (!eng.contains(char))
+        { flag = true
+            return true  }}
         return false
     }
 }
