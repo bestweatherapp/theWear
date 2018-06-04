@@ -107,6 +107,7 @@ class Methods
     
     func GetFutureComment (day: ForecastDay, avgmorning : Double, avgday : Double, avgevening : Double) -> String {
         var comment = ""
+        
         // TODO: Поместить под Forecast For Label
        // comment += day.condition!
         //comment += " "

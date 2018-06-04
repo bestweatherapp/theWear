@@ -165,11 +165,22 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(70)
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if tableView == forecastTableView {
+            return false
+        } else {
+            return true
+        }
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if tableView == favouriteCitiesTableView {
             if editingStyle == .delete {
                 cities?.remove(at: indexPath.row)
                 self.favouriteCitiesTableView.reloadData()
+            } else if tableView == forecastTableView {
+                
             }
         }
     }
@@ -189,6 +200,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var allHourlyTempsIcons = [String](repeating: "", count: 12)
     var currentForecastCity = ForecastCity() // полная информация
     var allCommentsForDetailedView = [String]()
+    var allClothesForForecastTableView = [String]()
     
     private let placeholderForFav: UIImageView = {
         let image = UIImageView(image: UIImage(named: "PlaceHolderForFavoutites"))
@@ -792,6 +804,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         var allDates = [String]()
         var allCommentsForDetailedView = [String]() // Add new var for all comments
+        var allClothesForForecastTableView = [String]()
         var allTempsdays = [String]()
         var allTempsdaysIcons = [String]()
         var allHours = [String]()
@@ -884,11 +897,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     newDay.date = date_!
                     allDays.append(newDay)
                     let methods = Methods()
+                    var realComment = ""
                     comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![7].temperature!, avgday: newDay.AllHours![12].temperature!, avgevening: newDay.AllHours![18].temperature!)
-                    allCommentsForDetailedView.append(comment_)
-                    
+                    realComment = comment_.0
+                    allClothesForForecastTableView.append(comment_.1)
+                    allCommentsForDetailedView.append(realComment)
                 }
                 self.allCommentsForDetailedView = allCommentsForDetailedView
+                self.allClothesForForecastTableView = allClothesForForecastTableView
                 self.allDates = allDates
                 self.allTemps = allTempsdays
                 self.allTempsIcons = allTempsdaysIcons

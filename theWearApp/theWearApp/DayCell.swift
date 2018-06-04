@@ -22,8 +22,7 @@ class DayCell: UITableViewCell {
     
     let clothes: UIScrollView = {
         let view = UIScrollView()
-        
-        view.backgroundColor = .clear
+        view.backgroundColor = .red
         return view
     }()
     
@@ -76,6 +75,7 @@ class DayCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         LayOut()
+        print(cl)
     }
     
     required init?(coder aDecoder: NSCoder) {
