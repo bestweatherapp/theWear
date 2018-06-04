@@ -73,7 +73,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.temperatureIcon.contentMode = .scaleToFill
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             cell.temperatureIcon.downloadedFrom(link: allTempsIcons[indexPath.row])
+           
+            var views = [cell.view1, cell.view2, cell.view3, cell.view4, cell.view5, cell.view6, cell.view7]
+            DispatchQueue.main.async {
+                for i in 0...6 {
+                    if self.allClothesForForecastTableView[indexPath.row].indices.contains(i) {
+                        views[i].image = UIImage(named: self.allClothesForForecastTableView[indexPath.row][i])
+                    }
+                }
+            }
             return cell
+            
         } else {
             let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
             if cities![indexPath.row].count > 30 {
@@ -161,7 +171,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
  
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(70)
     }
@@ -200,7 +209,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var allHourlyTempsIcons = [String](repeating: "", count: 12)
     var currentForecastCity = ForecastCity() // полная информация
     var allCommentsForDetailedView = [String]()
-    var allClothesForForecastTableView = [String]()
+    var allClothesForForecastTableView = [[String](repeating: "", count: 7),[String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7)]
     
     private let placeholderForFav: UIImageView = {
         let image = UIImageView(image: UIImage(named: "PlaceHolderForFavoutites"))
@@ -804,7 +813,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         var allDates = [String]()
         var allCommentsForDetailedView = [String]() // Add new var for all comments
-        var allClothesForForecastTableView = [String]()
+        var allClothesForForecastTableView = [[String]]()
         var allTempsdays = [String]()
         var allTempsdaysIcons = [String]()
         var allHours = [String]()
@@ -854,7 +863,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     } else {
                         allDates.append("\(convertDateFormaterForDailyForecastForDateDescription(date_!))\n\(convertDateFormaterForDailyForecastForDate(date_!))")
                     }
-                    var comment_ = ""
+                    var comment_: (String, [String]) = ("", [String]())
                     guard let maxtemp_ = day["maxtemp_c"] as? Double else {return}
                     guard let mintemp_ = day["mintemp_c"] as? Double else {return}
                     guard let avgtemp_ = day["avgtemp_c"] as? Double else {return}
@@ -891,17 +900,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                             allhoursForDay.append(newHour)
                             counter -= 1
                         }
-                    }//
-                    let newDay = ForecastDay(avg_temp_c: avgtemp_, date: date_!, temperature_avg: avgtemp_, temperature_max: maxtemp_, temperature_min: mintemp_, windSpeed_max: wind_max_!, iconURL: iconUrl, avghumidity: avghum_, comment: comment_, condition: condition_, uv: uv_, forecastHours: allhoursForDay as! [ForecastHour], sunset : sunset!, sunrise : sunrise!)
+                    }
+                    let methods = Methods()
+                    var realComment = ""
+                    let newDay = ForecastDay(avg_temp_c: avgtemp_, date: date_!, temperature_avg: avgtemp_, temperature_max: maxtemp_, temperature_min: mintemp_, windSpeed_max: wind_max_!, iconURL: iconUrl, avghumidity: avghum_, comment: realComment, condition: condition_, uv: uv_, forecastHours: allhoursForDay as! [ForecastHour], sunset : sunset!, sunrise : sunrise!)
+                    comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![7].temperature!, avgday: newDay.AllHours![12].temperature!, avgevening: newDay.AllHours![18].temperature!)
+                    realComment = comment_.0
+                    allClothesForForecastTableView.append(comment_.1)
+                    allCommentsForDetailedView.append(realComment)
                     allTempsdays.append("\(Int(round(newDay.AllHours![12].temperature!)))°  \(Int(round(newDay.AllHours![0].temperature!)))°")
                     newDay.date = date_!
                     allDays.append(newDay)
-                    let methods = Methods()
-                    var realComment = ""
-                    comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![7].temperature!, avgday: newDay.AllHours![12].temperature!, avgevening: newDay.AllHours![18].temperature!)
-            //        realComment = comment_.0
-             //       allClothesForForecastTableView.append(comment_.1)
-                    allCommentsForDetailedView.append(realComment)
                 }
                 self.allCommentsForDetailedView = allCommentsForDetailedView
                 self.allClothesForForecastTableView = allClothesForForecastTableView

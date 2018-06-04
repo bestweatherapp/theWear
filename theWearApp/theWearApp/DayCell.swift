@@ -22,8 +22,37 @@ class DayCell: UITableViewCell {
     
     let clothes: UIScrollView = {
         let view = UIScrollView()
-        view.backgroundColor = .red
+        view.backgroundColor = .clear
+        view.showsHorizontalScrollIndicator = false
         return view
+    }()
+    let view1: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    let view2: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "um"))
+        return image
+    }()
+    let view3: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    let view4: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    let view5: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    let view6: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    let view7: UIImageView = {
+        let image = UIImageView()
+        return image
     }()
     
     let temperatureIcon: UIImageView = {
@@ -47,6 +76,14 @@ class DayCell: UITableViewCell {
         cellStackView.distribution = .equalCentering
         cellStackView.axis = .horizontal
         addSubview(cellStackView)
+        [view1, view2, view3, view4, view5, view6, view7].forEach {clothes.addSubview($0)}
+        view1.anchor(top: clothes.topAnchor, leading: clothes.leadingAnchor, bottom: clothes.bottomAnchor, trailing: nil, padding: .init(top: 2.5, left: 2.5, bottom: 2.5, right: 0), size: .init(width: 25, height: 25))
+        view2.anchor(top: clothes.topAnchor, leading: view1.trailingAnchor, bottom: clothes.bottomAnchor, trailing: nil, padding: .init(top: 2.5, left: 2.5, bottom: 2.5, right: 0), size: .init(width: 25, height: 25))
+        view3.anchor(top: clothes.topAnchor, leading: view2.trailingAnchor, bottom: clothes.bottomAnchor, trailing: nil, padding: .init(top: 2.5, left: 2.5, bottom: 2.5, right: 0), size: .init(width: 25, height: 25))
+        view4.anchor(top: clothes.topAnchor, leading: view3.trailingAnchor, bottom: clothes.bottomAnchor, trailing: nil, padding: .init(top: 2.5, left: 2.5, bottom: 2.5, right: 0), size: .init(width: 25, height: 25))
+        view5.anchor(top: clothes.topAnchor, leading: view4.trailingAnchor, bottom: clothes.bottomAnchor, trailing: nil, padding: .init(top: 2.5, left: 2.5, bottom: 2.5, right: 0), size: .init(width: 25, height: 25))
+        view6.anchor(top: clothes.topAnchor, leading: view5.trailingAnchor, bottom: clothes.bottomAnchor, trailing: nil, padding: .init(top: 2.5, left: 2.5, bottom: 2.5, right: 0), size: .init(width: 25, height: 25))
+        view7.anchor(top: clothes.topAnchor, leading: view6.trailingAnchor, bottom: clothes.bottomAnchor, trailing: clothes.trailingAnchor, padding: .init(top: 2.5, left: 0, bottom: 2.5, right: 0), size: .init(width: 25, height: 25))
         
         cellStackView.topAnchor.constraint(equalTo: topAnchor, constant: 18).isActive = true
         cellStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
@@ -75,7 +112,6 @@ class DayCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         LayOut()
-        print(cl)
     }
     
     required init?(coder aDecoder: NSCoder) {
