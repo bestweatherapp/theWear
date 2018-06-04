@@ -67,7 +67,7 @@ class Methods
         }
         return comment_
     }
-    //
+    
     
     func GetThunderComment (forecastday : ForecastDay)-> String
     {

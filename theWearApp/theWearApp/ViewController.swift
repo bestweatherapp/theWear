@@ -50,7 +50,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if tableView == self.forecastTableView {
             return 7
         } else {
-            return (cities?.count)!
+            if cities?.count == 0 {
+                    tableView.isHidden = true
+                    self.placeholderForFav.isHidden = false
+                    self.placeholderForFavLabel.isHidden = false
+                return 0
+            } else {
+                tableView.isHidden = false
+                placeholderForFav.isHidden = true
+                placeholderForFavLabel.isHidden = true
+                return (cities?.count)!
+            }
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -156,9 +166,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return CGFloat(70)
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            cities?.remove(at: indexPath.row)
-            self.favouriteCitiesTableView.reloadData()
+        if tableView == favouriteCitiesTableView {
+            if editingStyle == .delete {
+                cities?.remove(at: indexPath.row)
+                self.favouriteCitiesTableView.reloadData()
+            }
         }
     }
     
@@ -178,10 +190,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var currentForecastCity = ForecastCity() // полная информация
     var allCommentsForDetailedView = [String]()
     
+    private let placeholderForFav: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "PlaceHolderForFavoutites"))
+        image.isHidden = false
+        return image
+    }()
+    
+    private let placeholderForFavLabel: UILabel = {
+        let text = UILabel()
+        text.numberOfLines = 2
+        text.sizeToFit()
+        text.textAlignment = .center
+        text.attributedText = NSAttributedString(string: "Here you can add some\n preferable cities and save them", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 100)])
+        return text
+    }()
+    
     private let slideOutMenu: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(white: 1, alpha: 0.9)
+        view.layer.shadowColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80).cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize(width: -1, height: 1)
+        view.layer.shadowRadius = 5
         return view
     }()
     
@@ -495,6 +526,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
             self.slideOutMenu.frame.origin.x = -250
             self.blurEffectView.effect = nil
+            self.view.layoutIfNeeded()
         }
         self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
     }
@@ -516,6 +548,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             UIView.animate(withDuration: 0.5) {
                 self.slideOutMenu.frame.origin.x = -250
                 self.blurEffectView.effect = nil
+                self.view.layoutIfNeeded()
             }
             self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
         }
@@ -651,10 +684,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         slideOutMenu.addSubview(updateWithCurrentLocationButton)
         slideOutMenu.addSubview(settingsButton)
         slideOutMenu.addSubview(addCityButton)
+        slideOutMenu.addSubview(placeholderForFav)
+        slideOutMenu.addSubview(placeholderForFavLabel)
         view.addSubview(detailedView)
         [scrollView, closeDetailedViewButton, forecastForLabel].forEach {detailedView.addSubview($0)}
         [morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, topLine, leftFeelsLikeLine, rightFeelsLikeLine, leftDescriptionLine, rightDescriptionLine, feelsLikeLabel, descrLabel, clothesLabel, DetailsLabel, maxWinSpeedLabel, avgHumidityLabel, sunriseImage, sunsetImage, sunriseLabel, sunsetLabel].forEach {scrollView.addSubview($0)}
         
+        placeholderForFav.anchor(top: updateWithCurrentLocationButton.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 75, left: 0, bottom: 0, right: 0), size: .init(width: 75, height: 75))
+        placeholderForFavLabel.anchor(top: placeholderForFav.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 15, left: 0, bottom: 0, right: 0), size: .init())
+        placeholderForFavLabel.centerXAnchor.constraint(equalTo: slideOutMenu.centerXAnchor).isActive = true
+        placeholderForFav.centerXAnchor.constraint(equalTo: slideOutMenu.centerXAnchor).isActive = true
         clothesLabel.anchor(top: adviceInDetailedViewLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         clothesLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
@@ -905,6 +944,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @objc func CloseSVC() {
         UIView.animate(withDuration: 0.5) {
             self.blurEffectView.effect = nil
+            self.view.layoutIfNeeded()
         }
         self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
     }
@@ -945,6 +985,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         UpdateInfo(location: "\(name)")
         UIView.animate(withDuration: 0.4) {
             self.blurEffectView.effect = nil
+            self.view.layoutIfNeeded()
                 let initialIndex = 0
                 let indexPath = IndexPath(item: initialIndex, section: 0)
                 self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
