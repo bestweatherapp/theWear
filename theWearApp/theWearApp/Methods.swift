@@ -94,7 +94,7 @@ class Methods
             }
         }
         for element in forecastday.AllHours!{
-            if ((element.condition!.range(of: "rain")) != nil) || (element.condition! == "Light rain") || ((element.condition! == "Heavy rain"))
+            if ((element.condition!.range(of: "rain") != nil)||(element.condition! == "Light rain")||(element.condition!.range(of: "sleet") != nil)||(element.condition!.range(of: "drizzle") != nil)||(element.condition!.range(of: "shower") != nil)||(element.condition! == "Heavy rain")||(element.condition!.range(of: "showers") != nil ))
             {
                 if (rainanytime == false) && (thunderanytime == false){
                     rainanytime = true
@@ -231,6 +231,7 @@ class Methods
         default:
             comment = "There is no comment "
         }
+        if (RainOrThunderAnyTime(forecastday: day) == true ) {images.append("umbrella")}
         var thundermorning = false
         var thunderday = false
         var thunderevening = false
@@ -250,7 +251,6 @@ class Methods
                 {
                 case 0..<6:
                     if (thundernight == false){
-                        
                         thundernight = true
                         break
                     }
@@ -280,7 +280,6 @@ class Methods
                 {
                 case 0..<6:
                     if (nightflag == false){
-                        
                         nightflag = true
                         break
                     }
@@ -291,6 +290,10 @@ class Methods
                 case 12..<18:
                     if (dayflag == false){
                         dayflag = true
+                        break}
+                case 18..<23:
+                    if (eveningflag == false){
+                        eveningflag = true
                         break}
                 default:
                     if (eveningflag == false){
@@ -303,65 +306,71 @@ class Methods
         }//Логика для вывода грозы
         if (thundermorning && thunderday && thunderevening)
         {
-            comment += " Thunders during all day. "
-            images.append("umbrella")
+            comment += " Thunders during all day, be careful. "
+           // images.append("umbrella")
         }
         else if (thundermorning && thunderday)
         {
             comment += " Thunders in the first part of the day. "
-            images.append("umbrella")
+           // images.append("umbrella")
+        }
+        else if (thundermorning && thunderevening)
+        {
+            comment += " Thunders during the day possible. "
+           // images.append("umbrella")
         }
         else if (thunderevening && thundernight)
         {
             comment += " Thunders in the second part of the day. "
-            images.append("umbrella")
+           // images.append("umbrella")
+        }
+        else if (thunderevening && thunderday)
+        {
+            comment += " Thunders possible, be careful. "
+           // images.append("umbrella")
         }
         else if (thundermorning)
         {
             comment += " Mind thunders in the morning! "
-            images.append("umbrella")
+          //  images.append("umbrella")
         }
         else if (thunderday)
         {
             comment += " Mind thunders in the afternoon! "
-            images.append("umbrella")
+           // images.append("umbrella")
         }
         else if (thunderevening)
         {
             comment += " Mind thunders in the evening! "
-            images.append("umbrella")
+           // images.append("umbrella")
         }
         else {
             if (dayflag && morningflag && eveningflag)
-            {
-                comment += " Rain possible during all the day. Don't forget your umbrella! "
-                images.append("umbrella")
-            }
+            {  comment += " Rain possible during all the day. Don't forget your umbrella! "}
+               // images.append("umbrella")}
+                else if (nightflag)
+            {comment += " Night rain possible. " }
             else if (dayflag && morningflag)
-            {
-                comment += " Rain  possible in the first the day. Don't forget your umbrella! "
-                images.append("umbrella")
-            }
+            { comment += " Rain  possible in the first part of the day. Don't forget your umbrella! "}
+              //  images.append("umbrella")  }
             else if (eveningflag && nightflag)
-            {
-                comment += " Rain possible in the second the day. Don't forget your umbrella! "
-                images.append("umbrella")
-            }
+            { comment += " Rain possible in the second part of the day. Don't forget your umbrella! "}
+              //  images.append("umbrella")}
+            else if (morningflag && eveningflag)
+            {comment += " Rain possible. Don't forget your umbrella! "}
+           // images.append("umbrella") }
+            else if (dayflag && eveningflag)
+            {comment += " Rain during the day possible. Don't forget your umbrella! "}
+              //  images.append("umbrella") }
             else if (morningflag)
-            {
-                comment += " Rain possible in the morning, take an umbrella. "
-                images.append("umbrella")
-            }
+            { comment += " Rain possible in the morning, take an umbrella. "}
+                //images.append("umbrella") }
             else if (dayflag)
-            {
-                comment += " Rain possible in the afternoon, take an umbrella. "
-                images.append("umbrella")
-            }
+            {comment += " Rain possible in the afternoon, take an umbrella. "}
+               // images.append("umbrella")}
             else if (eveningflag)
-            {
-                comment += " Rain possible in the evening, take an umbrella. "
-                images.append("umbrella")
-            }
+            { comment += " Rain possible in the evening, take an umbrella. "}
+              //  images.append("umbrella")}
         }
         if (avgday - avgmorning > 5 )
         {
@@ -406,6 +415,27 @@ class Methods
             return true  }}
         return false
     }
+                
+    func RainOrThunderAnyTime (forecastday : ForecastDay)-> Bool
+    {
+        var thunderanytime = false
+        var rainanytime = false
+        for element in forecastday.AllHours!
+        {
+            if (thunderanytime == false)
+            {
+                if ((element.condition!.range(of: "thunder")) != nil) || ((element.condition! == "Thundery outbreaks possible, be careful "))
+                { thunderanytime = true} }
+            }
+        for element in forecastday.AllHours!{
+            if ((element.condition!.range(of: "rain") != nil)||(element.condition! == "Light rain")||(element.condition!.range(of: "sleet") != nil)||(element.condition!.range(of: "drizzle") != nil)||(element.condition!.range(of: "shower") != nil)||(element.condition! == "Heavy rain")||(element.condition!.range(of: "showers") != nil ))
+            { if (rainanytime == false) && (thunderanytime == false){
+                    rainanytime = true }
+            }
+        }
+        return (rainanytime||thunderanytime)
+    }
+                
 }
 
 
