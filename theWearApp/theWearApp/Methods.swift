@@ -17,7 +17,7 @@ class Methods
             {
             case 0..<4.5:
                 comment_ += "Feels slightly cooler than it seems. "
-            case 4.5..<8.9:
+            case 4.5..<10:
                 comment_ += " Feels cooler than it seems."
             default:
                 comment_ += " Feels considerably colder than it seems."
@@ -93,14 +93,15 @@ class Methods
                 }
             }
         }
-        for element in forecastday.AllHours!{
-            if ((element.condition!.range(of: "rain") != nil)||(element.condition! == "Light rain")||(element.condition!.range(of: "sleet") != nil)||(element.condition!.range(of: "drizzle") != nil)||(element.condition!.range(of: "shower") != nil)||(element.condition! == "Heavy rain")||(element.condition!.range(of: "showers") != nil ))
-            {
-                if (rainanytime == false) && (thunderanytime == false){
-                    rainanytime = true
-                    comment += " Don't forget your umbrella! "}
-            }
-        }
+        if (RainOrThunderAnyTime(forecastday: forecastday)) {  comment += " Don't forget your umbrella! "}
+      //  for element in forecastday.AllHours!{
+      //      if ((element.condition!.range(of: "rain") != nil)||(element.condition! == "Light rain")||(element.condition!.range(of: "sleet") != nil)||(element.condition!.range(of: "drizzle") != nil)||(element.condition!.range(of: "shower") != nil)||(element.condition! == "Heavy rain")||(element.condition!.range(of: "showers") != nil ))
+      //      {
+       //         if (rainanytime == false) && (thunderanytime == false){
+       //             rainanytime = true
+       //             comment += " Don't forget your umbrella! "}
+       //     }
+      //  }
         return comment
     }
     
@@ -372,14 +373,14 @@ class Methods
             { comment += " Rain possible in the evening, take an umbrella. "}
               //  images.append("umbrella")}
         }
-        if (avgday - avgmorning > 5 )
+        if (avgday - avgmorning > 6 )
         {
             if (avgday < 20)
             {comment += " Significantly warmer in the afternoon. "}
             else
             {comment += " Significantly hotter in the afternoon. "}
         }
-        if (avgevening - avgday > 5) && (avgday > 5)
+        if (avgevening - avgday > 6) && (avgday > 5)
         {
             comment += " Evening will be cooler "
         }
@@ -394,7 +395,7 @@ class Methods
         }
         if (day.windSpeed_max! > 10 && day.windSpeed_max! < 20 )
         {
-            comment += " Mind string wind! "
+            comment += " Mind strong wind! "
         }
         if (day.windSpeed_max! > 20)
         {
@@ -434,8 +435,7 @@ class Methods
             }
         }
         return (rainanytime||thunderanytime)
-    }
-                
+    }     
 }
 
 
