@@ -155,7 +155,7 @@ class SecondPage: UICollectionViewCell {
             fontForAdditionText = 12
             padding = 6
             imageSize = 100
-        case 2208:
+        case 1920:
             fontForAdditionText = 14
             imageSize = 120
             padding = 8

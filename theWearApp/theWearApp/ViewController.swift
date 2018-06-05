@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-extension UIImageView {
+extension UIImageView { // Extension for downloading an image from http request
     func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
         contentMode = mode
         URLSession.shared.dataTask(with: url) { data, response, error in
@@ -29,23 +29,26 @@ extension UIImageView {
         downloadedFrom(url: url, contentMode: mode)
     }
 }
-
- extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 12
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = forecastCollectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! HourCell
-        cell.hour.attributedText = NSAttributedString(string: allHours[indexPath.row], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+        cell.hour.attributedText = NSAttributedString(string: allHours[indexPath.row], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
         cell.temperatureIcon.downloadedFrom(link: allHourlyTempsIcons[indexPath.row])
-        cell.temperature.attributedText = NSAttributedString(string: allHourlyTemps[indexPath.row], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+        cell.temperature.attributedText = NSAttributedString(string: allHourlyTemps[indexPath.row], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 70, height: 70)
     }
 }
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.forecastTableView {
             return 7
@@ -63,12 +66,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.forecastTableView {
             let cell = forecastTableView.dequeueReusableCell(withIdentifier: "tableViewcell", for: indexPath) as! DayCell
-            
-            cell.date.attributedText = NSAttributedString(string: allDates[indexPath.row], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 13)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-            cell.temperature.attributedText = NSAttributedString(string: allTemps[indexPath.row], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            cell.date.attributedText = NSAttributedString(string: allDates[indexPath.row], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 13)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+            cell.temperature.attributedText = NSAttributedString(string: allTemps[indexPath.row], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
             cell.backgroundColor = .clear
             cell.temperatureIcon.contentMode = .scaleToFill
             cell.selectionStyle = UITableViewCellSelectionStyle.none
@@ -87,7 +90,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
             return cell
-            
         } else {
             let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
             if cities![indexPath.row].count > 30 {
@@ -100,7 +102,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
                 cell.textLabel?.text = cities![indexPath.row]
             }
-
             cell.textLabel?.textAlignment = .center
             cell.textLabel?.numberOfLines = 2
             cell.selectionStyle = UITableViewCellSelectionStyle.none
@@ -108,6 +109,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.forecastTableView {
             morningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].icon!)
@@ -122,9 +124,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             sunriseLabel.attributedText = NSAttributedString(string: String(self.currentForecastCity.AllForecastDay![indexPath.row].sunrise!.dropLast(3)), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             sunsetLabel.attributedText = NSAttributedString(string: String(self.currentForecastCity.AllForecastDay![indexPath.row].sunset!.dropLast(3)), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
-            adviceInDetailedViewLabel.attributedText = NSAttributedString(string: allCommentsForDetailedView[(forecastTableView.indexPathForSelectedRow?.row)!], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            sunriseLabel.attributedText = NSAttributedString(string: String(self.currentForecastCity.AllForecastDay![indexPath.row].sunrise!.dropLast(3)), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+            sunsetLabel.attributedText = NSAttributedString(string: String(self.currentForecastCity.AllForecastDay![indexPath.row].sunset!.dropLast(3)), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
             
-            forecastForLabel.attributedText = NSAttributedString(string: "Forecast for \n\(convertDateFormaterForDailyForecastForDetailedView("\(self.currentForecastCity.AllForecastDay![indexPath.row].date!)"))", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            adviceInDetailedViewLabel.attributedText = NSAttributedString(string: allCommentsForDetailedView[(forecastTableView.indexPathForSelectedRow?.row)!], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+            forecastForLabel.attributedText = NSAttributedString(string: "Forecast for \n\(convertDateFormaterForDailyForecastForDetailedView("\(self.currentForecastCity.AllForecastDay![indexPath.row].date!)"))", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
             
             morningTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
@@ -192,68 +196,60 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             if editingStyle == .delete {
                 cities?.remove(at: indexPath.row)
                 self.favouriteCitiesTableView.reloadData()
-            } else if tableView == forecastTableView {
-                
-            }
+            } else if tableView == forecastTableView { }
         }
     }
-    
 }
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     let hour = Calendar.current.component(.hour, from: Date()) // Current Hour
-    
     var allDates = [String](repeating: "", count: 7)
     var allTemps = [String](repeating: "", count: 7)
     var allTempsIcons = [String](repeating: "", count: 7)
     var allHours = [String](repeating: "", count: 12)
     var allHourlyTemps = [String](repeating: "", count: 12)
     var allHourlyTempsIcons = [String](repeating: "", count: 12)
-    var currentForecastCity = ForecastCity() // полная информация
+    var currentForecastCity = ForecastCity()
     var allCommentsForDetailedView = [String]()
     var allClothesForForecastTableView = [[String](repeating: "", count: 7),[String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7)]
     
-    private let placeholderForFav: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "PlaceHolderForFavoutites"))
-        image.isHidden = false
-        return image
-    }()
-    
-    private let placeholderForFavLabel: UILabel = {
-        let text = UILabel()
-        text.numberOfLines = 2
-        text.sizeToFit()
-        text.textAlignment = .center
-        text.attributedText = NSAttributedString(string: "Here you can add some\n preferable cities and save them", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 100)])
-        return text
-    }()
     
     private let slideOutMenu: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(white: 1, alpha: 0.9)
-        view.layer.shadowColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80).cgColor
+        view.layer.shadowColor = UIColor.myGray.cgColor
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = CGSize(width: -1, height: 1)
         view.layer.shadowRadius = 5
         return view
     }()
-    
+    private let placeholderForFav: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "PlaceHolderForFavoutites"))
+        image.isHidden = false
+        return image
+    }()
+    private let placeholderForFavLabel: UILabel = {
+        let text = UILabel()
+        text.numberOfLines = 2
+        text.sizeToFit()
+        text.textAlignment = .center
+        text.attributedText = NSAttributedString(string: "Here you can add some\n preferable cities and save them", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor.myGray])
+        return text
+    }()
     private let addCityButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "add"), for: .normal)
         button.addTarget(self, action: #selector(addCity), for: .touchUpInside)
         return button
     }()
-    
     @objc func addCity() {
         let add = AddCityViewController()
         add.modalPresentationStyle = .overFullScreen
         present(add, animated: true, completion: nil)
     }
-    
     private let settingsButton: UIButton = {
         let button = UIButton()
         button.isSelected = false
@@ -262,51 +258,60 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         button.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
         return button
     }()
-    
     @objc func showSettings() {
         let set = SettingsViewController()
         set.modalPresentationStyle = .overCurrentContext
         present(set, animated: true, completion: nil)
     }
-    
     private let favouriteCitiesTableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
-    
-    private let detailedView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 1, alpha: 0.9)
-        view.layer.cornerRadius = 30
-        view.layer.shadowColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80).cgColor
-        view.layer.shadowOpacity = 0.5
-        view.layer.shadowOffset = CGSize(width: -1, height: 1)
-        view.layer.shadowRadius = 5
-        return view
-    }()
-    
+    @objc func UpdateFavourits() {
+        self.favouriteCitiesTableView.reloadData()
+    }
     private let updateWithCurrentLocationButton: UIButton = {
         let button = UIButton()
-        button.setAttributedTitle(NSMutableAttributedString(string: "Current location", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedStringKey.foregroundColor:UIColor(red: 151/255, green: 151/255, blue: 151/255, alpha: 100)]), for: .normal)
+        button.setAttributedTitle(NSMutableAttributedString(string: "Current location", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedStringKey.foregroundColor:UIColor.myGray]), for: .normal)
         button.isSelected = false
         button.addTarget(self, action: #selector(UpdateWithCurrentLocation), for: .touchUpInside)
         return button
     }()
+    @objc func UpdateWithCurrentLocation() {
+        UpdateInfo(location: "Current location")
+        [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView, blurEffectView].forEach {$0.isUserInteractionEnabled = true}
+        UIView.animate(withDuration: 0.4) {
+            let initialIndex = 0
+            let indexPath = IndexPath(item: initialIndex, section: 0)
+            self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            self.slideOutMenu.frame.origin.x = -250
+            self.blurEffectView.effect = nil
+            self.view.layoutIfNeeded()
+        }
+        self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
+    }
+    
     
     private let backgroundImage: UIImageView = {
         let image = UIImageView(image: UIImage(named: "5704"))
         return image
     }()
-    
     private let splashScreen: UIView = {
         let view = UIView()
         view.isHidden = false
         view.backgroundColor = .white
         return view
     }()
-        
+    
+    
+    private var topStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        return view
+    }()
     private let menuButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "menu"), for: .normal)
@@ -314,7 +319,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         button.addTarget(self, action: #selector(OpenSlideOutMenu), for: .touchUpInside)
         return button
     }()
-    
+    @objc func OpenSlideOutMenu() {
+        [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView, blurEffectView].forEach {$0.isUserInteractionEnabled = false}
+        UIView.animate(withDuration: 0.5) {
+            self.slideOutMenu.frame.origin.x = 0
+            self.blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.regular)
+        }
+    }
+    private let currentLocation: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        text.backgroundColor = .clear
+        return text
+    }()
     private let searchButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "search"), for: .normal)
@@ -322,28 +339,49 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         button.addTarget(self, action: #selector(OpenSearchVC), for: .touchUpInside)
         return button
     }()
+    @objc private func OpenSearchVC() {
+        let searchVC = SearchViewController()
+        searchVC.modalPresentationStyle = .overCurrentContext
+        // Animate ViewController
+        let transition = CATransition()
+        transition.duration = 0.4
+        transition.type = kCATransitionReveal
+        transition.subtype = kCATransitionReveal
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        self.view.window?.layer.add(transition, forKey: kCATransition)
+        self.blurEffectView.isHidden = false
+        UIView.animate(withDuration: 0.5) {
+            self.blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.regular)
+        }
+        present(searchVC, animated: true, completion: nil)
+    }
+    @objc func CloseSVC() {
+        UIView.animate(withDuration: 0.5) {
+            self.blurEffectView.effect = nil
+            self.view.layoutIfNeeded()
+        }
+        self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
+    }
     
-    private let currentLocation: UILabel = {
-        let text = UILabel()
-        text.textAlignment = .center
-        text.backgroundColor = .clear
-        return text
+    
+    private var middleStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        return view
     }()
-   
     private let currentTemperature: UILabel = {
         let text = UILabel()
+        text.sizeToFit()
         text.textAlignment = .center
         text.backgroundColor = .clear
         return text
     }()
-    
     private let currentCondition: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
         text.backgroundColor = .clear
         return text
     }()
-    
     private let currentAdvice: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
@@ -352,18 +390,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return text
     }()
     
+    
+    private var bottomStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        return view
+    }()
     private let forecastTableView: UITableView = {
         let tableView = UITableView()
         tableView.layer.cornerRadius = 30
         tableView.backgroundColor = UIColor(white: 1, alpha: 0.9)
         tableView.showsVerticalScrollIndicator = false
-        tableView.layer.shadowColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80).cgColor
+        tableView.layer.shadowColor = UIColor.myGray.cgColor
         tableView.layer.shadowOpacity = 0.5
         tableView.layer.shadowOffset = CGSize(width: -1, height: 1)
         tableView.layer.shadowRadius = 10
         return tableView
     }()
-    
     let forecastCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -372,7 +415,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         collectionView.backgroundColor = UIColor(white: 1, alpha: 0.9)
         collectionView.isScrollEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.layer.shadowColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80).cgColor
+        collectionView.layer.shadowColor = UIColor.myGray.cgColor
         collectionView.layer.shadowOpacity = 0.5
         collectionView.layer.shadowOffset = CGSize(width: -1, height: 1)
         collectionView.layer.shadowRadius = 10
@@ -385,24 +428,31 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         view.showsVerticalScrollIndicator = false
         return view
     }()
-    
-    private var topStackView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .horizontal
+    private let detailedView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 1, alpha: 0.9)
+        view.layer.cornerRadius = 30
+        view.layer.shadowColor = UIColor.myGray.cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize(width: -1, height: 1)
+        view.layer.shadowRadius = 5
         return view
     }()
-    
-    private var middleStackView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .vertical
-        return view
+    private let closeDetailedViewButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "close"), for: .normal)
+        button.addTarget(self, action: #selector(CloseDetailedView), for: .touchUpInside)
+        return button
     }()
+    @objc func CloseDetailedView() {
+        UIView.animate(withDuration: 0.5) {
+            self.detailedView.frame.origin.x = self.view.frame.width + 50
+            self.topStackView.frame.origin.x = 25
+            self.middleStackView.frame.origin.x = 25
+            self.bottomStackView.frame.origin.x = 25
+        }
+    }
     
-    private var bottomStackView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .vertical
-        return view
-    }()
     
     private let morningTempIcon: UIImageView = {
         let image = UIImageView()
@@ -420,6 +470,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let image = UIImageView()
         return image
     }()
+    
+    
     private let morningTemp: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
@@ -440,6 +492,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         text.textAlignment = .center
         return text
     }()
+    
     
     private let morningTempFeelsLike: UILabel = {
         let text = UILabel()
@@ -462,6 +515,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return text
     }()
     
+    
     private let forecastForLabel: UILabel = {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
@@ -476,86 +530,66 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         text.sizeToFit()
         return text
     }()
-  
-    private let closeDetailedViewButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "close"), for: .normal)
-        button.addTarget(self, action: #selector(CloseDetailedView), for: .touchUpInside)
-        return button
+    
+    
+    private let feelsLikeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.attributedText = NSAttributedString(string: "Feels like", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        return label
+    }()
+    private let clothesLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.attributedText = NSAttributedString(string: "Clothes", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        return label
+    }()
+    private let DetailsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.attributedText = NSAttributedString(string: "Details", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        return label
     }()
     
-    @objc func CloseDetailedView() {
-        UIView.animate(withDuration: 0.5) {
-            self.detailedView.frame.origin.x = self.view.frame.width + 50
-            self.topStackView.frame.origin.x = 25
-            self.middleStackView.frame.origin.x = 25
-            self.bottomStackView.frame.origin.x = 25
-        }
-    }
+    private let maxWinSpeedLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .left
+        return text
+    }()
+    private let avgHumidityLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .left
+        return text
+    }()
+    private let descrLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.attributedText = NSAttributedString(string: "Description", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        return label
+    }()
     
     
-    // Methods
+    private let sunriseImage: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "sunrise"))
+        return image
+    }()
+    private let sunsetImage: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "sunset"))
+        return image
+    }()
     
-    @objc private func OpenSearchVC() {
-        let searchVC = SearchViewController()
-        searchVC.modalPresentationStyle = .overCurrentContext
-        // Animate ViewController
-        let transition = CATransition()
-        transition.duration = 0.4
-        transition.type = kCATransitionReveal
-        transition.subtype = kCATransitionReveal
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-        self.view.window?.layer.add(transition, forKey: kCATransition)
-        self.blurEffectView.isHidden = false
-        UIView.animate(withDuration: 0.5) {
-            self.blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.regular)
-        }
-        present(searchVC, animated: true, completion: nil)
-    }
     
-    @objc func OpenSlideOutMenu() {
-        self.forecastTableView.isUserInteractionEnabled = false
-        self.forecastCollectionView.isUserInteractionEnabled = false
-        self.searchButton.isUserInteractionEnabled = false
-        self.bottomStackView.isUserInteractionEnabled = false
-        self.topStackView.isUserInteractionEnabled = false
-        self.middleStackView.isUserInteractionEnabled = false
-        self.currentTemperature.isUserInteractionEnabled = false
-        self.currentCondition.isUserInteractionEnabled = false
-        self.currentAdvice.isUserInteractionEnabled = false
-        self.currentLocation.isUserInteractionEnabled = false
-        self.blurEffectView.isHidden = false
-        UIView.animate(withDuration: 0.5) {
-            self.slideOutMenu.frame.origin.x = 0
-            self.blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.regular)
-        }
-    }
-    
-    @objc func UpdateWithCurrentLocation() {
-        UpdateInfo(location: "Current location")
-        self.forecastTableView.isUserInteractionEnabled = true
-        self.forecastCollectionView.isUserInteractionEnabled = true
-        self.searchButton.isUserInteractionEnabled = true
-        self.bottomStackView.isUserInteractionEnabled = true
-        self.topStackView.isUserInteractionEnabled = true
-        self.middleStackView.isUserInteractionEnabled = true
-        self.currentTemperature.isUserInteractionEnabled = true
-        self.currentCondition.isUserInteractionEnabled = true
-        self.currentAdvice.isUserInteractionEnabled = true
-        self.currentLocation.isUserInteractionEnabled = true
-        self.searchButton.isEnabled = true
-        UIView.animate(withDuration: 0.4) {
-            let initialIndex = 0
-            let indexPath = IndexPath(item: initialIndex, section: 0)
-            self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
-            self.slideOutMenu.frame.origin.x = -250
-            self.blurEffectView.effect = nil
-            self.view.layoutIfNeeded()
-        }
-        self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
-    }
-    
+    private let sunriseLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        return text
+    }()
+    private let sunsetLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        return text
+    }()
+  
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch? = touches.first
         if touch?.view != self.slideOutMenu && self.slideOutMenu.frame.origin.x == 0 {
@@ -588,85 +622,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return blur
     }()
     
-    private let feelsLikeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = NSAttributedString(string: "Feels like", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-        return label
-    }()
-    
-    private let clothesLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = NSAttributedString(string: "Clothes", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-        return label
-    }()
-    
-    private let DetailsLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = NSAttributedString(string: "Details", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-        return label
-    }()
-    private let maxWinSpeedLabel: UILabel = {
-        let text = UILabel()
-        text.textAlignment = .left
-        return text
-    }()
-    
-    private let avgHumidityLabel: UILabel = {
-        let text = UILabel()
-        text.textAlignment = .left
-        return text
-    }()
-
-    private let descrLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = NSAttributedString(string: "Description", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-        return label
-    }()
-    
-    private let sunriseImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "sunrise"))
-        return image
-    }()
-    private let sunsetImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "sunset"))
-        return image
-    }()
-    private let sunriseLabel: UILabel = {
-        let text = UILabel()
-        text.textAlignment = .center
-        return text
-    }()
-    private let sunsetLabel: UILabel = {
-        let text = UILabel()
-        text.textAlignment = .center
-        return text
-    }()
-    
-    var leadConstr: CGFloat = -290
+    var leadConstr: CGFloat = -250
     
     private func LayOut() {
         
         let topLine = UIView(frame: CGRect(x: 25, y: 35, width: 275, height: 0.5))
         topLine.layer.borderWidth = 0.5
-        topLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
+        topLine.layer.borderColor = UIColor.dark.cgColor
        
         let leftFeelsLikeLine = UIView(frame: CGRect(x: 25, y: 145, width: 110, height: 0.5))
         leftFeelsLikeLine.layer.borderWidth = 0.5
-        leftFeelsLikeLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
+        leftFeelsLikeLine.layer.borderColor = UIColor.dark.cgColor
         let rightFeelsLikeLine = UIView(frame: CGRect(x: 190, y: 145, width: 110, height: 0.5))
         rightFeelsLikeLine.layer.borderWidth = 0.5
-        rightFeelsLikeLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
+        rightFeelsLikeLine.layer.borderColor = UIColor.dark.cgColor
         
         let leftDescriptionLine = UIView(frame: CGRect(x: 25, y: 205, width: 105, height: 0.5))
         leftDescriptionLine.layer.borderWidth = 0.5
-        leftDescriptionLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
+        leftDescriptionLine.layer.borderColor = UIColor.dark.cgColor
         let rightDescriptionLine = UIView(frame: CGRect(x: 195, y: 205, width: 105, height: 0.5))
         rightDescriptionLine.layer.borderWidth = 0.5
-        rightDescriptionLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
+        rightDescriptionLine.layer.borderColor = UIColor.dark.cgColor
     
 //        let leftClothesLine = UIView(frame: CGRect(x: 25, y: self.clothesLabel.frame.origin.y + 310, width: 110, height: 0.5))
 //        leftClothesLine.layer.borderWidth = 0.5
@@ -683,42 +659,84 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 //        rightDetailsLine.layer.borderWidth = 0.5
 //        rightDetailsLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
         
-        
-        bottomStackView.addArrangedSubview(forecastCollectionView)
-        bottomStackView.addArrangedSubview(forecastTableView)
-        view.addSubview(bottomStackView)
-    
-        middleStackView.addArrangedSubview(currentTemperature)
-        middleStackView.addArrangedSubview(currentCondition)
-        middleStackView.addArrangedSubview(currentAdvice)
-        view.addSubview(middleStackView)
-        
-        topStackView.addArrangedSubview(menuButton)
-        topStackView.addArrangedSubview(currentLocation)
-        topStackView.addArrangedSubview(searchButton)
-        view.addSubview(topStackView)
-        self.view.addSubview(self.blurEffectView)
-        blurEffectView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        blurEffectView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        blurEffectView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        blurEffectView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        self.blurEffectView.isHidden = true
-        
-        view.addSubview(slideOutMenu)
-        slideOutMenu.addSubview(favouriteCitiesTableView)
-        slideOutMenu.addSubview(updateWithCurrentLocationButton)
-        slideOutMenu.addSubview(settingsButton)
-        slideOutMenu.addSubview(addCityButton)
-        slideOutMenu.addSubview(placeholderForFav)
-        slideOutMenu.addSubview(placeholderForFavLabel)
-        view.addSubview(detailedView)
+        [topStackView, middleStackView, bottomStackView, blurEffectView, detailedView, slideOutMenu, splashScreen].forEach {view.addSubview($0)}
+        [menuButton, currentLocation, searchButton].forEach {topStackView.addArrangedSubview($0)}
+        [currentTemperature, currentCondition, currentAdvice].forEach {middleStackView.addArrangedSubview($0)}
+        [forecastCollectionView, forecastTableView].forEach {bottomStackView.addArrangedSubview($0)}
+        [favouriteCitiesTableView, updateWithCurrentLocationButton, settingsButton, addCityButton, placeholderForFav, placeholderForFavLabel].forEach {slideOutMenu.addSubview($0)}
         [scrollView, closeDetailedViewButton, forecastForLabel].forEach {detailedView.addSubview($0)}
         [morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, topLine, leftFeelsLikeLine, rightFeelsLikeLine, leftDescriptionLine, rightDescriptionLine, feelsLikeLabel, descrLabel, clothesLabel, DetailsLabel, maxWinSpeedLabel, avgHumidityLabel, sunriseImage, sunsetImage, sunriseLabel, sunsetLabel].forEach {scrollView.addSubview($0)}
         
-        placeholderForFav.anchor(top: updateWithCurrentLocationButton.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 75, left: 0, bottom: 0, right: 0), size: .init(width: 75, height: 75))
+        switch UIScreen.main.nativeBounds.height {
+        case 1136:
+            print("iPhone 5")
+        case 1334:
+            print("iPhone 7")
+        case 1920:
+            print("iPhone 7+")
+        case 2436:
+            print("iPhone X")
+        default:
+            return
+        }
+        
+        // TopStackView
+        topStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 40))
+         menuButton.anchor(top: topStackView.topAnchor, leading: topStackView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        currentLocation.anchor(top: topStackView.topAnchor, leading: menuButton.trailingAnchor, bottom: topStackView.bottomAnchor, trailing: searchButton.leadingAnchor, padding: .init(top: 0, left: 20, bottom: 0, right: 20), size: .init(width: 0, height: 0))
+        searchButton.anchor(top: topStackView.topAnchor, leading: nil, bottom: nil, trailing: topStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        
+        // MiddleStackView
+        middleStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: bottomStackView.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 25, bottom: 5, right: 25), size: .init(width: 0, height: 210))
+        currentTemperature.anchor(top: middleStackView.topAnchor, leading: nil, bottom: currentCondition.topAnchor, trailing: nil, padding: .init(top: 10, left: 0, bottom: 5, right: 0), size: .init(width: 0, height: 70))
+        currentCondition.anchor(top: nil, leading: middleStackView.leadingAnchor, bottom: currentAdvice.topAnchor, trailing: middleStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 40))
+        currentAdvice.anchor(top: nil, leading: middleStackView.leadingAnchor, bottom: middleStackView.bottomAnchor, trailing: middleStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 70))
+        
+        // BottomStackView
+        bottomStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 25, bottom: 25, right: 25), size: .init(width: 0, height: 300))
+        forecastCollectionView.anchor(top: nil, leading: bottomStackView.leadingAnchor, bottom: forecastTableView.topAnchor, trailing: bottomStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 25, right: 0), size: .init(width: 0, height: 75))
+        forecastTableView.anchor(top: nil, leading: bottomStackView.leadingAnchor, bottom: bottomStackView.bottomAnchor, trailing: bottomStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 100))
+        
+        // SlideOutMenu
+        slideOutMenu.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: self.leadConstr, bottom: 0, right: 0), size: .init(width: 250, height: 0))
+        settingsButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 25, bottom: 0, right: 0), size: .init(width: 35, height: 35))
+        addCityButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 25), size: .init(width: 35, height: 35))
+        updateWithCurrentLocationButton.anchor(top: nil, leading: slideOutMenu.leadingAnchor, bottom: favouriteCitiesTableView.topAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 0, left: 15, bottom: 15, right: 15), size: .init(width: 0, height: 15))
+        favouriteCitiesTableView.anchor(top: nil, leading: slideOutMenu.leadingAnchor, bottom: slideOutMenu.bottomAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 1150))
+        placeholderForFav.anchor(top: updateWithCurrentLocationButton.bottomAnchor, leading: slideOutMenu.leadingAnchor, bottom: nil, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 75, left: 105, bottom: 0, right: 105), size: .init(width: 80, height: 80))
         placeholderForFavLabel.anchor(top: placeholderForFav.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 15, left: 0, bottom: 0, right: 0), size: .init())
+        
+        
+        
+        
+        
+
+        
+    
+        
+       
+        
         placeholderForFavLabel.centerXAnchor.constraint(equalTo: slideOutMenu.centerXAnchor).isActive = true
-        placeholderForFav.centerXAnchor.constraint(equalTo: slideOutMenu.centerXAnchor).isActive = true
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        blurEffectView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
+        blurEffectView.isHidden = true
+        
+        
+        
         clothesLabel.anchor(top: adviceInDetailedViewLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         clothesLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
@@ -769,9 +787,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         detailedView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 40, left: view.frame.width + 25, bottom: 25, right: 0), size: .init(width: view.frame.width-50, height: 0))
         
         
-        
-        view.addSubview(splashScreen)
-        
         splashScreen.addSubview(theLabel)
         splashScreen.addSubview(weaLabel)
         splashScreen.addSubview(rLabel)
@@ -781,36 +796,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         rLabel.anchor(top: view.topAnchor, leading: theLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         splashScreen.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
        
-        switch UIScreen.main.nativeBounds.height {
-        case 1136:
-            print("iPhone 5")
-        case 1334:
-            print("iPhone 6")
-            
-            slideOutMenu.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: self.leadConstr, bottom: 0, right: 0), size: .init(width: 250, height: 0))
-            favouriteCitiesTableView.anchor(top: slideOutMenu.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: slideOutMenu.bottomAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 150, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
-            updateWithCurrentLocationButton.anchor(top: nil, leading: slideOutMenu.leadingAnchor, bottom: favouriteCitiesTableView.topAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 0, left: 15, bottom: 15, right: 15), size: .init(width: 0, height: 15))
-            settingsButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 25, bottom: 0, right: 0), size: .init(width: 35, height: 35))
-            addCityButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 25), size: .init(width: 35, height: 35))            
-            topStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 40))
-            middleStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: bottomStackView.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 25, bottom: 5, right: 25), size: .init(width: 0, height: 210))
-            bottomStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 25, bottom: 25, right: 25), size: .init(width: 0, height: 300))
-            currentTemperature.anchor(top: middleStackView.topAnchor, leading: middleStackView.leadingAnchor, bottom: currentCondition.topAnchor, trailing: middleStackView.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 5, right: 0), size: .init(width: 0, height: 0))
-            currentCondition.anchor(top: nil, leading: middleStackView.leadingAnchor, bottom: currentAdvice.topAnchor, trailing: middleStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 40))
-            currentAdvice.anchor(top: nil, leading: middleStackView.leadingAnchor, bottom: middleStackView.bottomAnchor, trailing: middleStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 70))
-            forecastCollectionView.anchor(top: nil, leading: bottomStackView.leadingAnchor, bottom: forecastTableView.topAnchor, trailing: bottomStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 25, right: 0), size: .init(width: 0, height: 75))
-            forecastTableView.anchor(top: nil, leading: bottomStackView.leadingAnchor, bottom: bottomStackView.bottomAnchor, trailing: bottomStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 100))
-            menuButton.anchor(top: topStackView.topAnchor, leading: topStackView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-            searchButton.anchor(top: topStackView.topAnchor, leading: nil, bottom: nil, trailing: topStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-            currentLocation.anchor(top: topStackView.topAnchor, leading: menuButton.trailingAnchor, bottom: nil, trailing: searchButton.leadingAnchor, padding: .init(top: 0, left: 10, bottom: 0, right: 10), size: .init(width: 0, height: 40))
-            
-        case 2208:
-            print("iPhone 6+")
-        case 2436:
-            print("iPhone X")
-        default:
-            return
-        }
+        
     }
     
     func UpdateInfo(location: String) {
@@ -963,27 +949,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    @objc func UpdateFavourits() {
-        self.favouriteCitiesTableView.reloadData()
-    }
-    @objc func CloseSVC() {
-        UIView.animate(withDuration: 0.5) {
-            self.blurEffectView.effect = nil
-            self.view.layoutIfNeeded()
-        }
-        self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
-    }
-    
     private let weaLabel: UILabel = {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
         text.textAlignment = .center
         text.attributedText = NSAttributedString(string: "Wea", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Bold", size: 75)!])
-        text.backgroundColor = UIColor(white: 1, alpha: 0.8)
+        text.backgroundColor = .clear
         text.layer.shadowColor = UIColor.white.cgColor
         text.layer.shadowOpacity = 1
         text.layer.shadowOffset = CGSize.zero
@@ -1076,7 +1047,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.weaLabel.alpha = 0
                 self.theLabel.alpha = 0
                 self.rLabel.alpha = 0
-                
             })
         self.splashScreen.isHidden = true
     }
