@@ -114,7 +114,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             afternoonTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].icon!)
             eveningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].icon!)
             nightTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![3].icon!)
-            
+            //
             maxWinSpeedLabel.attributedText = NSAttributedString(string: "Maximum wind speed: \(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].windSpeed_max!))) mPs", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
             avgHumidityLabel.attributedText = NSAttributedString(string: "Average Humidity: \(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].avghumidity!)))%", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
