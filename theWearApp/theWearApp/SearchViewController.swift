@@ -172,8 +172,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         suitableCititesTableView.delegate = self
         suitableCititesTableView.dataSource = self
         LayOut()
-        
     }
+
     
 }
 
