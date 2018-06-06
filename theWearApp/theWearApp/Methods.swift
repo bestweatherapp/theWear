@@ -488,6 +488,101 @@ class Methods
         if (rainFlag == true){images.append("umbrella")}
         return images
     }
+    func WomenClothingForPartOfTheDay (allhours:[ForecastHour],bounds: (Int,Int))->([String])
+    {
+        var images = [String]()
+        var rainFlag = false
+        let low = bounds.0
+        let high = bounds.1
+        var sum = 0.0
+        for i in low...high
+        {
+            if (rainFlag == false && allhours[i].will_it_rain == 1)
+            { rainFlag = true     }
+            sum += allhours[i].temperature!
+        }
+        sum = sum / Double(high-low)
+        switch (sum)
+        {
+        case -40 ..< -30 :
+            images.append("jacket")
+            images.append("slim-fit-pants")
+            images.append("uggi")
+            images.append("cap")
+            images.append("gloves")
+            images.append("scarf")
+        case -30 ..< -10:////
+            images.append("jacket")
+            images.append("slim-fit-pants")
+            images.append("uggi")
+            images.append("cap")
+            images.append("gloves")
+            images.append("scarf")
+        case -10 ..< -5:
+            images.append("coat-4")
+            images.append("slim-fit-pants")
+            images.append("uggi")
+            images.append("cap")
+            images.append("gloves")
+            images.append("scarf")
+        case -5 ..< -3:
+            images.append("coat-4")
+            images.append("slim-fit-pants")
+            images.append("women-boot")
+            images.append("cap")
+        case -3 ..< 0:
+            images.append("coat-4")
+            images.append("slim-fit-pants")
+            images.append("women-boot")
+            images.append("cap")
+        case 0..<3 :
+            images.append("coat-4")
+            images.append("slim-fit-pants")
+            images.append("women-boot")
+        case 3..<7:
+            images.append("woman-coat")
+            images.append("slim-fit-pants")
+            images.append("women-boot")
+        case 7..<13:
+            images.append("women-coat")
+            images.append("slim-fit-pants")
+            images.append("women-boot")
+        case 13..<18:
+            images.append("cotton-cardigan")
+            images.append("slim-fit-pants")
+            images.append("oxford-hell")
+        case 18..<20:
+            images.append("longsleeve")
+            images.append("skirt")
+            images.append("sneakers")
+        case 20..<23:
+            images.append("women-vest")
+            images.append("skirt")
+            images.append("ballets-flats")
+        case 23..<25:
+            images.append("shirt")
+            images.append("skirt")
+            // или платье "dress"
+            images.append("flat-shoes")
+        case  25..<35:
+            images.append("polo")
+            images.append("short-skirt")
+            images.append("flat-shoes")
+             // или платье "cocktail-dress"
+        case 35..<43:
+            images.append("top")
+            images.append("short-skirt")
+            // или платье "cocktail-dress"
+            images.append("gladiator-sandal")
+        case 43..<50:
+            images.append("top")
+            images.append("chino-shorts")
+            images.append("flops")
+        default: 1
+        }
+        if (rainFlag == true){images.append("umbrella")}
+        return images
+    }
 }
 
 
