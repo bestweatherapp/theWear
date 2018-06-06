@@ -488,6 +488,7 @@ class Methods
         if (rainFlag == true){images.append("umbrella")}
         return images
     }
+    //new
     func WomenClothingForPartOfTheDay (allhours:[ForecastHour],bounds: (Int,Int))->([String])
     {
         var images = [String]()
