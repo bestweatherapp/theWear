@@ -1,7 +1,7 @@
 //
 //  Methods.swift
 //  theWearApp
-//
+
 //  Created by Maxim Reshetov on 25.05.2018.
 //  Copyright © 2018 theWear. All rights reserved.
 //
@@ -17,7 +17,7 @@ class Methods
             {
             case 0..<4.5:
                 comment_ += "Feels slightly cooler than it seems. "
-            case 4.5..<8.9:
+            case 4.5..<10:
                 comment_ += " Feels cooler than it seems."
             default:
                 comment_ += " Feels considerably colder than it seems."
@@ -53,26 +53,19 @@ class Methods
         case 30..<50:
             comment_ += " Extremely hot! Put on the lightest clothes. "
         default:
-            comment_ = " There is no comment "
-        }
+            comment_ = " There is no comment " }
         switch (Current.wind_speed!)
-        {
-        case 7...9:
+        { case 7...9:
             comment_ += " Mind strong wind! "
         case 9...20:
             comment_ += " Mind very strong wind! "
         case 20...50:
             comment_ += " Extremely strong wind! "
-            default: comment_ += ""
-        }
+            default: comment_ += ""  }
         if (day.uv! > 6.5 && day.uv! < 8)
-        {
-            comment_ += " High UV. "
-        }
+        {comment_ += " High UV. " }
         if (day.uv! > 8  )
-        {
-            comment_ += " Very high UV! "
-        }
+        { comment_ += " Very high UV! " }
         return comment_
     }
     
@@ -87,29 +80,17 @@ class Methods
             if (thunderanytime == false)
             {
                 if ((element.condition!.range(of: "thunder")) != nil) || ((element.condition! == "Thundery outbreaks possible, be careful "))
-                {
-                    thunderanytime = true
-                    comment += "Don't forget your umbrella! "
-                }
+                {thunderanytime = true
+                    comment += "Don't forget your umbrella! " }
             }
         }
-        for element in forecastday.AllHours!{
-            if ((element.condition!.range(of: "rain") != nil)||(element.condition! == "Light rain")||(element.condition!.range(of: "sleet") != nil)||(element.condition!.range(of: "drizzle") != nil)||(element.condition!.range(of: "shower") != nil)||(element.condition! == "Heavy rain")||(element.condition!.range(of: "showers") != nil ))
-            {
-                if (rainanytime == false) && (thunderanytime == false){
-                    rainanytime = true
-                    comment += " Don't forget your umbrella! "}
-            }
-        }
+        if (RainOrThunderAnyTime(forecastday: forecastday)) {  comment += " Don't forget your umbrella! "}
+     
         return comment
     }
-    
+    //FUTURE
     func GetFutureComment (day: ForecastDay, avgmorning : Double, avgday : Double, avgevening : Double) -> (String,[String]) {
         var comment = ""
-        
-        // TODO: Поместить под Forecast For Label
-       // comment += day.condition!
-        //comment += " "
         var images = [String]()
         switch Int((day.temperature_avg)!)
         {
@@ -222,7 +203,7 @@ class Methods
                 images.append("chino-shorts")
                 images.append("flops")
             }
-        case 43..<50:
+        case 43..<100:
             comment += " Enormously hot. Mind the risk of a sunstroke. Avoid being outside! Put on the lighest clothes. "
             images.append("tshirt")
             images.append("chino-shorts")
@@ -243,143 +224,123 @@ class Methods
         for element in day.AllHours!
         {
             var date = element.time?.components(separatedBy: " ")
-            //   var comp =
             var time = Int(date![0].components(separatedBy: ":")[0])
             if (element.condition! == "Thundery outbreaks possible")
             {
                 switch (time!)
                 {
                 case 0..<6:
-                    if (thundernight == false){
                         thundernight = true
                         break
-                    }
+                   
                 case 6..<12:
-                    if (thundermorning == false){
                         thundermorning = true
-                        break}
+                        break
                 case 12..<18:
-                    if (thunderday == false){
+                  
                         thunderday = true
-                        break}
-                default:
-                    if (thunderevening == false){
+                        break
+                case 18..<24:
+                   
                         thunderevening = true
                         break
-                    }
+                  
+                default : 1
                 }
             }
         }
         for element in day.AllHours!{
             var date = element.time?.components(separatedBy: " ")
-            //   var comp =
             var time = Int(date![0].components(separatedBy: ":")[0])
-            if (Int(element.chance_of_rain!)! > 70)
+            if (Int(element.chance_of_rain!)! > 70)||(element.will_it_rain == 1)
             {
                 switch (time!)
                 {
                 case 0..<6:
-                    if (nightflag == false){
                         nightflag = true
                         break
-                    }
                 case 6..<12:
-                    if (morningflag == false){
                         morningflag = true
-                        break}
+                        break
                 case 12..<18:
-                    if (dayflag == false){
                         dayflag = true
-                        break}
-                case 18..<23:
-                    if (eveningflag == false){
-                        eveningflag = true
-                        break}
-                default:
-                    if (eveningflag == false){
+                        break
+                case 18..<24:
                         eveningflag = true
                         break
-                    }
+                default:
+                    1
                 }
             }
             else {comment += ""}
         }//Логика для вывода грозы
-        if (thundermorning && thunderday && thunderevening)
+        if (thundermorning && thunderday && thunderevening)||(thundermorning && thunderday && thunderevening && thundernight)
         {
             comment += " Thunders during all day, be careful. "
-           // images.append("umbrella")
         }
         else if (thundermorning && thunderday)
         {
             comment += " Thunders in the first part of the day. "
-           // images.append("umbrella")
         }
         else if (thundermorning && thunderevening)
         {
             comment += " Thunders during the day possible. "
-           // images.append("umbrella")
         }
         else if (thunderevening && thundernight)
         {
             comment += " Thunders in the second part of the day. "
-           // images.append("umbrella")
         }
         else if (thunderevening && thunderday)
         {
             comment += " Thunders possible, be careful. "
-           // images.append("umbrella")
         }
         else if (thundermorning)
         {
             comment += " Mind thunders in the morning! "
-          //  images.append("umbrella")
         }
         else if (thunderday)
         {
             comment += " Mind thunders in the afternoon! "
-           // images.append("umbrella")
         }
         else if (thunderevening)
         {
             comment += " Mind thunders in the evening! "
-           // images.append("umbrella")
         }
         else {
-            if (dayflag && morningflag && eveningflag)
+            if (dayflag && morningflag && eveningflag)||(dayflag && morningflag && eveningflag&&nightflag)
             {  comment += " Rain possible during all the day. Don't forget your umbrella! "}
-               // images.append("umbrella")}
-                else if (nightflag)
-            {comment += " Night rain possible. " }
-            else if (dayflag && morningflag)
+            else if (morningflag)||(morningflag&&nightflag)
+            { comment += " Rain possible in the morning, take an umbrella. "}
+            else if (dayflag||morningflag)
             { comment += " Rain  possible in the first part of the day. Don't forget your umbrella! "}
-              //  images.append("umbrella")  }
-            else if (eveningflag && nightflag)
+            else if (eveningflag||nightflag)
             { comment += " Rain possible in the second part of the day. Don't forget your umbrella! "}
-              //  images.append("umbrella")}
-            else if (morningflag && eveningflag)
+            else if (morningflag || eveningflag)
             {comment += " Rain possible. Don't forget your umbrella! "}
-           // images.append("umbrella") }
             else if (dayflag && eveningflag)
             {comment += " Rain during the day possible. Don't forget your umbrella! "}
-              //  images.append("umbrella") }
-            else if (morningflag)
-            { comment += " Rain possible in the morning, take an umbrella. "}
-                //images.append("umbrella") }
-            else if (dayflag)
+            else if (dayflag)||(dayflag&&nightflag)
             {comment += " Rain possible in the afternoon, take an umbrella. "}
-               // images.append("umbrella")}
             else if (eveningflag)
-            { comment += " Rain possible in the evening, take an umbrella. "}
-              //  images.append("umbrella")}
+            {comment += " Rain possible in the evening, take an umbrella. "}
+            else if (nightflag)
+            {comment += " Night rain possible. " }
+            else if (dayflag)
+            {comment += " Rains during the day possible. " }
+            else if (morningflag)
+            {comment += " Morning rain possible. " }
+            else if (eveningflag)
+            {comment += " Rain in the evening is possible. " }
+           
         }
-        if (avgday - avgmorning > 5 )
+        if (avgday - avgmorning > 6 )
         {
             if (avgday < 20)
             {comment += " Significantly warmer in the afternoon. "}
             else
             {comment += " Significantly hotter in the afternoon. "}
         }
-        if (avgevening - avgday > 5) && (avgday > 5)
+        if (avgevening - avgday > 6) && (avgday > 5)
         {
             comment += " Evening will be cooler "
         }
@@ -394,7 +355,7 @@ class Methods
         }
         if (day.windSpeed_max! > 10 && day.windSpeed_max! < 20 )
         {
-            comment += " Mind string wind! "
+            comment += " Mind strong wind! "
         }
         if (day.windSpeed_max! > 20)
         {
@@ -435,7 +396,98 @@ class Methods
         }
         return (rainanytime||thunderanytime)
     }
-                
+    func ClothingForPartOfTheDay (allhours:[ForecastHour],bounds: (Int,Int))->([String])
+    {
+        var images = [String]()
+        var rainFlag = false
+        let low = bounds.0
+        let high = bounds.1
+        var sum = 0.0
+        for i in low...high
+        {
+            if (rainFlag == false && allhours[i].will_it_rain == 1)
+            { rainFlag = true     }
+            sum += allhours[i].temperature!
+        }
+        sum = sum / Double(high-low)
+        switch (sum)
+        {
+        case -40 ..< -30 :
+            images.append("coat_winter")
+            images.append("jeans")
+            images.append("uggi")
+            images.append("cap")
+            images.append("gloves")
+            images.append("scarf")
+        case -30 ..< -10:////
+            images.append("coat_winter")
+            images.append("jeans")
+            images.append("uggi")
+            images.append("cap")
+            images.append("gloves")
+            images.append("scarf")
+        case -10 ..< -5:
+            images.append("coat-3")
+            images.append("jeans")
+            images.append("snickers")
+            images.append("cap")
+            images.append("gloves")
+            images.append("scarf")
+        case -5 ..< -3:
+            images.append("coat-3")
+            images.append("jeans")
+            images.append("snickers")
+            images.append("cap")
+        case -3 ..< 0:
+            images.append("coat-3")
+            images.append("jeans")
+            images.append("snickers")
+            images.append("cap")
+        case 0..<3 :
+            images.append("coat-3")
+            images.append("jeans")
+            images.append("snickers")
+        case 3..<7:
+            images.append("jacket_")
+            images.append("jeans")
+            images.append("sneakers")
+        case 7..<13:
+            images.append("jacket")
+            images.append("jeans")
+            images.append("sneakers")
+        case 13..<18:
+            images.append("hoody")
+            images.append("jeans")
+            images.append("sneakers")
+        case 18..<20:
+            images.append("longsleeve")
+            images.append("jeans")
+            images.append("sneakers")
+        case 20..<23:
+            images.append("shirt")
+            images.append("jeans")
+            images.append("sneakers")
+        case 23..<25:
+            images.append("polo")
+            images.append("jeans")
+            images.append("sneakers")
+        case  25..<35:
+                images.append("polo")
+                images.append("chino-shorts")
+                images.append("sneakers")
+        case 35..<43:
+                images.append("tshirt")
+                images.append("chino-shorts")
+                images.append("flops")
+        case 43..<50:
+            images.append("tshirt")
+            images.append("chino-shorts")
+            images.append("flops")
+        default: 1
+        }
+        if (rainFlag == true){images.append("umbrella")}
+        return images
+    }
 }
 
 

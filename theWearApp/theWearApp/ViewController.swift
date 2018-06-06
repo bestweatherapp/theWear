@@ -677,7 +677,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         default:
             return
         }
-        
         // TopStackView
         topStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 40))
          menuButton.anchor(top: topStackView.topAnchor, leading: topStackView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
@@ -878,7 +877,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     let methods = Methods()
                     var realComment = ""
                     let newDay = ForecastDay(avg_temp_c: avgtemp_, date: date_!, temperature_avg: avgtemp_, temperature_max: maxtemp_, temperature_min: mintemp_, windSpeed_max: wind_max_!, iconURL: iconUrl, avghumidity: avghum_, comment: realComment, condition: condition_, uv: uv_, forecastHours: allhoursForDay as! [ForecastHour], sunset : sunset!, sunrise : sunrise!)
-                    comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![7].temperature!, avgday: newDay.AllHours![12].temperature!, avgevening: newDay.AllHours![18].temperature!)
+                    comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![9].temperature!, avgday: newDay.AllHours![15].temperature!, avgevening: newDay.AllHours![21].temperature!)
+                     let iconsClothesNight = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(0,6))
+                     let iconsClothesMorning = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(6,12))
+                     let iconsClothesDay = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(12,18))
+                     let iconsClothesEvening = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(18,23))
                     realComment = comment_.0
                     allClothesForForecastTableView.append(comment_.1)
                     allCommentsForDetailedView.append(realComment)
