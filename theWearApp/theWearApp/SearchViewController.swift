@@ -27,6 +27,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         dismiss(animated: true, completion: nil)
         // TODO: Rascharit how to send correct city
         NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":self.suitableCities[(suitableCititesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current)])
+        
     }
     
     private let searchTextField: UITextField = {
