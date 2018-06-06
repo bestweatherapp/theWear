@@ -144,6 +144,62 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             nightTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![3].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
+            afternoonUpClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 2][0])
+            afternoonDownClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 2][1])
+            afternoonShoes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 2][2])
+            
+            
+            eveningUpClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][0])
+            eveningDownClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][1])
+            eveningShoes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][2])
+            
+            nightUpClothes.image = UIImage(named: allClothesForDetailedView[indexPath.row * 4][0])
+            nightDownClothes.image = UIImage(named: allClothesForDetailedView[indexPath.row * 4][1])
+            nightShoes.image = UIImage(named: allClothesForDetailedView[indexPath.row * 4][2])
+            
+            morningUpClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 1][0])
+            morningDownClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 1][1])
+            morningShoes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 1][2])
+            
+            var views = [forNightAdditional1, forNightAdditional2, forNightAdditional3, forMorningAdditional1, forMorningAdditional2, forMorningAdditional3, forAfternoonAdditional1, forAfternoonAdditional2, forAfternoonAdditional3, forEveningAdditional1, forEveningAdditional2, forEveningAdditional3]
+            
+            nightAdditionalClothes.isScrollEnabled = false
+            morningAdditionalClothes.isScrollEnabled = false
+            afternoonAdditionalClothes.isScrollEnabled = false
+            eveningAdditionalClothes.isScrollEnabled = false
+            for i in 3...5 {
+                if allClothesForDetailedView[(indexPath.row * 4)].indices.contains(i) {
+                    if i > 3 {
+                        nightAdditionalClothes.isScrollEnabled = true
+                    }
+                    views[i - 3].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4)][i])
+                }
+            }
+            for i in 3...5 {
+                if allClothesForDetailedView[(indexPath.row * 4) + 1].indices.contains(i) {
+                    if i > 3 {
+                        morningAdditionalClothes.isScrollEnabled = true
+                    }
+                    views[(i - 3) + 3].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 1][i])
+                }
+            }
+            for i in 3...5 {
+                if allClothesForDetailedView[(indexPath.row * 4) + 2].indices.contains(i) {
+                    if i > 3 {
+                        afternoonAdditionalClothes.isScrollEnabled = true
+                    }
+                    views[(i - 3) + 6].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 2][i])
+                }
+            }
+            for i in 3...5 {
+                if allClothesForDetailedView[(indexPath.row * 4) + 3].indices.contains(i) {
+                    if i > 3 {
+                        eveningAdditionalClothes.isScrollEnabled = true
+                    }
+                    views[(i - 3) + 9].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][i])
+                }
+            }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
                 UIView.animate(withDuration: 0.5) {
                     self.topStackView.frame.origin.x = -self.view.frame.width
@@ -212,6 +268,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var currentForecastCity = ForecastCity()
     var allCommentsForDetailedView = [String]()
     var allClothesForForecastTableView = [[String](repeating: "", count: 7),[String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7)]
+    var allClothesForDetailedView = [[String]]()
     
     
     private let slideOutMenu: UIView = {
@@ -514,6 +571,127 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }()
     
     
+    private let nightUpClothes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let nightDownClothes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let nightShoes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let nightAdditionalClothes: UIScrollView = {
+        let view = UIScrollView()
+        return view
+    }()
+    
+    private let forNightAdditional1: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let forNightAdditional2: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let forNightAdditional3: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    
+    private let morningUpClothes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let morningDownClothes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let morningShoes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let morningAdditionalClothes: UIScrollView = {
+        let view = UIScrollView()
+        return view
+    }()
+    
+    private let forMorningAdditional1: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let forMorningAdditional2: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let forMorningAdditional3: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    
+    private let afternoonUpClothes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let afternoonDownClothes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let afternoonShoes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let afternoonAdditionalClothes: UIScrollView = {
+        let view = UIScrollView()
+        return view
+    }()
+    
+    private let forAfternoonAdditional1: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let forAfternoonAdditional2: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let forAfternoonAdditional3: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    
+    private let eveningUpClothes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let eveningDownClothes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let eveningShoes: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let eveningAdditionalClothes: UIScrollView = {
+        let view = UIScrollView()
+        return view
+    }()
+    
+    private let forEveningAdditional1: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let forEveningAdditional2: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    private let forEveningAdditional3: UIImageView = {
+        let image = UIImageView()
+        return image
+    }()
+    
+    
     private let forecastForLabel: UILabel = {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
@@ -661,9 +839,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         [menuButton, currentLocation, searchButton].forEach {topStackView.addArrangedSubview($0)}
         [currentTemperature, currentCondition, currentAdvice].forEach {middleStackView.addArrangedSubview($0)}
         [forecastCollectionView, forecastTableView].forEach {bottomStackView.addArrangedSubview($0)}
-        [favouriteCitiesTableView, updateWithCurrentLocationButton, settingsButton, addCityButton, placeholderForFav, placeholderForFavLabel].forEach {slideOutMenu.addSubview($0)}
+        [placeholderForFavLabel, favouriteCitiesTableView, updateWithCurrentLocationButton, settingsButton, addCityButton, placeholderForFav].forEach {slideOutMenu.addSubview($0)}
         [scrollView, closeDetailedViewButton, forecastForLabel].forEach {detailedView.addSubview($0)}
-        [morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, topLine, leftFeelsLikeLine, rightFeelsLikeLine, leftDescriptionLine, rightDescriptionLine, feelsLikeLabel, descrLabel, clothesLabel, DetailsLabel, maxWinSpeedLabel, avgHumidityLabel, sunriseImage, sunsetImage, sunriseLabel, sunsetLabel].forEach {scrollView.addSubview($0)}
+        [morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, topLine, leftFeelsLikeLine, rightFeelsLikeLine, leftDescriptionLine, rightDescriptionLine, feelsLikeLabel, descrLabel, clothesLabel, DetailsLabel, maxWinSpeedLabel, avgHumidityLabel, sunriseImage, sunsetImage, sunriseLabel, sunsetLabel, nightUpClothes, nightDownClothes, nightShoes, nightAdditionalClothes, morningUpClothes, morningDownClothes, morningShoes, morningAdditionalClothes, afternoonUpClothes, afternoonDownClothes, afternoonShoes, afternoonAdditionalClothes, eveningUpClothes, eveningDownClothes, eveningShoes, eveningAdditionalClothes].forEach {scrollView.addSubview($0)}
+        
+        [forNightAdditional1, forNightAdditional2, forNightAdditional3].forEach {nightAdditionalClothes.addSubview($0)}
+        [forMorningAdditional1, forMorningAdditional2, forMorningAdditional3].forEach {morningAdditionalClothes.addSubview($0)}
+        [forAfternoonAdditional1, forAfternoonAdditional2, forAfternoonAdditional3].forEach {afternoonAdditionalClothes.addSubview($0)}
+        [forEveningAdditional1, forEveningAdditional2, forEveningAdditional3].forEach {eveningAdditionalClothes.addSubview($0)}
         
         switch UIScreen.main.nativeBounds.height {
         case 1136:
@@ -699,11 +882,48 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         settingsButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 25, bottom: 0, right: 0), size: .init(width: 35, height: 35))
         addCityButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 25), size: .init(width: 35, height: 35))
         updateWithCurrentLocationButton.anchor(top: nil, leading: slideOutMenu.leadingAnchor, bottom: favouriteCitiesTableView.topAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 0, left: 15, bottom: 15, right: 15), size: .init(width: 0, height: 15))
-        favouriteCitiesTableView.anchor(top: nil, leading: slideOutMenu.leadingAnchor, bottom: slideOutMenu.bottomAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 1150))
-        placeholderForFav.anchor(top: updateWithCurrentLocationButton.bottomAnchor, leading: slideOutMenu.leadingAnchor, bottom: nil, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 75, left: 105, bottom: 0, right: 105), size: .init(width: 80, height: 80))
+        favouriteCitiesTableView.anchor(top: slideOutMenu.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: slideOutMenu.bottomAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 150, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        placeholderForFav.anchor(top: updateWithCurrentLocationButton.bottomAnchor, leading: slideOutMenu.leadingAnchor, bottom: nil, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 75, left: 85, bottom: 0, right: 85), size: .init(width: 80, height: 80))
         placeholderForFavLabel.anchor(top: placeholderForFav.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 15, left: 0, bottom: 0, right: 0), size: .init())
-        
         placeholderForFavLabel.centerXAnchor.constraint(equalTo: slideOutMenu.centerXAnchor).isActive = true
+        
+        
+        
+        
+        
+        nightUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        nightDownClothes.anchor(top: nightUpClothes.bottomAnchor, leading: nightUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        nightShoes.anchor(top: nightDownClothes.bottomAnchor, leading: nightUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        nightAdditionalClothes.anchor(top: nightShoes.bottomAnchor, leading: nightUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forNightAdditional1.anchor(top: nightAdditionalClothes.topAnchor, leading: nightAdditionalClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forNightAdditional2.anchor(top: nightAdditionalClothes.topAnchor, leading: forNightAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forNightAdditional3.anchor(top: nightAdditionalClothes.topAnchor, leading: forNightAdditional2.trailingAnchor, bottom: nightAdditionalClothes.bottomAnchor, trailing: nightAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        
+        morningUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: nightUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        morningDownClothes.anchor(top: morningUpClothes.bottomAnchor, leading: morningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        morningShoes.anchor(top: morningDownClothes.bottomAnchor, leading: morningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        morningAdditionalClothes.anchor(top: morningShoes.bottomAnchor, leading: morningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forMorningAdditional1.anchor(top: morningAdditionalClothes.topAnchor, leading: morningAdditionalClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forMorningAdditional2.anchor(top: morningAdditionalClothes.topAnchor, leading: forMorningAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forMorningAdditional3.anchor(top: nightAdditionalClothes.topAnchor, leading: forMorningAdditional2.trailingAnchor, bottom: morningAdditionalClothes.bottomAnchor, trailing: morningAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        
+        afternoonUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: morningUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        afternoonDownClothes.anchor(top: afternoonUpClothes.bottomAnchor, leading: afternoonUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        afternoonShoes.anchor(top: afternoonDownClothes.bottomAnchor, leading: afternoonUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        afternoonAdditionalClothes.anchor(top: afternoonShoes.bottomAnchor, leading: afternoonUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forAfternoonAdditional1.anchor(top: afternoonAdditionalClothes.topAnchor, leading: afternoonAdditionalClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forAfternoonAdditional2.anchor(top: afternoonAdditionalClothes.topAnchor, leading: forAfternoonAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forAfternoonAdditional3.anchor(top: afternoonAdditionalClothes.topAnchor, leading: forAfternoonAdditional2.trailingAnchor, bottom: afternoonAdditionalClothes.bottomAnchor, trailing: afternoonAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        
+        eveningUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: afternoonUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        eveningDownClothes.anchor(top: eveningUpClothes.bottomAnchor, leading: eveningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        eveningShoes.anchor(top: eveningDownClothes.bottomAnchor, leading: eveningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        eveningAdditionalClothes.anchor(top: eveningShoes.bottomAnchor, leading: eveningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forEveningAdditional1.anchor(top: eveningAdditionalClothes.topAnchor, leading: eveningAdditionalClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forEveningAdditional2.anchor(top: eveningAdditionalClothes.topAnchor, leading: forEveningAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        forEveningAdditional3.anchor(top: eveningAdditionalClothes.topAnchor, leading: forEveningAdditional2.trailingAnchor, bottom: eveningAdditionalClothes.bottomAnchor, trailing: eveningAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        
+ 
         
         blurEffectView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
         blurEffectView.isHidden = true
@@ -720,7 +940,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         sunsetImage.anchor(top: avgHumidityLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 150, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         
         DetailsLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        DetailsLabel.anchor(top: clothesLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        DetailsLabel.anchor(top: nightAdditionalClothes.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 15, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         
         maxWinSpeedLabel.anchor(top: DetailsLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: 25, bottom: 0, right: 0), size: .init(width: 0, height: 30))
         
@@ -755,6 +975,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         nightTempFeelsLike.anchor(top: nightTemp.bottomAnchor, leading: nightTempIcon.leadingAnchor, bottom: nil, trailing: nightTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
         
        
+       
         closeDetailedViewButton.anchor(top: detailedView.topAnchor, leading: nil, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 25, height: 25))
         
         detailedView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 40, left: view.frame.width + 25, bottom: 25, right: 0), size: .init(width: view.frame.width-50, height: 0))
@@ -777,6 +998,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         var allDates = [String]()
         var allCommentsForDetailedView = [String]() // Add new var for all comments
         var allClothesForForecastTableView = [[String]]()
+        var allClothesForDetailedView = [[String]]()
         var allTempsdays = [String]()
         var allTempsdaysIcons = [String]()
         var allHours = [String]()
@@ -872,6 +1094,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                      let iconsClothesMorning = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(6,12))
                      let iconsClothesDay = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(12,18))
                      let iconsClothesEvening = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(18,23))
+                    allClothesForDetailedView.append(iconsClothesNight)
+                    allClothesForDetailedView.append(iconsClothesMorning)
+                    allClothesForDetailedView.append(iconsClothesDay)
+                    allClothesForDetailedView.append(iconsClothesEvening)
+                    
                     realComment = comment_.0
                     allClothesForForecastTableView.append(comment_.1)
                     allCommentsForDetailedView.append(realComment)
@@ -881,6 +1108,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 }
                 self.allCommentsForDetailedView = allCommentsForDetailedView
                 self.allClothesForForecastTableView = allClothesForForecastTableView
+                self.allClothesForDetailedView = allClothesForDetailedView
                 self.allDates = allDates
                 self.allTemps = allTempsdays
                 self.allTempsIcons = allTempsdaysIcons
@@ -974,7 +1202,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedOutside()
-       // UpdateInfo(location: "Current location")
+        UpdateInfo(location: "Current location")
         view.addSubview(backgroundImage)
         backgroundImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
