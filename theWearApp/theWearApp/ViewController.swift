@@ -223,13 +223,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             UpdateInfo(location: cities![(favouriteCitiesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current))
             UIView.animate(withDuration: 0.4) {
                     self.slideOutMenu.frame.origin.x = -250
-                    self.blurEffectView.effect = nil
                     let initialIndex = 0
                     let indexPath = IndexPath(item: initialIndex, section: 0)
                     self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                     self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
             }
-            self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
         }
     }
  
@@ -336,17 +334,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }()
     @objc func UpdateWithCurrentLocation() {
         UpdateInfo(location: "Current location")
-        [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView, blurEffectView].forEach {$0.isUserInteractionEnabled = true}
+        [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = true}
         UIView.animate(withDuration: 0.4) {
             let initialIndex = 0
             let indexPath = IndexPath(item: initialIndex, section: 0)
             self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
             self.slideOutMenu.frame.origin.x = -250
-            self.blurEffectView.effect = nil
             self.view.layoutIfNeeded()
         }
-        self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
     }
     
     
@@ -375,10 +371,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return button
     }()
     @objc func OpenSlideOutMenu() {
-        [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView, blurEffectView].forEach {$0.isUserInteractionEnabled = false}
+        [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = false}
         UIView.animate(withDuration: 0.5) {
             self.slideOutMenu.frame.origin.x = 0
-            self.blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.regular)
         }
     }
     private let currentLocation: UILabel = {
@@ -404,18 +399,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         transition.subtype = kCATransitionReveal
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         self.view.window?.layer.add(transition, forKey: kCATransition)
-        self.blurEffectView.isHidden = false
         UIView.animate(withDuration: 0.5) {
-            self.blurEffectView.effect = UIBlurEffect(style: UIBlurEffectStyle.regular)
         }
         present(searchVC, animated: true, completion: nil)
     }
     @objc func CloseSVC() {
         UIView.animate(withDuration: 0.5) {
-            self.blurEffectView.effect = nil
             self.view.layoutIfNeeded()
         }
-        self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
     }
     
     
@@ -782,21 +773,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.searchButton.isEnabled = true
             UIView.animate(withDuration: 0.5) {
                 self.slideOutMenu.frame.origin.x = -250
-                self.blurEffectView.effect = nil
                 self.view.layoutIfNeeded()
             }
-            self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
         }
-
     }
-    
-    private let blurEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.regular)
-        let blur = UIVisualEffectView(effect: blurEffect)
-        blur.translatesAutoresizingMaskIntoConstraints = false
-        blur.effect = nil
-        return blur
-    }()
     
     var leadConstr: CGFloat = -250
     
@@ -819,23 +799,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let rightDescriptionLine = UIView(frame: CGRect(x: 195, y: 205, width: 105, height: 0.5))
         rightDescriptionLine.layer.borderWidth = 0.5
         rightDescriptionLine.layer.borderColor = UIColor.dark.cgColor
-    
-//        let leftClothesLine = UIView(frame: CGRect(x: 25, y: self.clothesLabel.frame.origin.y + 310, width: 110, height: 0.5))
-//        leftClothesLine.layer.borderWidth = 0.5
-//        leftClothesLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
-//
-//        let rightClothesLine = UIView(frame: CGRect(x: 190, y: self.clothesLabel.frame.origin.y + 310, width: 110, height: 0.5))
-//        rightClothesLine.layer.borderWidth = 0.5
-//        rightClothesLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
+
+        var padding: CGFloat = 0
         
-//        let leftDetailesLine = UIView(frame: CGRect(x: 25, y: 440, width: 110, height: 0.5))
-//        leftDetailesLine.layer.borderWidth = 0.5
-//        leftDetailesLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
-//        let rightDetailsLine = UIView(frame: CGRect(x: 190, y: 440, width: 110, height: 0.5))
-//        rightDetailsLine.layer.borderWidth = 0.5
-//        rightDetailsLine.layer.borderColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80).cgColor
-        
-        [topStackView, middleStackView, bottomStackView, blurEffectView, detailedView, slideOutMenu, splashScreen].forEach {view.addSubview($0)}
+        [topStackView, middleStackView, bottomStackView, detailedView, slideOutMenu, splashScreen].forEach {view.addSubview($0)}
         [menuButton, currentLocation, searchButton].forEach {topStackView.addArrangedSubview($0)}
         [currentTemperature, currentCondition, currentAdvice].forEach {middleStackView.addArrangedSubview($0)}
         [forecastCollectionView, forecastTableView].forEach {bottomStackView.addArrangedSubview($0)}
@@ -851,20 +818,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         switch UIScreen.main.nativeBounds.height {
         case 1136:
             print("iPhone 5")
+            padding = 22
         case 1334:
             print("iPhone 7")
+            padding = 33
         case 1920:
             print("iPhone 7+")
+            padding = 40.8
         case 2436:
             print("iPhone X")
+            padding = 33
         default:
             return
         }
         // TopStackView
         topStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 40))
          menuButton.anchor(top: topStackView.topAnchor, leading: topStackView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        currentLocation.anchor(top: topStackView.topAnchor, leading: menuButton.trailingAnchor, bottom: topStackView.bottomAnchor, trailing: searchButton.leadingAnchor, padding: .init(top: 0, left: 20, bottom: 0, right: 20), size: .init(width: 0, height: 0))
+        currentLocation.anchor(top: topStackView.topAnchor, leading: nil, bottom: topStackView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        currentLocation.centerXAnchor.constraint(equalTo: topStackView.centerXAnchor).isActive = true
         searchButton.anchor(top: topStackView.topAnchor, leading: nil, bottom: nil, trailing: topStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        
         
         // MiddleStackView
         middleStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: bottomStackView.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 25, bottom: 5, right: 25), size: .init(width: 0, height: 210))
@@ -872,10 +845,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         currentCondition.anchor(top: nil, leading: middleStackView.leadingAnchor, bottom: currentAdvice.topAnchor, trailing: middleStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 40))
         currentAdvice.anchor(top: nil, leading: middleStackView.leadingAnchor, bottom: middleStackView.bottomAnchor, trailing: middleStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 70))
         
+        
         // BottomStackView
-        bottomStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 25, bottom: 25, right: 25), size: .init(width: 0, height: 300))
+        bottomStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 25, bottom: 25, right: 25), size: .init(width: 0, height: 300))
         forecastCollectionView.anchor(top: nil, leading: bottomStackView.leadingAnchor, bottom: forecastTableView.topAnchor, trailing: bottomStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 25, right: 0), size: .init(width: 0, height: 75))
         forecastTableView.anchor(top: nil, leading: bottomStackView.leadingAnchor, bottom: bottomStackView.bottomAnchor, trailing: bottomStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 100))
+        
         
         // SlideOutMenu
         slideOutMenu.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: self.leadConstr, bottom: 0, right: 0), size: .init(width: 250, height: 0))
@@ -888,10 +863,48 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         placeholderForFavLabel.centerXAnchor.constraint(equalTo: slideOutMenu.centerXAnchor).isActive = true
         
         
+        // Detailed View
+        detailedView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 40, left: view.frame.width + 25, bottom: 25, right: 0), size: .init(width: view.frame.width-50, height: 0))
+        
+        closeDetailedViewButton.anchor(top: detailedView.topAnchor, leading: nil, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 25, height: 25))
+        forecastForLabel.anchor(top: nil, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 0, left: 50, bottom: 0, right: 50), size: .init(width: 0, height: 45))
+        forecastForLabel.centerYAnchor.constraint(equalTo: closeDetailedViewButton.centerYAnchor).isActive = true
+        
+        morningTempIcon.anchor(top: scrollView.topAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        afternoonTempIcon.anchor(top: scrollView.topAnchor, leading: morningTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        eveningTempIcon.anchor(top: scrollView.topAnchor, leading: afternoonTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        nightTempIcon.anchor(top: scrollView.topAnchor, leading: eveningTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        
+        morningTemp.anchor(top: morningTempIcon.bottomAnchor, leading: morningTempIcon.leadingAnchor, bottom: nil, trailing: morningTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        afternoonTemp.anchor(top: afternoonTempIcon.bottomAnchor, leading: afternoonTempIcon.leadingAnchor, bottom: nil, trailing: afternoonTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        eveningTemp.anchor(top: eveningTempIcon.bottomAnchor, leading: eveningTempIcon.leadingAnchor, bottom: nil, trailing: eveningTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        nightTemp.anchor(top: nightTempIcon.bottomAnchor, leading: nightTempIcon.leadingAnchor, bottom: nil, trailing: nightTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        
+        morningTempFeelsLike.anchor(top: morningTemp.bottomAnchor, leading: morningTempIcon.leadingAnchor, bottom: nil, trailing: morningTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        afternoonTempFeelsLike.anchor(top: afternoonTemp.bottomAnchor, leading: afternoonTempIcon.leadingAnchor, bottom: nil, trailing: afternoonTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        eveningTempFeelsLike.anchor(top: eveningTemp.bottomAnchor, leading: eveningTempIcon.leadingAnchor, bottom: nil, trailing: eveningTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        nightTempFeelsLike.anchor(top: nightTemp.bottomAnchor, leading: nightTempIcon.leadingAnchor, bottom: nil, trailing: nightTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
         
         
         
-        nightUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        
+        adviceInDetailedViewLabel.anchor(top: morningTempFeelsLike.bottomAnchor, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 30, left: 30, bottom: 0, right: 30), size: .init(width: 0, height: 0))
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        nightUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         nightDownClothes.anchor(top: nightUpClothes.bottomAnchor, leading: nightUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         nightShoes.anchor(top: nightDownClothes.bottomAnchor, leading: nightUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         nightAdditionalClothes.anchor(top: nightShoes.bottomAnchor, leading: nightUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
@@ -899,7 +912,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forNightAdditional2.anchor(top: nightAdditionalClothes.topAnchor, leading: forNightAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         forNightAdditional3.anchor(top: nightAdditionalClothes.topAnchor, leading: forNightAdditional2.trailingAnchor, bottom: nightAdditionalClothes.bottomAnchor, trailing: nightAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         
-        morningUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: nightUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        morningUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: nightUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         morningDownClothes.anchor(top: morningUpClothes.bottomAnchor, leading: morningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         morningShoes.anchor(top: morningDownClothes.bottomAnchor, leading: morningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         morningAdditionalClothes.anchor(top: morningShoes.bottomAnchor, leading: morningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
@@ -907,7 +920,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forMorningAdditional2.anchor(top: morningAdditionalClothes.topAnchor, leading: forMorningAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         forMorningAdditional3.anchor(top: nightAdditionalClothes.topAnchor, leading: forMorningAdditional2.trailingAnchor, bottom: morningAdditionalClothes.bottomAnchor, trailing: morningAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         
-        afternoonUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: morningUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        afternoonUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: morningUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         afternoonDownClothes.anchor(top: afternoonUpClothes.bottomAnchor, leading: afternoonUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         afternoonShoes.anchor(top: afternoonDownClothes.bottomAnchor, leading: afternoonUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         afternoonAdditionalClothes.anchor(top: afternoonShoes.bottomAnchor, leading: afternoonUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
@@ -915,20 +928,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forAfternoonAdditional2.anchor(top: afternoonAdditionalClothes.topAnchor, leading: forAfternoonAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         forAfternoonAdditional3.anchor(top: afternoonAdditionalClothes.topAnchor, leading: forAfternoonAdditional2.trailingAnchor, bottom: afternoonAdditionalClothes.bottomAnchor, trailing: afternoonAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         
-        eveningUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: afternoonUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        eveningUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: afternoonUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         eveningDownClothes.anchor(top: eveningUpClothes.bottomAnchor, leading: eveningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         eveningShoes.anchor(top: eveningDownClothes.bottomAnchor, leading: eveningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         eveningAdditionalClothes.anchor(top: eveningShoes.bottomAnchor, leading: eveningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         forEveningAdditional1.anchor(top: eveningAdditionalClothes.topAnchor, leading: eveningAdditionalClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         forEveningAdditional2.anchor(top: eveningAdditionalClothes.topAnchor, leading: forEveningAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         forEveningAdditional3.anchor(top: eveningAdditionalClothes.topAnchor, leading: forEveningAdditional2.trailingAnchor, bottom: eveningAdditionalClothes.bottomAnchor, trailing: eveningAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        
- 
-        
-        blurEffectView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
-        blurEffectView.isHidden = true
-        
-        
         
         clothesLabel.anchor(top: adviceInDetailedViewLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         clothesLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
@@ -959,28 +965,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forecastForLabel.anchor(top: nil, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 0, left: 50, bottom: 0, right: 50), size: .init(width: 0, height: 45))
         forecastForLabel.centerYAnchor.constraint(equalTo: closeDetailedViewButton.centerYAnchor).isActive = true
         
-        morningTempIcon.anchor(top: scrollView.topAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 50, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        afternoonTempIcon.anchor(top: scrollView.topAnchor, leading: morningTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 50, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        eveningTempIcon.anchor(top: scrollView.topAnchor, leading: afternoonTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 50, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        nightTempIcon.anchor(top: scrollView.topAnchor, leading: eveningTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 50, left: 33, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        
-        morningTemp.anchor(top: morningTempIcon.bottomAnchor, leading: morningTempIcon.leadingAnchor, bottom: nil, trailing: morningTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        afternoonTemp.anchor(top: afternoonTempIcon.bottomAnchor, leading: afternoonTempIcon.leadingAnchor, bottom: nil, trailing: afternoonTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        eveningTemp.anchor(top: eveningTempIcon.bottomAnchor, leading: eveningTempIcon.leadingAnchor, bottom: nil, trailing: eveningTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        nightTemp.anchor(top: nightTempIcon.bottomAnchor, leading: nightTempIcon.leadingAnchor, bottom: nil, trailing: nightTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        
-        morningTempFeelsLike.anchor(top: morningTemp.bottomAnchor, leading: morningTempIcon.leadingAnchor, bottom: nil, trailing: morningTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        afternoonTempFeelsLike.anchor(top: afternoonTemp.bottomAnchor, leading: afternoonTempIcon.leadingAnchor, bottom: nil, trailing: afternoonTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        eveningTempFeelsLike.anchor(top: eveningTemp.bottomAnchor, leading: eveningTempIcon.leadingAnchor, bottom: nil, trailing: eveningTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        nightTempFeelsLike.anchor(top: nightTemp.bottomAnchor, leading: nightTempIcon.leadingAnchor, bottom: nil, trailing: nightTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        
+
        
-       
-        closeDetailedViewButton.anchor(top: detailedView.topAnchor, leading: nil, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 25, height: 25))
+    
         
-        detailedView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 40, left: view.frame.width + 25, bottom: 25, right: 0), size: .init(width: view.frame.width-50, height: 0))
-        
-        
+
         splashScreen.addSubview(theLabel)
         splashScreen.addSubview(weaLabel)
         splashScreen.addSubview(rLabel)
@@ -1189,14 +1178,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         guard let name = notification.userInfo!["name"] else {return}
         UpdateInfo(location: "\(name)")
         UIView.animate(withDuration: 0.4) {
-            self.blurEffectView.effect = nil
             self.view.layoutIfNeeded()
                 let initialIndex = 0
                 let indexPath = IndexPath(item: initialIndex, section: 0)
                 self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                 self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
         }
-        self.blurEffectView.isHidden = true // Нужно улучшить, потому что колхоз
     }
     
     override func viewDidLoad() {

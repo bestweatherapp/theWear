@@ -75,7 +75,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         transition.duration = 0.4
         transition.type = kCATransitionReveal
         transition.subtype = kCATransitionReveal
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         self.view.window?.layer.add(transition, forKey: kCATransition)
         NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVCA"), object: nil)
         dismiss(animated: true, completion: nil)

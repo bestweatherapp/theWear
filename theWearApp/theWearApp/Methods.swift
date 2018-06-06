@@ -419,7 +419,7 @@ class Methods
             images.append("cap")
             images.append("gloves")
             images.append("scarf")
-        case -30 ..< -10:////
+        case -30 ..< -10:
             images.append("coat_winter")
             images.append("jeans")
             images.append("uggi")
@@ -488,7 +488,7 @@ class Methods
         if (rainFlag == true){images.append("umbrella")}
         return images
     }
-    //new
+    
     func WomenClothingForPartOfTheDay (allhours:[ForecastHour],bounds: (Int,Int))->([String])
     {
         var images = [String]()
@@ -512,7 +512,7 @@ class Methods
             images.append("cap")
             images.append("gloves")
             images.append("scarf")
-        case -30 ..< -10:////
+        case -30 ..< -10:
             images.append("jacket")
             images.append("slim-fit-pants")
             images.append("uggi")
@@ -565,7 +565,7 @@ class Methods
             images.append("skirt")
             // или платье "dress"
             images.append("flat-shoes")
-        case  25..<35:
+        case 25..<35:
             images.append("polo")
             images.append("short-skirt")
             images.append("flat-shoes")
