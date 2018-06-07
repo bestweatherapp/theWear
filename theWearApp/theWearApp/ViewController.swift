@@ -117,12 +117,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             eveningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].icon!)
             nightTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![3].icon!)
             //
-            maxWinSpeedLabel.attributedText = NSAttributedString(string: "Maximum wind speed: \(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].windSpeed_max!))) mPs", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            maxWinSpeedLabel.attributedText = NSAttributedString(string: "Maximum wind speed:\n\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].windSpeed_max!))) mPs", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
-            avgHumidityLabel.attributedText = NSAttributedString(string: "Average Humidity: \(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].avghumidity!)))%", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            avgHumidityLabel.attributedText = NSAttributedString(string: "Average Humidity:\n\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].avghumidity!)))%", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
-            sunriseLabel.attributedText = NSAttributedString(string: String(self.currentForecastCity.AllForecastDay![indexPath.row].sunrise!.dropLast(3)), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-            sunsetLabel.attributedText = NSAttributedString(string: String(self.currentForecastCity.AllForecastDay![indexPath.row].sunset!.dropLast(3)), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            sunriseLabel.attributedText = NSAttributedString(string: String(self.currentForecastCity.AllForecastDay![indexPath.row].sunrise!.dropLast(3)), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 13)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            sunsetLabel.attributedText = NSAttributedString(string: String(self.currentForecastCity.AllForecastDay![indexPath.row].sunset!.dropLast(3)), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 13)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
             adviceInDetailedViewLabel.attributedText = NSAttributedString(string: allCommentsForDetailedView[(forecastTableView.indexPathForSelectedRow?.row)!], attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
@@ -357,7 +357,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         view.backgroundColor = .white
         return view
     }()
-    
     
     private var topStackView: UIStackView = {
         let view = UIStackView()
@@ -694,7 +693,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let adviceInDetailedViewLabel: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
-        text.numberOfLines = 6
+        text.numberOfLines = 7
         text.sizeToFit()
         return text
     }()
@@ -711,6 +710,39 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return line
     }()
     private let feelsLikeLine2: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
+    }()
+    
+    private let commentLine1: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
+    }()
+    private let commentLine2: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
+    }()
+    
+    private let clothesLine1: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
+    }()
+    private let clothesLine2: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
+    }()
+    
+    private let detailsLine1: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
+    }()
+    private let detailsLine2: UIView = {
         let line = UIView()
         line.backgroundColor = UIColor.dark
         return line
@@ -743,37 +775,53 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     private let feelsLikeLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.attributedText = NSAttributedString(string: "Feels like", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
         return label
     }()
+    
     private let clothesLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.attributedText = NSAttributedString(string: "Clothes", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
         return label
     }()
     private let DetailsLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.attributedText = NSAttributedString(string: "Details", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
         return label
     }()
     
+    private let maxWindSpeedIcon: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "windspeed"))
+        return image
+    }()
+    
     private let maxWinSpeedLabel: UILabel = {
         let text = UILabel()
+        text.numberOfLines = 2
         text.textAlignment = .left
         return text
     }()
+    
+    private let avgHumidityIcon: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "humidity"))
+        return image
+    }()
     private let avgHumidityLabel: UILabel = {
         let text = UILabel()
+        text.numberOfLines = 2
         text.textAlignment = .left
         return text
     }()
     private let descrLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = NSAttributedString(string: "Description", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        label.textAlignment = .center
+        label.attributedText = NSAttributedString(string: "Description", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 11)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
         return label
     }()
     
@@ -833,7 +881,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         [forecastCollectionView, forecastTableView].forEach {bottomStackView.addArrangedSubview($0)}
         [placeholderForFavLabel, favouriteCitiesTableView, updateWithCurrentLocationButton, settingsButton, addCityButton, placeholderForFav].forEach {slideOutMenu.addSubview($0)}
         [scrollView, closeDetailedViewButton, forecastForLabel].forEach {detailedView.addSubview($0)}
-        [topLine, feelsLikeLine1, feelsLikeLine2, morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, feelsLikeLabel, descrLabel, clothesLabel, DetailsLabel, maxWinSpeedLabel, avgHumidityLabel, sunriseImage, sunsetImage, sunriseLabel, sunsetLabel, nightUpClothes, nightDownClothes, nightShoes, nightAdditionalClothes, morningUpClothes, morningDownClothes, morningShoes, morningAdditionalClothes, afternoonUpClothes, afternoonDownClothes, afternoonShoes, afternoonAdditionalClothes, eveningUpClothes, eveningDownClothes, eveningShoes, eveningAdditionalClothes, nightLabel, morningLabel, afternoonLabel, eveningLabel].forEach {scrollView.addSubview($0)}
+        [topLine, feelsLikeLine1, feelsLikeLine2, commentLine1, commentLine2, clothesLine1, clothesLine2, detailsLine1, detailsLine2, morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, feelsLikeLabel, descrLabel, clothesLabel, DetailsLabel, maxWinSpeedLabel, maxWindSpeedIcon, avgHumidityLabel, avgHumidityIcon, sunriseImage, sunsetImage, sunriseLabel, sunsetLabel, nightUpClothes, nightDownClothes, nightShoes, nightAdditionalClothes, morningUpClothes, morningDownClothes, morningShoes, morningAdditionalClothes, afternoonUpClothes, afternoonDownClothes, afternoonShoes, afternoonAdditionalClothes, eveningUpClothes, eveningDownClothes, eveningShoes, eveningAdditionalClothes, nightLabel, morningLabel, afternoonLabel, eveningLabel].forEach {scrollView.addSubview($0)}
         
         [forNightAdditional1, forNightAdditional2, forNightAdditional3].forEach {nightAdditionalClothes.addSubview($0)}
         [forMorningAdditional1, forMorningAdditional2, forMorningAdditional3].forEach {morningAdditionalClothes.addSubview($0)}
@@ -892,44 +940,65 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         // Detailed View
         detailedView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 40, left: view.frame.width + 25, bottom: 25, right: 0), size: .init(width: view.frame.width-50, height: 0))
+         scrollView.anchor(top: closeDetailedViewButton.bottomAnchor, leading: detailedView.leadingAnchor, bottom: detailedView.bottomAnchor, trailing: detailedView.trailingAnchor, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         
-        topLine.anchor(top: nil, leading: scrollView.leadingAnchor, bottom: nightLabel.topAnchor, trailing: nil, padding: .init(top: 0, left: padding, bottom: 10, right: 0), size: .init(width: lineWidth, height: 0.5))
-        
-        //feelsLikeLine1.anchor(top: morningTemp.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: padding, bottom: 0, right: 0), size: .init(width: (lineWidth / 2) - , height: <#T##Double#>))
-        //feelsLikeLabel.anchor(top: , leading: <#T##NSLayoutXAxisAnchor?#>, bottom: <#T##NSLayoutYAxisAnchor?#>, trailing: <#T##NSLayoutXAxisAnchor?#>, padding: <#T##UIEdgeInsets#>, size: <#T##CGSize#>)
-        
+        // Top Part
         closeDetailedViewButton.anchor(top: detailedView.topAnchor, leading: nil, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 25, height: 25))
         forecastForLabel.anchor(top: nil, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 0, left: 50, bottom: 0, right: 50), size: .init(width: 0, height: 45))
         forecastForLabel.centerYAnchor.constraint(equalTo: closeDetailedViewButton.centerYAnchor).isActive = true
         
+        // Top Line
+        topLine.anchor(top: scrollView.topAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: padding, bottom: 0, right: 0), size: .init(width: lineWidth, height: 0.5))
+        
+        // Names of day parts
+        nightLabel.anchor(top: topLine.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: padding - 8, bottom: 0, right: 0),  size: .init(width: 50, height: 30))
+        morningLabel.anchor(top: topLine.bottomAnchor, leading: nightLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: padding - 8, bottom: 0, right: 0),  size: .init(width: 50, height: 30))
+        afternoonLabel.anchor(top: topLine.bottomAnchor, leading: morningLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: padding - 8, bottom: 0, right: 0), size: .init(width: 50, height: 30))
+        eveningLabel.anchor(top: topLine.bottomAnchor, leading: afternoonLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: padding - 8, bottom: 0, right: 0), size: .init(width: 50, height: 30))
+        
+        // Temperature Icons
         nightTempIcon.anchor(top: nightLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         morningTempIcon.anchor(top: morningLabel.bottomAnchor, leading: nightTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         afternoonTempIcon.anchor(top: afternoonLabel.bottomAnchor, leading: morningTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         eveningTempIcon.anchor(top: eveningLabel.bottomAnchor, leading: afternoonTempIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 5, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         
+        // Temperature
         morningTemp.anchor(top: morningTempIcon.bottomAnchor, leading: morningTempIcon.leadingAnchor, bottom: nil, trailing: morningTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
         afternoonTemp.anchor(top: afternoonTempIcon.bottomAnchor, leading: afternoonTempIcon.leadingAnchor, bottom: nil, trailing: afternoonTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
         eveningTemp.anchor(top: eveningTempIcon.bottomAnchor, leading: eveningTempIcon.leadingAnchor, bottom: nil, trailing: eveningTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
         nightTemp.anchor(top: nightTempIcon.bottomAnchor, leading: nightTempIcon.leadingAnchor, bottom: nil, trailing: nightTempIcon.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
         
-        morningTempFeelsLike.anchor(top: morningTemp.bottomAnchor, leading: morningTempIcon.leadingAnchor, bottom: nil, trailing: morningTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        afternoonTempFeelsLike.anchor(top: afternoonTemp.bottomAnchor, leading: afternoonTempIcon.leadingAnchor, bottom: nil, trailing: afternoonTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        eveningTempFeelsLike.anchor(top: eveningTemp.bottomAnchor, leading: eveningTempIcon.leadingAnchor, bottom: nil, trailing: eveningTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
-        nightTempFeelsLike.anchor(top: nightTemp.bottomAnchor, leading: nightTempIcon.leadingAnchor, bottom: nil, trailing: nightTempIcon.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        // Feels Like Line
+        feelsLikeLine1.anchor(top: morningTemp.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: padding, bottom: 0, right: 0), size: .init(width: (lineWidth / 2) - 40, height: 0.5))
+        feelsLikeLine2.anchor(top: morningTemp.bottomAnchor, leading: feelsLikeLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 15, bottom: 0, right: 0), size: .init(width: (lineWidth / 2) - 40, height: 0.5))
+        feelsLikeLabel.anchor(top: nil, leading: feelsLikeLine1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 15, bottom: 0, right: 0), size: .init(width: 50, height: 30))
+        feelsLikeLabel.centerYAnchor.constraint(equalTo: feelsLikeLine1.centerYAnchor).isActive = true
+        feelsLikeLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
+        // FeelsLike Temperature
+        morningTempFeelsLike.anchor(top: feelsLikeLabel.bottomAnchor, leading: morningTempIcon.leadingAnchor, bottom: nil, trailing: morningTempIcon.trailingAnchor, padding: .init(top: 5, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        afternoonTempFeelsLike.anchor(top: feelsLikeLabel.bottomAnchor, leading: afternoonTempIcon.leadingAnchor, bottom: nil, trailing: afternoonTempIcon.trailingAnchor, padding: .init(top: 5, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        eveningTempFeelsLike.anchor(top: feelsLikeLabel.bottomAnchor, leading: eveningTempIcon.leadingAnchor, bottom: nil, trailing: eveningTempIcon.trailingAnchor, padding: .init(top: 5, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        nightTempFeelsLike.anchor(top: feelsLikeLabel.bottomAnchor, leading: nightTempIcon.leadingAnchor, bottom: nil, trailing: nightTempIcon.trailingAnchor, padding: .init(top: 5, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 30))
         
+        // Description Line
+        commentLine1.anchor(top: morningTempFeelsLike.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: padding, bottom: 0, right: 0), size: .init(width: (lineWidth / 2) - 40, height: 0.5))
+        commentLine2.anchor(top: morningTempFeelsLike.bottomAnchor, leading: feelsLikeLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: 15, bottom: 0, right: 0), size: .init(width: (lineWidth / 2) - 40, height: 0.5))
+        descrLabel.anchor(top: nil, leading: commentLine1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 15, bottom: 0, right: 0), size: .init(width: 50, height: 30))
+        descrLabel.centerYAnchor.constraint(equalTo: commentLine1.centerYAnchor).isActive = true
+        descrLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
+        // Description Label
+        adviceInDetailedViewLabel.anchor(top: descrLabel.bottomAnchor, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 5, left: 30, bottom: 0, right: 30), size: .init(width: 0, height: 0))
         
-        adviceInDetailedViewLabel.anchor(top: morningTempFeelsLike.bottomAnchor, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 30, left: 30, bottom: 0, right: 30), size: .init(width: 0, height: 0))
+        // Clothes Line
+        clothesLine1.anchor(top: adviceInDetailedViewLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: padding, bottom: 0, right: 0), size: .init(width: (lineWidth / 2) - 40, height: 0.5))
+        clothesLine2.anchor(top: adviceInDetailedViewLabel.bottomAnchor, leading: clothesLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: 15, bottom: 0, right: 0), size: .init(width: (lineWidth / 2) - 40, height: 0.5))
+        clothesLabel.anchor(top: nil, leading: clothesLine1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 15, bottom: 0, right: 0), size: .init(width: 50, height: 30))
+        clothesLabel.centerYAnchor.constraint(equalTo: clothesLine1.centerYAnchor).isActive = true
+        clothesLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
-        nightLabel.anchor(top: scrollView.topAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: padding - 8, bottom: 0, right: 0),  size: .init(width: 50, height: 30))
-        
-        morningLabel.anchor(top: scrollView.topAnchor, leading: nightLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: padding - 8, bottom: 0, right: 0),  size: .init(width: 50, height: 30))
-        
-        afternoonLabel.anchor(top: scrollView.topAnchor, leading: morningLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: padding - 8, bottom: 0, right: 0), size: .init(width: 50, height: 30))
-        
-        eveningLabel.anchor(top: scrollView.topAnchor, leading: afternoonLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: padding - 8, bottom: 0, right: 0), size: .init(width: 50, height: 30))
-        
+        // Clothes for night
         nightUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         nightDownClothes.anchor(top: nightUpClothes.bottomAnchor, leading: nightUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         nightShoes.anchor(top: nightDownClothes.bottomAnchor, leading: nightUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
@@ -938,6 +1007,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forNightAdditional2.anchor(top: nightAdditionalClothes.topAnchor, leading: forNightAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         forNightAdditional3.anchor(top: nightAdditionalClothes.topAnchor, leading: forNightAdditional2.trailingAnchor, bottom: nightAdditionalClothes.bottomAnchor, trailing: nightAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         
+        // Clothes for morning
         morningUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: nightUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         morningDownClothes.anchor(top: morningUpClothes.bottomAnchor, leading: morningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         morningShoes.anchor(top: morningDownClothes.bottomAnchor, leading: morningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
@@ -946,6 +1016,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forMorningAdditional2.anchor(top: morningAdditionalClothes.topAnchor, leading: forMorningAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         forMorningAdditional3.anchor(top: nightAdditionalClothes.topAnchor, leading: forMorningAdditional2.trailingAnchor, bottom: morningAdditionalClothes.bottomAnchor, trailing: morningAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         
+        // Clothes for afternoon
         afternoonUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: morningUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         afternoonDownClothes.anchor(top: afternoonUpClothes.bottomAnchor, leading: afternoonUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         afternoonShoes.anchor(top: afternoonDownClothes.bottomAnchor, leading: afternoonUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
@@ -954,6 +1025,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forAfternoonAdditional2.anchor(top: afternoonAdditionalClothes.topAnchor, leading: forAfternoonAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         forAfternoonAdditional3.anchor(top: afternoonAdditionalClothes.topAnchor, leading: forAfternoonAdditional2.trailingAnchor, bottom: afternoonAdditionalClothes.bottomAnchor, trailing: afternoonAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         
+        // Clothes for evening
         eveningUpClothes.anchor(top: clothesLabel.bottomAnchor, leading: afternoonUpClothes.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: padding, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         eveningDownClothes.anchor(top: eveningUpClothes.bottomAnchor, leading: eveningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         eveningShoes.anchor(top: eveningDownClothes.bottomAnchor, leading: eveningUpClothes.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 2.5, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
@@ -962,36 +1034,30 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forEveningAdditional2.anchor(top: eveningAdditionalClothes.topAnchor, leading: forEveningAdditional1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 2.5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         forEveningAdditional3.anchor(top: eveningAdditionalClothes.topAnchor, leading: forEveningAdditional2.trailingAnchor, bottom: eveningAdditionalClothes.bottomAnchor, trailing: eveningAdditionalClothes.trailingAnchor, padding: .init(top: 0, left: 5, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         
-        clothesLabel.anchor(top: adviceInDetailedViewLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
-        clothesLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        
-        sunriseLabel.anchor(top: sunriseImage.bottomAnchor, leading: scrollView.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: nil, padding: .init(top: 5, left: 35, bottom: 20, right: 0), size: .init(width: 40, height: 30))
-        sunsetLabel.anchor(top: sunsetImage.bottomAnchor, leading: scrollView.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: nil, padding: .init(top: 5, left: 150, bottom: 20, right: 0), size: .init(width: 40, height: 30))
-        
-        sunriseImage.anchor(top: avgHumidityLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 35, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        sunsetImage.anchor(top: avgHumidityLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 150, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        
+        // Details Line
+        detailsLine1.anchor(top: nightAdditionalClothes.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: padding, bottom: 0, right: 0), size: .init(width: (lineWidth / 2) - 40, height: 0.5))
+        detailsLine2.anchor(top: nightAdditionalClothes.bottomAnchor, leading: DetailsLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: 15, bottom: 0, right: 0), size: .init(width: (lineWidth / 2) - 40, height: 0.5))
+        DetailsLabel.anchor(top: nil, leading: detailsLine1.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 15, bottom: 0, right: 0), size: .init(width: 50, height: 30))
         DetailsLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        DetailsLabel.anchor(top: nightAdditionalClothes.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 15, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        DetailsLabel.centerYAnchor.constraint(equalTo: detailsLine1.centerYAnchor).isActive = true
         
-        maxWinSpeedLabel.anchor(top: DetailsLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: 25, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        // Maximum Wind Speed
+        maxWindSpeedIcon.anchor(top: DetailsLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: ((view.frame.width - 50) / 2) - 90, bottom: 0, right: 0), size: .init(width: 35, height: 35))
+        maxWinSpeedLabel.anchor(top: nil, leading: maxWindSpeedIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 15, bottom: 0, right: 0), size: .init(width: 130, height: 0))
+        maxWinSpeedLabel.centerYAnchor.constraint(equalTo: maxWindSpeedIcon.centerYAnchor).isActive = true
         
-        avgHumidityLabel.anchor(top: maxWinSpeedLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 25, bottom: 0, right: 0), size: .init(width: 0, height: 30))
+        // Average Humidity
+        avgHumidityIcon.anchor(top: maxWindSpeedIcon.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 20, left: ((view.frame.width - 50) / 2) - 90, bottom: 0, right: 0), size: .init(width: 35, height: 35))
+        avgHumidityLabel.anchor(top: nil, leading: avgHumidityIcon.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 15, bottom: 0, right: 0), size: .init(width: 130, height: 0))
+        avgHumidityLabel.centerYAnchor.constraint(equalTo: avgHumidityIcon.centerYAnchor).isActive = true
         
-        descrLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        // Sunrise and Sunset
+        sunriseImage.anchor(top: avgHumidityIcon.bottomAnchor, leading: avgHumidityIcon.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 35, height: 35))
+        sunsetImage.anchor(top: avgHumidityIcon.bottomAnchor, leading: sunriseImage.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 20, left: 110, bottom: 0, right: 0), size: .init(width: 35, height: 35))
+        sunriseLabel.anchor(top: sunriseImage.bottomAnchor, leading: sunriseImage.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 20, right: 0), size: .init(width: 35, height: 30))
+        sunsetLabel.anchor(top: sunsetImage.bottomAnchor, leading: sunsetImage.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 20, right: 0), size: .init(width: 35, height: 30))
         
-        scrollView.anchor(top: closeDetailedViewButton.bottomAnchor, leading: detailedView.leadingAnchor, bottom: detailedView.bottomAnchor, trailing: detailedView.trailingAnchor, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
-        
-        adviceInDetailedViewLabel.anchor(top: morningTempFeelsLike.bottomAnchor, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 30, left: 30, bottom: 0, right: 30), size: .init(width: 0, height: 0))
-        
-        forecastForLabel.anchor(top: nil, leading: detailedView.leadingAnchor, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 0, left: 50, bottom: 0, right: 50), size: .init(width: 0, height: 45))
-        forecastForLabel.centerYAnchor.constraint(equalTo: closeDetailedViewButton.centerYAnchor).isActive = true
-        
-
-       
-    
-        
-
+        // Splash Screen
         splashScreen.addSubview(theLabel)
         splashScreen.addSubview(weaLabel)
         splashScreen.addSubview(rLabel)
@@ -1308,5 +1374,10 @@ extension UIViewController {
     @objc func HideKeyboard() {
         view.endEditing(true)
     }
+}
+extension UIColor {
+    static var dark = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)
+    static var lightBlue = UIColor(red: 124/255, green: 214/255, blue: 255/255, alpha: 1)
+    static var myGray = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 100)
 }
 

@@ -62,7 +62,7 @@ class FirstPage: UICollectionViewCell {
         case 1334:
             fontOfAdditionText = 14
             imageSize = 100
-        case 1920:
+        case 2208:
             fontOfAdditionText = 14
             imageSize = 120
         case 2436:

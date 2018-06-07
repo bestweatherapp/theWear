@@ -8,11 +8,6 @@
 
 import UIKit
 
-extension UIColor {
-    static var dark = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)
-    static var lightBlue = UIColor(red: 124/255, green: 214/255, blue: 255/255, alpha: 1)
-    static var myGray = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 100)
-}
 class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let backgroundImageView: UIImageView = {
@@ -95,6 +90,7 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(Int(view.frame.height))
         collectionView?.backgroundView = backgroundImageView
         collectionView?.register(FirstPage.self, forCellWithReuseIdentifier: "FirstPage")
         collectionView?.register(SecondPage.self, forCellWithReuseIdentifier: "SecondPage")

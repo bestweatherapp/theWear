@@ -102,19 +102,19 @@ class SecondPage: UICollectionViewCell {
     
     @objc func sliderValueDidChange(_ sender:UISlider!) {
         if sender.value < 2 {
-            emojiState.text = "😀"
+            emojiState.text = "😫"
         }
         if sender.value >= 2 && sender.value < 4 {
-            emojiState.text = "🙂"
-        }
-        if sender.value >= 4 && sender.value < 6 {
-            emojiState.text = "😐"
-        }
-        if sender.value >= 6 && sender.value < 8 {
             emojiState.text = "😬"
         }
+        if sender.value >= 4 && sender.value < 5 {
+            emojiState.text = "😐"
+        }
+        if sender.value >= 5 && sender.value < 8 {
+            emojiState.text = "😀"
+        }
         if sender.value >= 8 {
-            emojiState.text = "😫"
+            emojiState.text = "😜"
         }
     }
     
@@ -155,7 +155,7 @@ class SecondPage: UICollectionViewCell {
             fontForAdditionText = 12
             padding = 6
             imageSize = 100
-        case 1920:
+        case 2208:
             fontForAdditionText = 14
             imageSize = 120
             padding = 8
@@ -179,12 +179,12 @@ class SecondPage: UICollectionViewCell {
         manGender.anchor(top: chooseGender.bottomAnchor, leading: popUpView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 70, bottom: 0, right: 0), size: .init(width: 70, height: 30))
         womanGender.anchor(top: chooseGender.bottomAnchor, leading: nil, bottom: nil, trailing: popUpView.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 70), size: .init(width: 70, height: 30))
         chooseGrimy.anchor(top: manGender.bottomAnchor, leading: popUpView.leadingAnchor, bottom: nil, trailing: popUpView.trailingAnchor, padding: .init(top: padding, left: 0, bottom: 0, right: 0), size: .init())
-        grimySlider.anchor(top: emojiState.bottomAnchor, leading: popUpView.leadingAnchor, bottom: nil, trailing: popUpView.trailingAnchor, padding: .init(top: 10, left: 60, bottom: 0, right: 60), size: .init())
-        emojiState.anchor(top: chooseGrimy.bottomAnchor, leading: popUpView.leadingAnchor, bottom: nil, trailing: popUpView.trailingAnchor, padding: .init(top: padding, left: 0, bottom: 0, right: 0), size: .init())
+        grimySlider.anchor(top: chooseGrimy.bottomAnchor, leading: popUpView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: padding, left: 100, bottom: 0, right: 0), size: .init(width: 60, height: 40))
+        emojiState.anchor(top: chooseGrimy.bottomAnchor, leading: grimySlider.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: padding, left: 6, bottom: 0, right: 0), size: .init())
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }
