@@ -307,18 +307,20 @@ class Methods
             comment += " Mind thunders in the evening! "
         }
         else {
-            if (dayflag && morningflag && eveningflag)||(dayflag && morningflag && eveningflag&&nightflag)
+            if (dayflag && morningflag && eveningflag)||(dayflag && morningflag && eveningflag&&nightflag)||(nightflag&&morningflag&&dayflag)||(nightflag&&dayflag&&eveningflag)||(nightflag&&morningflag&&eveningflag)
             {  comment += " Rain possible during all the day. Don't forget your umbrella! "}
-            else if (morningflag)||(morningflag&&nightflag)
+            else if (morningflag&&nightflag)
             { comment += " Rain possible in the morning, take an umbrella. "}
+            else if (morningflag&&eveningflag)
+            {comment += " Rain in the morning and at night possible. "}
             else if (dayflag||morningflag)
             { comment += " Rain  possible in the first part of the day. Don't forget your umbrella! "}
-            else if (eveningflag||nightflag)
-            { comment += " Rain possible in the second part of the day. Don't forget your umbrella! "}
+           // else if (eveningflag||nightflag)
+           // { comment += " Rain possible in the second part of the day. Don't forget your umbrella! "}
             else if (morningflag || eveningflag)
             {comment += " Rain possible. Don't forget your umbrella! "}
             else if (dayflag && eveningflag)
-            {comment += " Rain during the day possible. Don't forget your umbrella! "}
+            {comment += " Rain in the second part the day possible. Don't forget your umbrella! "}
             else if (dayflag)||(dayflag&&nightflag)
             {comment += " Rain possible in the afternoon, take an umbrella. "}
             else if (eveningflag)
@@ -586,4 +588,31 @@ class Methods
     }
 }
 
-
+/*
+ if (thunderday&&thundermorning&&thundernight&&thunderevening)||(thundernight&&thundermorning&&thunderday)||(thundermorning&&thunderday&&thunderevening)||(thunderday&&thunderevening&&thundernight)|thundermorning&&thunderevening&&thundernight|
+ {comment += "Thunders during all day.Be careful"!}
+ else if (thunderday&& thundermorning)||(thunderday&& thunderevening)||(thunderevening&& thundermorning)
+ {comment += "Mind possible thunders during the day"}
+ else if (thundermorning)
+ {comment += " Mind thunders in the morning."}
+ else if (thundermday)
+ {comment += " Mind thunders."}
+ else if (thunderevening)
+ {comment += " Mind thunders in the evening."}
+ else if (thundernignt)
+ {comment += " Thunders possible."}
+ */
+/*
+ if (dayflag&&morningflag&&eveningflag&&nightflag)||(nightflag&&morningflag&&day)||(morningflag&&dayflag&&eveningflag)||(dayflag&&eveningflag&&nightflag)||(morningflag&&eveningflag&&nightflag)
+ {comment += "Rains during all the day possible"}
+ else if (dayflag&&morningflag)||(dayflag&&eveningflag)||(eveningflag&&morningflag)
+ { comment += " Mind possible rain during the day"}
+ else if (morningflag)
+ {comment += " Mind rain in the morning."}
+ else if (dayflag)
+ {comment += " Rain possible."}
+ else if (eveningflag)
+ {comment += " Mind rains in the evening."}
+ else if (thundernignt)
+ {comment += " Thunders possible."}
+ */
