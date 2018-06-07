@@ -77,7 +77,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             cell.temperatureIcon.downloadedFrom(link: allTempsIcons[indexPath.row])
             var views = [cell.view1, cell.view2, cell.view3, cell.view4, cell.view5, cell.view6, cell.view7]
-            views.forEach {$0.image = UIImage(named: "t")}
+            views.forEach {$0.image = UIImage(named: "none")}
             DispatchQueue.main.async {
                 cell.clothes.isScrollEnabled = false
                 for i in 0...6 {
@@ -148,7 +148,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             afternoonDownClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 2][1])
             afternoonShoes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 2][2])
             
-            
             eveningUpClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][0])
             eveningDownClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][1])
             eveningShoes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][2])
@@ -162,6 +161,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             morningShoes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 1][2])
             
             var views = [forNightAdditional1, forNightAdditional2, forNightAdditional3, forMorningAdditional1, forMorningAdditional2, forMorningAdditional3, forAfternoonAdditional1, forAfternoonAdditional2, forAfternoonAdditional3, forEveningAdditional1, forEveningAdditional2, forEveningAdditional3]
+            views.forEach {$0.image = UIImage(named: "none")}
             
             nightAdditionalClothes.isScrollEnabled = false
             morningAdditionalClothes.isScrollEnabled = false
@@ -174,24 +174,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                     views[i - 3].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4)][i])
                 }
-            }
-            for i in 3...5 {
+
                 if allClothesForDetailedView[(indexPath.row * 4) + 1].indices.contains(i) {
                     if i > 3 {
                         morningAdditionalClothes.isScrollEnabled = true
                     }
                     views[(i - 3) + 3].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 1][i])
                 }
-            }
-            for i in 3...5 {
+
                 if allClothesForDetailedView[(indexPath.row * 4) + 2].indices.contains(i) {
                     if i > 3 {
                         afternoonAdditionalClothes.isScrollEnabled = true
                     }
                     views[(i - 3) + 6].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 2][i])
                 }
-            }
-            for i in 3...5 {
+
                 if allClothesForDetailedView[(indexPath.row * 4) + 3].indices.contains(i) {
                     if i > 3 {
                         eveningAdditionalClothes.isScrollEnabled = true
@@ -267,6 +264,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var allCommentsForDetailedView = [String]()
     var allClothesForForecastTableView = [[String](repeating: "", count: 7),[String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7)]
     var allClothesForDetailedView = [[String]]()
+    var globalCheck: Int?
     
     
     private let slideOutMenu: UIView = {
@@ -335,14 +333,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @objc func UpdateWithCurrentLocation() {
         UpdateInfo(location: "Current location")
         [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = true}
-        UIView.animate(withDuration: 0.4) {
+        UIView.animate(withDuration: 0.4, delay: 0, options: [], animations: {
             let initialIndex = 0
             let indexPath = IndexPath(item: initialIndex, section: 0)
             self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
             self.slideOutMenu.frame.origin.x = -250
+            self.blurEffect.alpha = 0
             self.view.layoutIfNeeded()
-        }
+        }, completion: { _ in
+            self.blurEffect.isHidden = true
+        })
     }
     
     
@@ -354,7 +355,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let splashScreen: UIView = {
         let view = UIView()
         view.isHidden = false
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -372,9 +373,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }()
     @objc func OpenSlideOutMenu() {
         [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = false}
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
             self.slideOutMenu.frame.origin.x = 0
-        }
+            self.blurEffect.alpha = 1
+            self.blurEffect.isHidden = false
+            self.view.layoutIfNeeded()
+        })
     }
     private let currentLocation: UILabel = {
         let text = UILabel()
@@ -399,14 +403,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         transition.subtype = kCATransitionReveal
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         self.view.window?.layer.add(transition, forKey: kCATransition)
-        UIView.animate(withDuration: 0.5) {
-        }
         present(searchVC, animated: true, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
+            self.blurEffect.alpha = 1
+            self.blurEffect.isHidden = false
+            self.view.layoutIfNeeded()
+        })
+        
     }
     @objc func CloseSVC() {
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
+            self.blurEffect.alpha = 0
             self.view.layoutIfNeeded()
-        }
+        }, completion: { _ in
+            self.blurEffect.isHidden = true
+        })
     }
     
     
@@ -835,6 +846,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return image
     }()
     
+    private let backForSplash: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "backForSplash"))
+        return image
+    }()
     
     private let sunriseLabel: UILabel = {
         let text = UILabel()
@@ -845,6 +860,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let text = UILabel()
         text.textAlignment = .center
         return text
+    }()
+    
+    let blurEffect: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: UIBlurEffectStyle.regular)
+        let blurView = UIVisualEffectView(effect: blur)
+        blurView.isHidden = true
+        return blurView
     }()
   
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -861,10 +883,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.currentAdvice.isUserInteractionEnabled = true
             self.currentLocation.isUserInteractionEnabled = true
             self.searchButton.isEnabled = true
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
                 self.slideOutMenu.frame.origin.x = -250
+                self.blurEffect.alpha = 0
                 self.view.layoutIfNeeded()
-            }
+            }, completion: { _ in
+                self.blurEffect.isHidden = true
+            })
         }
     }
     
@@ -874,8 +899,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         var padding: CGFloat = 0
         var lineWidth: CGFloat = 0
+        var paddingForSplash: CGFloat = 0
         
-        [topStackView, middleStackView, bottomStackView, detailedView, slideOutMenu, splashScreen].forEach {view.addSubview($0)}
+        [topStackView, middleStackView, bottomStackView, detailedView, blurEffect, slideOutMenu, splashScreen].forEach {view.addSubview($0)}
         [menuButton, currentLocation, searchButton].forEach {topStackView.addArrangedSubview($0)}
         [currentTemperature, currentCondition, currentAdvice].forEach {middleStackView.addArrangedSubview($0)}
         [forecastCollectionView, forecastTableView].forEach {bottomStackView.addArrangedSubview($0)}
@@ -887,25 +913,33 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         [forMorningAdditional1, forMorningAdditional2, forMorningAdditional3].forEach {morningAdditionalClothes.addSubview($0)}
         [forAfternoonAdditional1, forAfternoonAdditional2, forAfternoonAdditional3].forEach {afternoonAdditionalClothes.addSubview($0)}
         [forEveningAdditional1, forEveningAdditional2, forEveningAdditional3].forEach {eveningAdditionalClothes.addSubview($0)}
+        [backForSplash, theLabel, weaLabel, rLabel].forEach {splashScreen.addSubview($0)}
         
         switch UIScreen.main.nativeBounds.height {
         case 1136:
             print("iPhone 5")
             padding = 22
+            paddingForSplash = 0
         case 1334:
             print("iPhone 7")
             padding = 33
             lineWidth = 259
+            paddingForSplash = 45
         case 1920:
             print("iPhone 7+")
             padding = 40.8
             lineWidth = 282.4
+            paddingForSplash = 64.5
         case 2436:
             print("iPhone X")
             padding = 33
+            paddingForSplash = 0
         default:
             return
         }
+        // Blur View
+        blurEffect.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
+        
         // TopStackView
         topStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 40))
          menuButton.anchor(top: topStackView.topAnchor, leading: topStackView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
@@ -1058,20 +1092,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         sunsetLabel.anchor(top: sunsetImage.bottomAnchor, leading: sunsetImage.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 20, right: 0), size: .init(width: 35, height: 30))
         
         // Splash Screen
-        splashScreen.addSubview(theLabel)
-        splashScreen.addSubview(weaLabel)
-        splashScreen.addSubview(rLabel)
-        
-        weaLabel.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 45, bottom: 0, right: 0), size: .init(width: 0, height: 0))
-        theLabel.anchor(top: view.topAnchor, leading: weaLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
-        rLabel.anchor(top: view.topAnchor, leading: theLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        backForSplash.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
+        weaLabel.anchor(top: view.topAnchor, leading: theLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 160, height: 0))
+        theLabel.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: paddingForSplash, bottom: 0, right: 0), size: .init(width: 100, height: 0))
+        rLabel.anchor(top: view.topAnchor, leading: weaLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 25, height: 0))
         splashScreen.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
-       
-        
     }
     
     func UpdateInfo(location: String) {
         
+    
         var allDates = [String]()
         var allCommentsForDetailedView = [String]() // Add new var for all comments
         var allClothesForForecastTableView = [[String]]()
@@ -1089,7 +1119,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let correctLocation = location.replacingOccurrences(of: " ", with: "%20")
         let urlString = (location == "Current location") ? "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(String(describing: currentLocation.coordinate.latitude)),\(String(describing: currentLocation.coordinate.longitude))&days=7" : "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(correctLocation)&days=7"
         guard let url = URL(string: urlString) else { return }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+
+            let myGroup = DispatchGroup()
+            myGroup.enter()
+            
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
                 guard error == nil else {
                     print("returned error")
@@ -1214,6 +1248,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.allHourlyTemps = allHourlyTemps
                 self.allHourlyTempsIcons = allHourlyTempsIcons
                 self.currentForecastCity = ForecastCity(Current: current_, ForecastDay: allDays)
+            myGroup.leave() // Task was completed
+            myGroup.notify(queue: DispatchQueue.main) {
+                self.Animation()
+            }
                 DispatchQueue.main.async {
                         self.forecastTableView.reloadData()
                         self.forecastCollectionView.reloadData()
@@ -1225,28 +1263,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         var comment = methods.GetCurrentComment(Current : current_, day : forecastday_)
                         comment += methods.GetThunderComment(forecastday: forecastday_)
                         self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
-
                 }
-                }.resume()
+            }
+            task.resume()
+            
+            
+            
         }
         }
     
     private let weaLabel: UILabel = {
         let text = UILabel()
-        text.translatesAutoresizingMaskIntoConstraints = false
         text.textAlignment = .center
         text.attributedText = NSAttributedString(string: "Wea", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Bold", size: 75)!])
         text.backgroundColor = .clear
-        text.layer.shadowColor = UIColor.white.cgColor
-        text.layer.shadowOpacity = 1
-        text.layer.shadowOffset = CGSize.zero
-        text.layer.shadowRadius = 30
         return text
     }()
     
     private let theLabel: UILabel = {
         let text = UILabel()
-        text.translatesAutoresizingMaskIntoConstraints = false
         text.textAlignment = .center
         text.attributedText = NSAttributedString(string: "the", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 75)!])
         text.backgroundColor = .clear
@@ -1255,7 +1290,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     private let rLabel: UILabel = {
         let text = UILabel()
-        text.translatesAutoresizingMaskIntoConstraints = false
         text.textAlignment = .center
         text.attributedText = NSAttributedString(string: "r", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Bold", size: 75)!])
         text.backgroundColor = .clear
@@ -1305,8 +1339,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forecastTableView.register(DayCell.self, forCellReuseIdentifier: "tableViewcell")
         forecastCollectionView.register(HourCell.self, forCellWithReuseIdentifier: "collectionViewCell")
         LayOut()
-        
-        Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(Animation), userInfo: nil, repeats: false)
         Animate()
         UpdateInfo(location: "Current location")
        
@@ -1316,19 +1348,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.theLabel.frame.origin.x = 0
         self.weaLabel.frame.origin.x = 0
         UIView.animate(withDuration: 2, delay: 0.25, options: [.autoreverse, .repeat], animations: {
-            self.theLabel.frame.origin.x += 155
-            self.weaLabel.frame.origin.x -= 100
+            self.weaLabel.frame.origin.x += 100
+            self.theLabel.frame.origin.x -= 160
         })
     }
     
     @objc private func Animation() {
-            UIView.animate(withDuration: 2, animations: {
-                self.splashScreen.alpha = 0
-                self.weaLabel.alpha = 0
-                self.theLabel.alpha = 0
-                self.rLabel.alpha = 0
-            })
-        self.splashScreen.isHidden = true
+        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
+            self.splashScreen.alpha = 0
+            self.weaLabel.alpha = 0
+            self.theLabel.alpha = 0
+            self.rLabel.alpha = 0
+        }, completion: { _ in
+            self.splashScreen.isHidden = true
+        })
     }
     
     override func didReceiveMemoryWarning() {

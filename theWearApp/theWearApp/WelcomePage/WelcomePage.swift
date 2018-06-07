@@ -11,7 +11,7 @@ import UIKit
 class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let backgroundImageView: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "BlurDefaultBackground"))
+        let image = UIImageView(image: UIImage(named: "backForSplash"))
         return image
     }()
     
@@ -29,7 +29,7 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
         button.setTitle("Next", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.setTitleColor(.dark, for: .normal)
+        button.setTitleColor(UIColor(white: 1, alpha: 0.9), for: .normal)
         button.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
         return button
     }()
@@ -39,7 +39,7 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
         button.setTitle("", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.setTitleColor(.dark, for: .normal)
+        button.setTitleColor(UIColor(white: 1, alpha: 0.9), for: .normal)
         button.addTarget(self, action: #selector(handlePrev), for: .touchUpInside)
         return button
     }()
