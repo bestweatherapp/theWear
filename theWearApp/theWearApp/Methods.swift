@@ -274,66 +274,31 @@ class Methods
             }
             else {comment += ""}
         }//Логика для вывода грозы
-        if (thundermorning && thunderday && thunderevening)||(thundermorning && thunderday && thunderevening && thundernight)
-        {
-            comment += " Thunders during all day, be careful. "
-        }
-        else if (thundermorning && thunderday)
-        {
-            comment += " Thunders in the first part of the day. "
-        }
-        else if (thundermorning && thunderevening)
-        {
-            comment += " Thunders during the day possible. "
-        }
-        else if (thunderevening && thundernight)
-        {
-            comment += " Thunders in the second part of the day. "
-        }
-        else if (thunderevening && thunderday)
-        {
-            comment += " Thunders possible, be careful. "
-        }
+        if (thunderday&&thundermorning&&thundernight&&thunderevening)||(thundernight&&thundermorning&&thunderday)||(thundermorning&&thunderday&&thunderevening)||(thunderday&&thunderevening&&thundernight)||(thundermorning&&thunderevening&&thundernight)
+        {comment += "Thunders during all day. Be careful!"}
+        else if (thunderday&&thundermorning)||(thunderday&&thunderevening)||(thunderevening&&thundermorning)
+        {comment += "Mind possible thunders during the day"}
         else if (thundermorning)
-        {
-            comment += " Mind thunders in the morning! "
-        }
+        {comment += " Mind thunders in the morning."}
         else if (thunderday)
-        {
-            comment += " Mind thunders in the afternoon! "
-        }
+        {comment += " Mind thunders."}
         else if (thunderevening)
-        {
-            comment += " Mind thunders in the evening! "
-        }
+        {comment += " Mind thunders in the evening."}
+        else if (thundernight)
+        {comment += " Thunders possible."}
         else {
-            if (dayflag && morningflag && eveningflag)||(dayflag && morningflag && eveningflag&&nightflag)||(nightflag&&morningflag&&dayflag)||(nightflag&&dayflag&&eveningflag)||(nightflag&&morningflag&&eveningflag)
-            {  comment += " Rain possible during all the day. Don't forget your umbrella! "}
-            else if (morningflag&&nightflag)
-            { comment += " Rain possible in the morning, take an umbrella. "}
-            else if (morningflag&&eveningflag)
-            {comment += " Rain in the morning and at night possible. "}
-            else if (dayflag||morningflag)
-            { comment += " Rain  possible in the first part of the day. Don't forget your umbrella! "}
-           // else if (eveningflag||nightflag)
-           // { comment += " Rain possible in the second part of the day. Don't forget your umbrella! "}
-            else if (morningflag || eveningflag)
-            {comment += " Rain possible. Don't forget your umbrella! "}
-            else if (dayflag && eveningflag)
-            {comment += " Rain in the second part the day possible. Don't forget your umbrella! "}
-            else if (dayflag)||(dayflag&&nightflag)
-            {comment += " Rain possible in the afternoon, take an umbrella. "}
-            else if (eveningflag)
-            {comment += " Rain possible in the evening, take an umbrella. "}
-            else if (nightflag)
-            {comment += " Night rain possible. " }
-            else if (dayflag)
-            {comment += " Rains during the day possible. " }
+            if (dayflag&&morningflag&&eveningflag&&nightflag)||(nightflag&&morningflag&&dayflag)||(morningflag&&dayflag&&eveningflag)||(dayflag&&eveningflag&&nightflag)||(morningflag&&eveningflag&&nightflag)
+            {comment += "Rains during all the day possible"}
+            else if (dayflag&&morningflag)||(dayflag&&eveningflag)||(eveningflag&&morningflag)
+            { comment += " Mind possible rain during the day"}
             else if (morningflag)
-            {comment += " Morning rain possible. " }
+            {comment += " Mind rain in the morning."}
+            else if (dayflag)
+            {comment += " Rain possible."}
             else if (eveningflag)
-            {comment += " Rain in the evening is possible. " }
-           
+            {comment += " Mind rains in the evening."}
+            else if (nightflag)
+            {comment += " Thunders possible."}
         }
         if (avgday - avgmorning > 6 )
         {
@@ -481,7 +446,7 @@ class Methods
                 images.append("tshirt")
                 images.append("chino-shorts")
                 images.append("flops")
-        case 43..<50:
+        case 43..<100:
             images.append("tshirt")
             images.append("chino-shorts")
             images.append("flops")
@@ -577,7 +542,7 @@ class Methods
             images.append("short-skirt")
             // или платье "cocktail-dress"
             images.append("gladiator-sandal")
-        case 43..<50:
+        case 43..<100:
             images.append("top")
             images.append("chino-shorts")
             images.append("flops")
