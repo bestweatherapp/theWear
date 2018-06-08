@@ -220,10 +220,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             UpdateInfo(location: cities![(favouriteCitiesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current))
             UIView.animate(withDuration: 0.4) {
                     self.slideOutMenu.frame.origin.x = -250
+                    self.blurEffect.alpha = 0
                     let initialIndex = 0
                     let indexPath = IndexPath(item: initialIndex, section: 0)
                     self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                     self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                self.view.layoutIfNeeded()
             }
         }
     }
@@ -1300,6 +1302,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         guard let name = notification.userInfo!["name"] else {return}
         UpdateInfo(location: "\(name)")
         UIView.animate(withDuration: 0.4) {
+            self.blurEffect.alpha = 0
             self.view.layoutIfNeeded()
                 let initialIndex = 0
                 let indexPath = IndexPath(item: initialIndex, section: 0)

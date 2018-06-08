@@ -252,7 +252,7 @@ class Methods
         for element in day.AllHours!{
             var date = element.time?.components(separatedBy: " ")
             var time = Int(date![0].components(separatedBy: ":")[0])
-            if (Int(element.chance_of_rain!)! > 70)||(element.will_it_rain == 1)
+            if (Int(element.chance_of_rain!)! > 49)||(element.will_it_rain == 1)||(element.condition!.range(of: "rain") != nil)||(element.condition! == "Light rain")||(element.condition!.range(of: "rains") != nil)||(element.condition!.range(of: "sleet") != nil)||(element.condition!.range(of: "drizzle") != nil)||(element.condition!.range(of: "shower") != nil)||(element.condition! == "Heavy rain")||(element.condition!.range(of: "showers") != nil )
             {
                 switch (time!)
                 {
@@ -356,11 +356,9 @@ class Methods
                 { thunderanytime = true} }
             }
         for element in forecastday.AllHours!{
-            if ((element.condition!.range(of: "rain") != nil)||(element.condition! == "Light rain")||(element.condition!.range(of: "sleet") != nil)||(element.condition!.range(of: "drizzle") != nil)||(element.condition!.range(of: "shower") != nil)||(element.condition! == "Heavy rain")||(element.condition!.range(of: "showers") != nil ))
+            if ((element.condition!.range(of: "rain") != nil)||(element.condition! == "Light rain")||(element.condition!.range(of: "rains") != nil)||(element.condition!.range(of: "sleet") != nil)||(element.condition!.range(of: "drizzle") != nil)||(element.condition!.range(of: "shower") != nil)||(element.condition! == "Heavy rain")||(element.condition!.range(of: "showers") != nil )||(Int(element.chance_of_rain!)! > 49)||(element.will_it_rain == 1))
             { if (rainanytime == false) && (thunderanytime == false){
-                    rainanytime = true }
-            }
-        }
+                    rainanytime = true } }   }
         return (rainanytime||thunderanytime)
     }
     func ClothingForPartOfTheDay (allhours:[ForecastHour],bounds: (Int,Int))->([String])
@@ -372,7 +370,7 @@ class Methods
         var sum = 0.0
         for i in low...high
         {
-            if (rainFlag == false && allhours[i].will_it_rain == 1)
+            if (rainFlag == false && (allhours[i].will_it_rain == 1||Int(allhours[i].chance_of_rain!)!>49||allhours[i].condition!.range(of: "rain") != nil))
             { rainFlag = true     }
             sum += allhours[i].temperature!
         }
@@ -450,12 +448,10 @@ class Methods
             images.append("tshirt")
             images.append("chino-shorts")
             images.append("flops")
-        default: 1
-        }
+        default: 1 }
         if (rainFlag == true){images.append("umbrella")}
         return images
     }
-    
     func WomenClothingForPartOfTheDay (allhours:[ForecastHour],bounds: (Int,Int))->([String])
     {
         var images = [String]()
@@ -530,17 +526,14 @@ class Methods
         case 23..<25:
             images.append("shirt")
             images.append("skirt")
-            // или платье "dress"
             images.append("flat-shoes")
         case 25..<35:
             images.append("polo")
             images.append("short-skirt")
             images.append("flat-shoes")
-             // или платье "cocktail-dress"
         case 35..<43:
             images.append("top")
             images.append("short-skirt")
-            // или платье "cocktail-dress"
             images.append("gladiator-sandal")
         case 43..<100:
             images.append("top")
@@ -553,31 +546,3 @@ class Methods
     }
 }
 
-/*
- if (thunderday&&thundermorning&&thundernight&&thunderevening)||(thundernight&&thundermorning&&thunderday)||(thundermorning&&thunderday&&thunderevening)||(thunderday&&thunderevening&&thundernight)|thundermorning&&thunderevening&&thundernight|
- {comment += "Thunders during all day.Be careful"!}
- else if (thunderday&& thundermorning)||(thunderday&& thunderevening)||(thunderevening&& thundermorning)
- {comment += "Mind possible thunders during the day"}
- else if (thundermorning)
- {comment += " Mind thunders in the morning."}
- else if (thundermday)
- {comment += " Mind thunders."}
- else if (thunderevening)
- {comment += " Mind thunders in the evening."}
- else if (thundernignt)
- {comment += " Thunders possible."}
- */
-/*
- if (dayflag&&morningflag&&eveningflag&&nightflag)||(nightflag&&morningflag&&day)||(morningflag&&dayflag&&eveningflag)||(dayflag&&eveningflag&&nightflag)||(morningflag&&eveningflag&&nightflag)
- {comment += "Rains during all the day possible"}
- else if (dayflag&&morningflag)||(dayflag&&eveningflag)||(eveningflag&&morningflag)
- { comment += " Mind possible rain during the day"}
- else if (morningflag)
- {comment += " Mind rain in the morning."}
- else if (dayflag)
- {comment += " Rain possible."}
- else if (eveningflag)
- {comment += " Mind rains in the evening."}
- else if (thundernignt)
- {comment += " Thunders possible."}
- */
