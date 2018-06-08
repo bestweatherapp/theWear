@@ -288,17 +288,17 @@ class Methods
         {comment += " Thunders possible."}
         else {
             if (dayflag&&morningflag&&eveningflag&&nightflag)||(nightflag&&morningflag&&dayflag)||(morningflag&&dayflag&&eveningflag)||(dayflag&&eveningflag&&nightflag)||(morningflag&&eveningflag&&nightflag)
-            {comment += "Rains during all the day possible"}
+            {comment += "Rains during all the day possible. "}
             else if (dayflag&&morningflag)||(dayflag&&eveningflag)||(eveningflag&&morningflag)
-            { comment += " Mind possible rain during the day"}
+            { comment += " Mind possible rain during the day. "}
             else if (morningflag)
-            {comment += " Mind rain in the morning."}
+            {comment += " Mind rain in the morning. "}
             else if (dayflag)
-            {comment += " Rain possible."}
+            {comment += " Rain possible. "}
             else if (eveningflag)
-            {comment += " Mind rains in the evening."}
+            {comment += " Mind rains in the evening. "}
             else if (nightflag)
-            {comment += " Thunders possible."}
+            {comment += " Thunders possible. "}
         }
         if (avgday - avgmorning > 6 )
         {
@@ -370,7 +370,7 @@ class Methods
         var sum = 0.0
         for i in low...high
         {
-            if (rainFlag == false && (allhours[i].will_it_rain == 1||Int(allhours[i].chance_of_rain!)!>49||allhours[i].condition!.range(of: "rain") != nil))
+            if (rainFlag == false && (allhours[i].will_it_rain == 1||Int(allhours[i].chance_of_rain!)!>49||allhours[i].condition!.range(of: "rain") != nil)||(allhours[i].condition!.range(of: "rains") != nil)||(allhours[i].condition!.range(of: "sleet") != nil)||(allhours[i].condition!.range(of: "drizzle") != nil)||(allhours[i].condition!.range(of: "shower") != nil)||(allhours[i].condition! == "Heavy rain")||(allhours[i].condition!.range(of: "showers") != nil ))
             { rainFlag = true     }
             sum += allhours[i].temperature!
         }
@@ -413,7 +413,7 @@ class Methods
             images.append("jeans")
             images.append("snickers")
         case 3..<7:
-            images.append("jacket_")
+            images.append("jacket")
             images.append("jeans")
             images.append("sneakers")
         case 7..<13:
@@ -461,10 +461,9 @@ class Methods
         var sum = 0.0
         for i in low...high
         {
-            if (rainFlag == false && allhours[i].will_it_rain == 1)
+            if (rainFlag == false && (allhours[i].will_it_rain == 1||Int(allhours[i].chance_of_rain!)!>49||allhours[i].condition!.range(of: "rain") != nil)||(allhours[i].condition!.range(of: "rains") != nil)||(allhours[i].condition!.range(of: "sleet") != nil)||(allhours[i].condition!.range(of: "drizzle") != nil)||(allhours[i].condition!.range(of: "shower") != nil)||(allhours[i].condition! == "Heavy rain")||(allhours[i].condition!.range(of: "showers") != nil ))
             { rainFlag = true     }
-            sum += allhours[i].temperature!
-        }
+            sum += allhours[i].temperature!        }
         sum = sum / Double(high-low)
         switch (sum)
         {
@@ -504,7 +503,7 @@ class Methods
             images.append("slim-fit-pants")
             images.append("women-boot")
         case 3..<7:
-            images.append("woman-coat")
+            images.append("women-coat")
             images.append("slim-fit-pants")
             images.append("women-boot")
         case 7..<13:
@@ -517,28 +516,28 @@ class Methods
             images.append("oxford-hell")
         case 18..<20:
             images.append("longsleeve")
-            images.append("skirt")
+            images.append("skirt-3")
             images.append("sneakers")
         case 20..<23:
             images.append("women-vest")
-            images.append("skirt")
+            images.append("skirt-3")
             images.append("ballets-flats")
         case 23..<25:
-            images.append("shirt")
-            images.append("skirt")
+            images.append("women-blouse")
+            images.append("skirt-3")
             images.append("flat-shoes")
         case 25..<35:
-            images.append("polo")
-            images.append("short-skirt")
+            images.append("women-blouse")
+            images.append("skirt-2")
             images.append("flat-shoes")
         case 35..<43:
-            images.append("top")
-            images.append("short-skirt")
-            images.append("gladiator-sandal")
+            images.append("women-blouse")
+            images.append("skirt-2")
+            images.append("flip-flops")
         case 43..<100:
-            images.append("top")
-            images.append("chino-shorts")
-            images.append("flops")
+            images.append("women-blouse")
+            images.append("skirt-2")
+            images.append("flip-flops")
         default: 1
         }
         if (rainFlag == true){images.append("umbrella")}
