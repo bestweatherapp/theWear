@@ -1203,14 +1203,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     var realComment = ""
                     let newDay = ForecastDay(avg_temp_c: avgtemp_, date: date_!, temperature_avg: avgtemp_, temperature_max: maxtemp_, temperature_min: mintemp_, windSpeed_max: wind_max_!, iconURL: iconUrl, avghumidity: avghum_, comment: realComment, condition: condition_, uv: uv_, forecastHours: allhoursForDay as! [ForecastHour], sunset : sunset!, sunrise : sunrise!)
                     comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![9].temperature!, avgday: newDay.AllHours![15].temperature!, avgevening: newDay.AllHours![21].temperature!)
-                     let iconsClothesNight = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(0,6))
-                     let iconsClothesMorning = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(6,12))
-                     let iconsClothesDay = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(12,18))
-                     let iconsClothesEvening = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(18,23))
-                    allClothesForDetailedView.append(iconsClothesNight)
-                    allClothesForDetailedView.append(iconsClothesMorning)
-                    allClothesForDetailedView.append(iconsClothesDay)
-                    allClothesForDetailedView.append(iconsClothesEvening)
+                    UserDefaults.standard.setValue("Woman", forKey: "Gender") // Temperary
+                    if UserDefaults.standard.string(forKey: "Gender") == "Man" {
+                        let iconsClothesNight = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(0,6))
+                        let iconsClothesMorning = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(6,12))
+                        let iconsClothesDay = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(12,18))
+                        let iconsClothesEvening = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(18,23))
+                        allClothesForDetailedView.append(iconsClothesNight)
+                        allClothesForDetailedView.append(iconsClothesMorning)
+                        allClothesForDetailedView.append(iconsClothesDay)
+                        allClothesForDetailedView.append(iconsClothesEvening)
+                    } else {
+                        let iconsClothesNight = methods.WomenClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(0,6))
+                        let iconsClothesMorning = methods.WomenClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(6,12))
+                        let iconsClothesDay = methods.WomenClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(12,18))
+                        let iconsClothesEvening = methods.WomenClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(18,23))
+                        allClothesForDetailedView.append(iconsClothesNight)
+                        allClothesForDetailedView.append(iconsClothesMorning)
+                        allClothesForDetailedView.append(iconsClothesDay)
+                        allClothesForDetailedView.append(iconsClothesEvening)
+                    }
                     
                     realComment = comment_.0
                     allClothesForForecastTableView.append(comment_.1)
