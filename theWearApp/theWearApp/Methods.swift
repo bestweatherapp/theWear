@@ -81,7 +81,9 @@ class Methods
             {
                 if ((element.condition!.range(of: "thunder")) != nil) || ((element.condition! == "Thundery outbreaks possible, be careful "))
                 {thunderanytime = true
-                    comment += "Don't forget your umbrella! " }
+                comment += "Don't forget your umbrella! "
+                    return comment
+                }
             }
         }
         if (RainOrThunderAnyTime(forecastday: forecastday)) {  comment += " Don't forget your umbrella! "}
@@ -185,7 +187,9 @@ class Methods
             images.append("jacket")
             images.append("jeans")
             images.append("snickers")}
-            else{}
+            else{  images.append("women-coat")
+                images.append("slim-fit-pants")
+                images.append("women-boot")}
         case 3..<7:
             comment += " Feels cool, put on a jacket and jeans. "
             if (gender == "Man"){
