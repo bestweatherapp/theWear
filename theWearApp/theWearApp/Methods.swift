@@ -88,127 +88,209 @@ class Methods
      
         return comment
     }
-    //FUTURE
-    func GetFutureComment (day: ForecastDay, avgmorning : Double, avgday : Double, avgevening : Double) -> (String,[String]) {
+    //FUTURE and current clothes
+    func GetFutureComment (day: ForecastDay, avgmorning : Double, avgday : Double, avgevening : Double, gender: String) -> (String,[String]) {
         var comment = ""
         var images = [String]()
         switch Int((day.temperature_avg)!)
         {
-        case -40 ..< -30 :
+        case -70 ..< -30 :
             comment += " Extremely cold! Avoid being outside unless dressed up properly! "
+            if (gender == "Man"){
             images.append("coat_winter")
             images.append("jeans")
             images.append("uggi")
             images.append("cap")
             images.append("gloves")
-            images.append("scarf")
+            images.append("scarf")}
+            else { images.append("jacket")
+                images.append("slim-fit-pants")
+                images.append("uggi")
+                images.append("cap")
+                images.append("gloves")
+                images.append("scarf")}
         case -30 ..< -10:////
             comment += " Very cold weather. Put on all the warmes clothes and don't say outside for too much. "
+            if (gender == "Man"){
             images.append("coat_winter")
             images.append("jeans")
             images.append("uggi")
             images.append("cap")
             images.append("gloves")
-            images.append("scarf")
+            images.append("scarf")}
+            else{images.append("jacket")
+                images.append("slim-fit-pants")
+                images.append("uggi")
+                images.append("cap")
+                images.append("gloves")
+                images.append("scarf")}
         case -10 ..< -5:
             comment +=  " Cold frosty weather. Put on a winter coat, scarf and gloves. "
+            if (gender == "Man"){
             images.append("coat-3")
             images.append("jeans")
             images.append("snickers")
             images.append("cap")
             images.append("gloves")
-            images.append("scarf")
+            images.append("scarf")}
+            else{ images.append("coat-4")
+                images.append("slim-fit-pants")
+                images.append("uggi")
+                images.append("cap")
+                images.append("gloves")
+                images.append("scarf")}
         case -5 ..< -3:
             comment +=  " Feels cold and freezing. Put on a coat and a cap. "
+            if (gender == "Man"){
             images.append("coat-3")
             images.append("jeans")
             images.append("snickers")
-            images.append("cap")
+            images.append("cap")}
+            else{ images.append("coat-4")
+                images.append("slim-fit-pants")
+                images.append("women-boot")
+                images.append("cap")}
         case -3 ..< 0:
             comment += " Freezing weather. Dress warmly, put on a coat and probably a cap. "
+            if (gender == "Man"){
             images.append("coat-3")
             images.append("jeans")
             images.append("snickers")
-            images.append("cap")
+            images.append("cap")}
+            else{}
         case 0..<3 where Int(day.avghumidity!)>70:
             comment += " Freezing and humid weather. Put on a coat, gloves and a scarf.  "
+            if (gender == "Man"){
             images.append("coat-3")
             images.append("jeans")
             images.append("snickers")
              images.append("gloves")
-             images.append("scarf")
+            images.append("scarf")}
+            else{images.append("coat-4")
+                images.append("slim-fit-pants")
+                images.append("women-boot")
+                images.append("cap")}
         case 0..<3 :
             comment += " Freezing and humid weather. Put on a coat and jeans. "
+            if (gender == "Man"){
             images.append("coat-3")
             images.append("jeans")
-            images.append("snickers")
+            images.append("snickers")}
+            else{  images.append("coat-4")
+                images.append("slim-fit-pants")
+                images.append("women-boot")}
         case 3..<7 where Int(day.avghumidity!)>70:
             comment += " Feels cool and humid. Put on a coat and probably a scarf. "
+            if (gender == "Man"){
             images.append("jacket")
             images.append("jeans")
-            images.append("snickers")
+            images.append("snickers")}
+            else{}
         case 3..<7:
             comment += " Feels cool, put on a jacket and jeans. "
+            if (gender == "Man"){
             images.append("jacket_")
             images.append("jeans")
-            images.append("sneakers")
+            images.append("sneakers")}
+            else{     images.append("women-coat")
+                images.append("slim-fit-pants")
+                images.append("women-boot")}
         case 7..<13:
             comment += " Comfortable cool weather. Put on a jacket and jeans. "
+            if (gender == "Man"){
             images.append("jacket")
             images.append("jeans")
-            images.append("sneakers")
+            images.append("sneakers")}
+            else{images.append("women-coat")
+                images.append("slim-fit-pants")
+                images.append("women-boot")}
         case 13..<18:
             comment += " Feels warm, probably put on a hoodie and jeans. "
+            if (gender == "Man"){
             images.append("hoody")
             images.append("jeans")
-            images.append("sneakers")
+            images.append("sneakers")}
+            else{images.append("cotton-cardigan")
+                images.append("slim-fit-pants")
+                images.append("oxford-hell")}
         case 18..<20:
             comment += " Feels warm, probably put on a longsleeve and jeans. "
+            if (gender == "Man"){
             images.append("longsleeve")
             images.append("jeans")
-            images.append("sneakers")
+            images.append("sneakers")}
+            else{ images.append("longsleeve")
+                images.append("skirt-3")
+                images.append("sneakers")}
         case 20..<23:
             comment += " Feels warm, probably put on a shirt and jeans. "
+            if (gender == "Man"){
             images.append("shirt")
             images.append("jeans")
-            images.append("sneakers")
+            images.append("sneakers")}
+            else{images.append("women-vest")
+                images.append("skirt-3")
+                images.append("ballets-flats")}
         case 23..<25:
             comment += " Comfortable warm weather. Put on a T-shirt and jeans. "
+            if (gender == "Man"){
             images.append("polo")
             images.append("jeans")
-            images.append("sneakers")
+            images.append("sneakers")}
+            else{ images.append("women-blouse")
+                images.append("skirt-3")
+                images.append("flat-shoes")}
         case  25..<35:
             if (Int((day.temperature_avg)!) > 29) && (Int(day.avghumidity!) > 70)
             {
                 comment += " Very hot outside. Mind the dehydration! Put on a t-shirt and shorts. "
+                if (gender == "Man"){
                 images.append("polo")
                 images.append("chino-shorts")
-                images.append("sneakers")
+                images.append("sneakers")}
+                else{images.append("women-blouse")
+                    images.append("skirt-2")
+                    images.append("flat-shoes")}
             }
             else { comment += " Very hot outside. Mind the sunstroke, please! "
+                if (gender == "Man"){
                 images.append("polo")
                 images.append("chino-shorts")
-                images.append("sneakers")
+                images.append("sneakers")}
+                else{images.append("women-blouse")
+                    images.append("skirt-2")
+                    images.append("flat-shoes")}
             }
         case 35..<43:
             if (Int(day.avghumidity!)>30)
             {
                 comment += " Enormously hot, might be unbearable. Avoid being outside for too long! Don't wear dark colors.  "
+                if (gender == "Man"){
                 images.append("tshirt")
-                images.append("chino-shorts")
+                images.append("chino-shorts")}
+                else{images.append("women-blouse")
+                    images.append("skirt-2")
+                    images.append("flip-flops")}
 //                images.append("flops")
             }
             else { comment += " Extremely hot. Be careful and avoid the sunlight. Don't wear dark colors."
+                if (gender == "Man"){
                 images.append("tshirt")
                 images.append("chino-shorts")
-                images.append("flops")
+                images.append("flops")}
+                else{images.append("women-blouse")
+                    images.append("skirt-2")
+                    images.append("flip-flops")}
             }
         case 43..<100:
             comment += " Enormously hot. Mind the risk of a sunstroke. Avoid being outside! Put on the lighest clothes. "
+            if (gender == "Man"){
             images.append("tshirt")
             images.append("chino-shorts")
-            images.append("flops")
-            
+            images.append("flops")}
+            else{images.append("women-blouse")
+                images.append("skirt-2")
+                images.append("flip-flops")}
         default:
             comment = "There is no comment "
         }

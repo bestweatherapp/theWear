@@ -17,6 +17,7 @@ class Current : Methods
     var wind_dir : String?
     var feelslike : Double?
     var iconURL : String?
+    var status : Int?
     override init (){}
 }
 

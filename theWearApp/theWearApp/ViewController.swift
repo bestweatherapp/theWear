@@ -9,6 +9,9 @@
 import UIKit
 import CoreLocation
 
+var weatherStatus = 0
+
+
 extension UIImageView { // Extension for downloading an image from http request
     func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
         contentMode = mode
@@ -349,11 +352,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    private let backgroundImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "5704"))
+    private var backgroundImage: UIImageView = {
+        ///UpdateInfo(location: "Current location")
+       // switch (weatherStatus)
+       // {
+      // case 1183:
+        let image = UIImageView(image: UIImage(named: "rain_drops"))
         image.contentMode = .scaleAspectFit
-        return image
-    }()
+       return image
+   }()
     private let splashScreen: UIView = {
         let view = UIView()
         view.isHidden = false
@@ -1142,6 +1149,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 current_.datetime = current["last_updated"] as? String
                 guard let condition = current["condition"] as? [String : AnyObject] else {return}
                 current_.condition = condition["text"] as? String
+                current_.status = condition["code"] as? Int
+                weatherStatus = (condition["code"] as? Int)!
                 current_.iconURL = condition["icon"] as? String
                 current_.feelslike = current["feelslike_c"] as? Double
                 current_.wind_dir = current["wind_dir"] as? String
@@ -1202,7 +1211,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     let methods = Methods()
                     var realComment = ""
                     let newDay = ForecastDay(avg_temp_c: avgtemp_, date: date_!, temperature_avg: avgtemp_, temperature_max: maxtemp_, temperature_min: mintemp_, windSpeed_max: wind_max_!, iconURL: iconUrl, avghumidity: avghum_, comment: realComment, condition: condition_, uv: uv_, forecastHours: allhoursForDay as! [ForecastHour], sunset : sunset!, sunrise : sunrise!)
-                    comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![9].temperature!, avgday: newDay.AllHours![15].temperature!, avgevening: newDay.AllHours![21].temperature!)
+                    comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![9].temperature!, avgday: newDay.AllHours![15].temperature!, avgevening: newDay.AllHours![21].temperature!, gender: UserDefaults.standard.string(forKey: "Gender")!)
                     UserDefaults.standard.setValue("Woman", forKey: "Gender") // Temperary
                     if UserDefaults.standard.string(forKey: "Gender") == "Man" {
                         let iconsClothesNight = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(0,6))
@@ -1231,6 +1240,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     newDay.date = date_!
                     allDays.append(newDay)
                 }
+           
                 self.allCommentsForDetailedView = allCommentsForDetailedView
                 self.allClothesForForecastTableView = allClothesForForecastTableView
                 self.allClothesForDetailedView = allClothesForDetailedView
@@ -1267,6 +1277,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.Animation()
             }
                 DispatchQueue.main.async {
+                    switch (weatherStatus){
+                    case (1189):
+                        self.backgroundImage  = UIImageView(image: UIImage(named: "rain_drops"))
+                        self.backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
+                        
+                        self.backgroundImage.contentMode = .scaleAspectFit
+                    default:
+                        self.backgroundImage =  UIImageView(image: UIImage(named: "fog"))
+                        self.backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
+                    }
                         self.forecastTableView.reloadData()
                         self.forecastCollectionView.reloadData()
                         self.currentLocation.attributedText = NSMutableAttributedString(string: location, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
