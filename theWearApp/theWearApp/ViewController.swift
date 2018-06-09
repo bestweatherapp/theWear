@@ -1108,9 +1108,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         splashScreen.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
     }
     
-    func UpdateInfo(location: String) {
-        
+    @objc func GenderChanged(notificcation : NSNotification)
+    {
+        UpdateInfo(location: "Current location")
+    }
     
+    func UpdateInfo(location: String) {
         var allDates = [String]()
         var allCommentsForDetailedView = [String]() // Add new var for all comments
         var allClothesForForecastTableView = [[String]]()
@@ -1212,7 +1215,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     var realComment = ""
                     let newDay = ForecastDay(avg_temp_c: avgtemp_, date: date_!, temperature_avg: avgtemp_, temperature_max: maxtemp_, temperature_min: mintemp_, windSpeed_max: wind_max_!, iconURL: iconUrl, avghumidity: avghum_, comment: realComment, condition: condition_, uv: uv_, forecastHours: allhoursForDay as! [ForecastHour], sunset : sunset!, sunrise : sunrise!)
                     comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![9].temperature!, avgday: newDay.AllHours![15].temperature!, avgevening: newDay.AllHours![21].temperature!, gender: UserDefaults.standard.string(forKey: "Gender")!)
-                    UserDefaults.standard.setValue("Woman", forKey: "Gender") // Temperary
+                    //UserDefaults.standard.setValue("Woman", forKey: "Gender") // Temperary
                     if UserDefaults.standard.string(forKey: "Gender") == "Man" {
                         let iconsClothesNight = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(0,6))
                         let iconsClothesMorning = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(6,12))
@@ -1354,6 +1357,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         view.backgroundColor = .lightBlue
         NotificationCenter.default.addObserver(self, selector: #selector(UpdateFavourits), name: NSNotification.Name(rawValue: "upF"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GenderChanged), name: .genderChanged, object: nil)
+        //
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "closeSVC"), object: nil, queue: nil, using: catchNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(CloseSVC), name: NSNotification.Name(rawValue: "closeSVCA"), object: nil)
         
@@ -1448,4 +1453,6 @@ extension UIColor {
     static var lightBlue = UIColor(red: 124/255, green: 214/255, blue: 255/255, alpha: 1)
     static var myGray = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 100)
 }
-
+extension Notification.Name {
+    static let genderChanged = Notification.Name("peru")
+}

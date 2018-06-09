@@ -126,6 +126,7 @@ class SettingsViewController: UIViewController {
                 self.manButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
                 self.womanButton.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
                 self.view.layoutIfNeeded()
+                NotificationCenter.default.post(name: .genderChanged, object: nil)
             })
             UserDefaults.standard.setValue("Man", forKey: "Gender")
         }
@@ -149,6 +150,7 @@ class SettingsViewController: UIViewController {
                 self.view.layoutIfNeeded()
             })
             UserDefaults.standard.setValue("Woman", forKey: "Gender")
+              NotificationCenter.default.post(name: .genderChanged, object: nil)
         }
         if UserDefaults.standard.string(forKey: "Gender") == nil {
             UserDefaults.standard.setValue("Woman", forKey: "Gender")
@@ -202,6 +204,7 @@ class SettingsViewController: UIViewController {
         [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, pressureLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, datePickerView].forEach {view.addSubview($0)}
         if UserDefaults.standard.string(forKey: "Gender") == "Man" {
             self.manButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
+            
         } else {
             self.womanButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
         }
