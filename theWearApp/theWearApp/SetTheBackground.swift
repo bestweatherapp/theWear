@@ -29,7 +29,7 @@ func SetTheBackground(status: Int, sunrise: String, currentHour: Int) -> String 
     } else if (status == 1030 || status == 1135 || status == 1147) && time == "night" {
         imageName = "night_clouds"
     }
-    // if rain
+    // if rain 
     if (status == 1063 || status == 1072 || status == 1150 || status == 1153 || status == 1168 || status == 1171 || status == 1180 || status == 1183 || status == 1186 || status == 1189 || status == 1192 || status == 1195 || status == 1198 || status == 1201 || status == 1240 || status == 1143 || status == 1146) && time == "day" {
         imageName = "rain_drops"
     } else if (status == 1063 || status == 1072 || status == 1150 || status == 1153 || status == 1168 || status == 1171 || status == 1180 || status == 1183 || status == 1186 || status == 1189 || status == 1192 || status == 1195 || status == 1198 || status == 1201 || status == 1240 || status == 1143 || status == 1146) && time == "night" {
