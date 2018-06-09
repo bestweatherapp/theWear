@@ -102,6 +102,7 @@
 				BA20553620B52BBD00EB9DDC /* AppDelegate.swift */,
 				BA20553820B52BBD00EB9DDC /* ViewController.swift */,
 				BA5630E120B6A5DD0052FAD2 /* SearchViewController.swift */,
+				A749831D20CAD7AD007A77B3 /* Assets.xcassets */,
 				BA20553F20B52BBD00EB9DDC /* LaunchScreen.storyboard */,
 				BA20554220B52BBD00EB9DDC /* Info.plist */,
 				BA5630DC20B5EB460052FAD2 /* WelcomePage */,
@@ -115,7 +116,6 @@
 				BA71B91A20BA01DF008DABAF /* SettingsViewController.swift */,
 				BAD6485C20BE0D6B003B2E9A /* AddCityViewController.swift */,
 				A7EBC80320C03455008A7C58 /* UserNotifications.swift */,
-				A749831D20CAD7AD007A77B3 /* Assets.xcassets */,
 				A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */,
 			);
 			path = theWearApp;
