@@ -11,7 +11,6 @@ import UIKit
 class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private var pendingRequestWorkItem: DispatchWorkItem?
-  //  var favourites = []()
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return suitableCities.count
     }
@@ -30,6 +29,18 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: "upF"), object: nil)
     }
+    
+    private let topLine: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
+    }()
+    
+    private let bottomLine: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
+    }()
     
     private let searchTextField: UITextField = {
         let textField = UITextField()
@@ -134,11 +145,14 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
         suitableCititesTableView.delegate = self
         suitableCititesTableView.dataSource = self
         view.backgroundColor = UIColor(white: 1, alpha: 0.99)
-        [closeAddVC, searchTextField, suitableCititesTableView].forEach {view.addSubview($0)}
+        [closeAddVC, searchTextField, suitableCititesTableView, topLine, bottomLine].forEach {view.addSubview($0)}
 
+        topLine.anchor(top: closeAddVC.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0.5))
+        bottomLine.anchor(top: searchTextField.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 5, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0.5))
+        
         closeAddVC.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 27, height: 27))
-        searchTextField.anchor(top: closeAddVC.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 25, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 50))
-        suitableCititesTableView.anchor(top: searchTextField.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        searchTextField.anchor(top: topLine.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 50))
+        suitableCititesTableView.anchor(top: bottomLine.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         
     }
 }

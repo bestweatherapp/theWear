@@ -126,7 +126,6 @@ class SettingsViewController: UIViewController {
                 self.manButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
                 self.womanButton.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
                 self.view.layoutIfNeeded()
-                NotificationCenter.default.post(name: .genderChanged, object: nil)
             })
             UserDefaults.standard.setValue("Man", forKey: "Gender")
         }
@@ -150,7 +149,6 @@ class SettingsViewController: UIViewController {
                 self.view.layoutIfNeeded()
             })
             UserDefaults.standard.setValue("Woman", forKey: "Gender")
-              NotificationCenter.default.post(name: .genderChanged, object: nil)
         }
         if UserDefaults.standard.string(forKey: "Gender") == nil {
             UserDefaults.standard.setValue("Woman", forKey: "Gender")
@@ -176,6 +174,7 @@ class SettingsViewController: UIViewController {
     }()
     
     @objc func CloseSettings() {
+         NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
         dismiss(animated: true, completion: nil)
     }
     
@@ -324,7 +323,7 @@ class SettingsViewController: UIViewController {
         genderForLineLabel.centerYAnchor.constraint(equalTo: genderLine.centerYAnchor).isActive = true
         
         manButton.anchor(top: genderForLineLabel.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 20, left: (padding * 2.5), bottom: 0, right: 0), size: .init())
-        womanButton.anchor(top: genderForLineLabel.bottomAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 320, left: 0, bottom: 0, right: (padding * 2.5)), size: .init())
+        womanButton.anchor(top: genderForLineLabel.bottomAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 20, left: 0, bottom: 0, right: (padding * 2.5)), size: .init())
         
     }
 }

@@ -9,8 +9,6 @@
 import UIKit
 import CoreLocation
 
-var weatherStatus = 0
-
 
 extension UIImageView { // Extension for downloading an image from http request
     func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
@@ -170,6 +168,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             morningAdditionalClothes.isScrollEnabled = false
             afternoonAdditionalClothes.isScrollEnabled = false
             eveningAdditionalClothes.isScrollEnabled = false
+
             for i in 3...5 {
                 if allClothesForDetailedView[(indexPath.row * 4)].indices.contains(i) {
                     if i > 3 {
@@ -177,7 +176,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                     views[i - 3].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4)][i])
                 }
-
                 if allClothesForDetailedView[(indexPath.row * 4) + 1].indices.contains(i) {
                     if i > 3 {
                         morningAdditionalClothes.isScrollEnabled = true
@@ -199,9 +197,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     views[(i - 3) + 9].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][i])
                 }
             }
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: 0.6) {
                     self.topStackView.frame.origin.x = -self.view.frame.width
                     self.middleStackView.frame.origin.x = -self.view.frame.width
                     self.bottomStackView.frame.origin.x = -self.view.frame.width
@@ -353,12 +350,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     private var backgroundImage: UIImageView = {
-        ///UpdateInfo(location: "Current location")
-       // switch (weatherStatus)
-       // {
-      // case 1183:
-        let image = UIImageView(image: UIImage(named: "rain_drops"))
-        image.contentMode = .scaleAspectFit
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
        return image
    }()
     private let splashScreen: UIView = {
@@ -392,6 +385,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let currentLocation: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
+        text.sizeToFit()
+        text.numberOfLines = 2
+        text.adjustsFontSizeToFitWidth = true
+        text.minimumScaleFactor = 0.5
         text.backgroundColor = .clear
         return text
     }()
@@ -405,13 +402,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @objc private func OpenSearchVC() {
         let searchVC = SearchViewController()
         searchVC.modalPresentationStyle = .overCurrentContext
-        // Animate ViewController
-        let transition = CATransition()
-        transition.duration = 0.4
-        transition.type = kCATransitionReveal
-        transition.subtype = kCATransitionReveal
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-        self.view.window?.layer.add(transition, forKey: kCATransition)
         present(searchVC, animated: true, completion: nil)
         UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
             self.blurEffect.alpha = 1
@@ -438,6 +428,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let currentTemperature: UILabel = {
         let text = UILabel()
         text.sizeToFit()
+        text.adjustsFontSizeToFitWidth = true
+        text.minimumScaleFactor = 0.5
         text.textAlignment = .center
         text.backgroundColor = .clear
         return text
@@ -445,12 +437,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let currentCondition: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
+        text.adjustsFontSizeToFitWidth = true
+        text.minimumScaleFactor = 0.5
         text.backgroundColor = .clear
         return text
     }()
     private let currentAdvice: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
+        text.adjustsFontSizeToFitWidth = true
+        text.minimumScaleFactor = 0.5
         text.backgroundColor = .clear
         text.numberOfLines = 3
         return text
@@ -512,11 +508,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }()
     @objc func CloseDetailedView() {
         UIView.animate(withDuration: 0.5) {
+            self.view.layoutIfNeeded()
             self.detailedView.frame.origin.x = self.view.frame.width + 50
             self.topStackView.frame.origin.x = 25
             self.middleStackView.frame.origin.x = 25
             self.bottomStackView.frame.origin.x = 25
         }
+        scrollView.scrollToTop()
     }
     
     
@@ -904,13 +902,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     var leadConstr: CGFloat = -250
     
+    var padding: CGFloat = 0
+    var lineWidth: CGFloat = 0
+    var paddingForSplash: CGFloat = 0
+    
     private func LayOut() {
         
-        var padding: CGFloat = 0
-        var lineWidth: CGFloat = 0
-        var paddingForSplash: CGFloat = 0
-        
-        [topStackView, middleStackView, bottomStackView, detailedView, blurEffect, slideOutMenu, splashScreen].forEach {view.addSubview($0)}
+        [backgroundImage, topStackView, middleStackView, bottomStackView, detailedView, blurEffect, slideOutMenu, splashScreen].forEach {view.addSubview($0)}
         [menuButton, currentLocation, searchButton].forEach {topStackView.addArrangedSubview($0)}
         [currentTemperature, currentCondition, currentAdvice].forEach {middleStackView.addArrangedSubview($0)}
         [forecastCollectionView, forecastTableView].forEach {bottomStackView.addArrangedSubview($0)}
@@ -952,7 +950,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // TopStackView
         topStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 40))
          menuButton.anchor(top: topStackView.topAnchor, leading: topStackView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
-        currentLocation.anchor(top: topStackView.topAnchor, leading: nil, bottom: topStackView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        currentLocation.anchor(top: topStackView.topAnchor, leading: nil, bottom: topStackView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 100, height: 0))
         currentLocation.centerXAnchor.constraint(equalTo: topStackView.centerXAnchor).isActive = true
         searchButton.anchor(top: topStackView.topAnchor, leading: nil, bottom: nil, trailing: topStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         
@@ -1100,17 +1098,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         sunriseLabel.anchor(top: sunriseImage.bottomAnchor, leading: sunriseImage.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 20, right: 0), size: .init(width: 35, height: 30))
         sunsetLabel.anchor(top: sunsetImage.bottomAnchor, leading: sunsetImage.leadingAnchor, bottom: scrollView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 20, right: 0), size: .init(width: 35, height: 30))
         
+        // Background Image
+        backgroundImage.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
+        
         // Splash Screen
         backForSplash.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
         weaLabel.anchor(top: view.topAnchor, leading: theLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 160, height: 0))
         theLabel.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: paddingForSplash, bottom: 0, right: 0), size: .init(width: 100, height: 0))
         rLabel.anchor(top: view.topAnchor, leading: weaLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 25, height: 0))
         splashScreen.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
-    }
-    
-    @objc func GenderChanged(notificcation : NSNotification)
-    {
-        UpdateInfo(location: "Current location")
     }
     
     func UpdateInfo(location: String) {
@@ -1153,7 +1149,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 guard let condition = current["condition"] as? [String : AnyObject] else {return}
                 current_.condition = condition["text"] as? String
                 current_.status = condition["code"] as? Int
-                weatherStatus = (condition["code"] as? Int)!
                 current_.iconURL = condition["icon"] as? String
                 current_.feelslike = current["feelslike_c"] as? Double
                 current_.wind_dir = current["wind_dir"] as? String
@@ -1165,7 +1160,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 for index in 0...6 {
                     guard let day1 = forecastday[index] as? [String : AnyObject] else {return}
                     var allhoursForDay = [AnyObject]()
-                    // Поля для forecastday
+
                     guard let day = day1["day"] as? [String : AnyObject] else {return}
                     let date_ = day1["date"] as? String
                     if index == 0 {
@@ -1187,7 +1182,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     allTempsdaysIcons.append("https:" + iconUrl)
                     guard let astro = day1["astro"] as? [String: AnyObject] else {return}
                     guard var sunrise = astro["sunrise"] as? String? else {return}
+                    sunrise = convertDateFormaterForSunsetAndSunrise(sunrise!)
                     guard var sunset = astro["sunset"] as? String? else {return}
+                    sunset = convertDateFormaterForSunsetAndSunrise(sunset!)
                     guard let hoursArr = day1["hour"] as? [AnyObject] else {return}
                     var counter = 24 // days
                     for object in hoursArr {
@@ -1215,7 +1212,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     var realComment = ""
                     let newDay = ForecastDay(avg_temp_c: avgtemp_, date: date_!, temperature_avg: avgtemp_, temperature_max: maxtemp_, temperature_min: mintemp_, windSpeed_max: wind_max_!, iconURL: iconUrl, avghumidity: avghum_, comment: realComment, condition: condition_, uv: uv_, forecastHours: allhoursForDay as! [ForecastHour], sunset : sunset!, sunrise : sunrise!)
                     comment_ = methods.GetFutureComment(day: newDay, avgmorning: newDay.AllHours![9].temperature!, avgday: newDay.AllHours![15].temperature!, avgevening: newDay.AllHours![21].temperature!, gender: UserDefaults.standard.string(forKey: "Gender")!)
-                    //UserDefaults.standard.setValue("Woman", forKey: "Gender") // Temperary
                     if UserDefaults.standard.string(forKey: "Gender") == "Man" {
                         let iconsClothesNight = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(0,6))
                         let iconsClothesMorning = methods.ClothingForPartOfTheDay(allhours: newDay.AllHours!, bounds:(6,12))
@@ -1280,16 +1276,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.Animation()
             }
                 DispatchQueue.main.async {
-                    switch (weatherStatus){
-                    case (1189):
-                        self.backgroundImage  = UIImageView(image: UIImage(named: "rain_drops"))
-                        self.backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
-                        
-                        self.backgroundImage.contentMode = .scaleAspectFit
-                    default:
-                        self.backgroundImage =  UIImageView(image: UIImage(named: "fog"))
-                        self.backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
-                    }
+                    self.backgroundImage.image = UIImage(named: SetTheBackground(status: current_.status!, sunrise: allDays[0].sunrise!, currentHour: self.hour))
                         self.forecastTableView.reloadData()
                         self.forecastCollectionView.reloadData()
                         self.currentLocation.attributedText = NSMutableAttributedString(string: location, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
@@ -1297,15 +1284,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                         let methods = Methods()
                         let forecastday_ = self.currentForecastCity.AllForecastDay![0]
-                        var comment = methods.GetCurrentComment(Current : current_, day : forecastday_)
+                    var comment = methods.GetCurrentComment(Current : current_, day : forecastday_)
                         comment += methods.GetThunderComment(forecastday: forecastday_)
                         self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                 }
-            }/////
+            }
             task.resume()
-            
-            
-            
         }
         }
     
@@ -1357,8 +1341,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         view.backgroundColor = .lightBlue
         NotificationCenter.default.addObserver(self, selector: #selector(UpdateFavourits), name: NSNotification.Name(rawValue: "upF"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(GenderChanged), name: .genderChanged, object: nil)
-        //
+
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "closeSVC"), object: nil, queue: nil, using: catchNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(CloseSVC), name: NSNotification.Name(rawValue: "closeSVCA"), object: nil)
         
@@ -1455,4 +1438,10 @@ extension UIColor {
 }
 extension Notification.Name {
     static let genderChanged = Notification.Name("peru")
+}
+extension UIScrollView {
+    func scrollToTop() {
+        let desiredOffset = CGPoint(x: 0, y: -contentInset.top)
+        setContentOffset(desiredOffset, animated: true)
+    }
 }

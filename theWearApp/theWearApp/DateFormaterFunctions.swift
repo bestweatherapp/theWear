@@ -35,3 +35,13 @@ func convertDateFormaterForDailyForecastForDetailedView(_ date: String) -> Strin
     return dateFormatter.string(from: date!)
 }
 
+
+func convertDateFormaterForSunsetAndSunrise(_ date: String) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale =  NSLocale(localeIdentifier: "en_US_POSIX") as Locale?
+    dateFormatter.dateFormat = "h:mm a"
+    let date = dateFormatter.date(from: date)
+    dateFormatter.dateFormat = "HH:mm"
+    return dateFormatter.string(from: date!)
+}
+

@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A749831E20CAD7AD007A77B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A749831D20CAD7AD007A77B3 /* Assets.xcassets */; };
 		A7BB513B20C09E43003AD0D0 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */; };
 		A7EBC80420C03455008A7C58 /* UserNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EBC80320C03455008A7C58 /* UserNotifications.swift */; };
+		BA071E6420CC58B000D6746B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA071E6320CC58AF00D6746B /* Assets.xcassets */; };
+		BA071E6620CC8EDB00D6746B /* SetTheBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA071E6520CC8EDB00D6746B /* SetTheBackground.swift */; };
 		BA20553720B52BBD00EB9DDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA20553620B52BBD00EB9DDC /* AppDelegate.swift */; };
 		BA20553920B52BBD00EB9DDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA20553820B52BBD00EB9DDC /* ViewController.swift */; };
 		BA20554120B52BBD00EB9DDC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA20553F20B52BBD00EB9DDC /* LaunchScreen.storyboard */; };
@@ -37,9 +38,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A749831D20CAD7AD007A77B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../.Trash/Assets.xcassets; sourceTree = "<group>"; };
 		A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
 		A7EBC80320C03455008A7C58 /* UserNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotifications.swift; sourceTree = "<group>"; };
+		BA071E6320CC58AF00D6746B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Assets.xcassets; sourceTree = "<group>"; };
+		BA071E6520CC8EDB00D6746B /* SetTheBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTheBackground.swift; sourceTree = "<group>"; };
 		BA20553320B52BBC00EB9DDC /* theWearApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = theWearApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA20553620B52BBD00EB9DDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA20553820B52BBD00EB9DDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,7 +101,7 @@
 		BA20553520B52BBC00EB9DDC /* theWearApp */ = {
 			isa = PBXGroup;
 			children = (
-				A749831D20CAD7AD007A77B3 /* Assets.xcassets */,
+				BA071E6320CC58AF00D6746B /* Assets.xcassets */,
 				BA20553620B52BBD00EB9DDC /* AppDelegate.swift */,
 				BA20553820B52BBD00EB9DDC /* ViewController.swift */,
 				BA5630E120B6A5DD0052FAD2 /* SearchViewController.swift */,
@@ -117,6 +119,7 @@
 				BAD6485C20BE0D6B003B2E9A /* AddCityViewController.swift */,
 				A7EBC80320C03455008A7C58 /* UserNotifications.swift */,
 				A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */,
+				BA071E6520CC8EDB00D6746B /* SetTheBackground.swift */,
 			);
 			path = theWearApp;
 			sourceTree = "<group>";
@@ -216,7 +219,7 @@
 				BA5630F120B87DF00052FAD2 /* NanumGothic-ExtraBold.ttf in Resources */,
 				BA5630F320B87DF00052FAD2 /* NanumGothic-Regular.ttf in Resources */,
 				BA20554120B52BBD00EB9DDC /* LaunchScreen.storyboard in Resources */,
-				A749831E20CAD7AD007A77B3 /* Assets.xcassets in Resources */,
+				BA071E6420CC58B000D6746B /* Assets.xcassets in Resources */,
 				BA5630F220B87DF00052FAD2 /* NanumGothic-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -242,6 +245,7 @@
 				BA5630E820B76B950052FAD2 /* Methods.swift in Sources */,
 				BA71B91B20BA01DF008DABAF /* SettingsViewController.swift in Sources */,
 				BAD6485D20BE0D6B003B2E9A /* AddCityViewController.swift in Sources */,
+				BA071E6620CC8EDB00D6746B /* SetTheBackground.swift in Sources */,
 				A7EBC80420C03455008A7C58 /* UserNotifications.swift in Sources */,
 				BA20553720B52BBD00EB9DDC /* AppDelegate.swift in Sources */,
 				BA5630EA20B771E50052FAD2 /* Reading_Methods.swift in Sources */,
@@ -382,14 +386,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 99F33CAX5W;
+				DEVELOPMENT_TEAM = 78FSRJL5ZR;
 				INFOPLIST_FILE = theWearApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Inc..theWearApp-------------------";
+				PRODUCT_BUNDLE_IDENTIFIER = Inc..theWearApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -401,14 +405,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 99F33CAX5W;
+				DEVELOPMENT_TEAM = 78FSRJL5ZR;
 				INFOPLIST_FILE = theWearApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Inc..theWearApp-------------------";
+				PRODUCT_BUNDLE_IDENTIFIER = Inc..theWearApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

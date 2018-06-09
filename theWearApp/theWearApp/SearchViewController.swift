@@ -27,8 +27,19 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         dismiss(animated: true, completion: nil)
         // TODO: Rascharit how to send correct city
         NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":self.suitableCities[(suitableCititesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current)])
-        
     }
+    
+    private let topLine: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
+    }()
+    
+    private let bottomLine: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
+    }()
     
     private let searchTextField: UITextField = {
         let textField = UITextField()
@@ -71,12 +82,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }()
     
     @objc func CloseSearchVC() {
-        let transition = CATransition()
-        transition.duration = 0.4
-        transition.type = kCATransitionReveal
-        transition.subtype = kCATransitionReveal
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-        self.view.window?.layer.add(transition, forKey: kCATransition)
         NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVCA"), object: nil)
         dismiss(animated: true, completion: nil)
     }
@@ -149,6 +154,13 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         searchView.addSubview(closeSearchViewButton)
         searchView.addSubview(searchTextField)
         searchView.addSubview(suitableCititesTableView)
+        searchView.addSubview(topLine)
+        searchView.addSubview(bottomLine)
+        
+        topLine.anchor(top: closeSearchViewButton.bottomAnchor, leading: searchView.leadingAnchor, bottom: nil, trailing: searchView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0.5))
+        bottomLine.anchor(top: searchTextField.bottomAnchor, leading: searchView.leadingAnchor, bottom: nil, trailing: searchView.trailingAnchor, padding: .init(top: 5, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0.5))
+        
+        
         closeSearchViewButton.trailingAnchor.constraint(equalTo: searchView.trailingAnchor, constant: -25).isActive = true
         closeSearchViewButton.topAnchor.constraint(equalTo: searchView.topAnchor, constant: 25).isActive = true
         closeSearchViewButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
@@ -157,10 +169,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         searchView.heightAnchor.constraint(equalToConstant: 450).isActive = true
         searchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         searchView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        searchTextField.topAnchor.constraint(equalTo: searchView.topAnchor, constant: 90).isActive = true
+        searchTextField.topAnchor.constraint(equalTo: topLine.bottomAnchor, constant: 5).isActive = true
         searchTextField.leadingAnchor.constraint(equalTo: searchView.leadingAnchor, constant: 25).isActive = true
         searchTextField.trailingAnchor.constraint(equalTo: searchView.trailingAnchor, constant: -25).isActive = true
-        suitableCititesTableView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 15).isActive = true
+        suitableCititesTableView.topAnchor.constraint(equalTo: bottomLine.bottomAnchor, constant: 0).isActive = true
         suitableCititesTableView.leadingAnchor.constraint(equalTo: searchView.leadingAnchor).isActive = true
         suitableCititesTableView.trailingAnchor.constraint(equalTo: searchView.trailingAnchor).isActive = true
         suitableCititesTableView.bottomAnchor.constraint(equalTo: searchView.bottomAnchor).isActive = true

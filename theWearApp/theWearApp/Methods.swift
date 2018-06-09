@@ -111,7 +111,7 @@ class Methods
                 images.append("cap")
                 images.append("gloves")
                 images.append("scarf")}
-        case -30 ..< -10:////
+        case -30 ..< -10:
             comment += " Very cold weather. Put on all the warmes clothes and don't say outside for too much. "
             if (gender == "Man"){
             images.append("coat_winter")
