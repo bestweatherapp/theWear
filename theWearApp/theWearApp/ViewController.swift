@@ -1298,7 +1298,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         comment += methods.GetThunderComment(forecastday: forecastday_)
                         self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                 }
-            }
+            }//
             task.resume()
             
             
