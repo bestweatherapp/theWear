@@ -55,7 +55,7 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
         }
         if pageControl.currentPage == indexPath.item {
             UserDefaults.standard.set(true, forKey: "firstTimeOpened")
-            UserDefaults.standard.set("7:00", forKey: "RemindHour")
+            //UserDefaults.standard.set("7:00", forKey: "RemindHour")
             let mainVC = ViewController()
             present(mainVC, animated: true, completion: nil)
         }

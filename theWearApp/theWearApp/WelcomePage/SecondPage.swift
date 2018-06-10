@@ -71,7 +71,7 @@ class SecondPage: UICollectionViewCell {
         let text = UILabel()
         text.sizeToFit()
         text.textAlignment = .center
-        text.attributedText = NSAttributedString(string: "How grimy you are?", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80)])
+        text.attributedText = NSAttributedString(string: "How grimmy you are?", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 80)])
         return text
     }()
     
@@ -123,7 +123,7 @@ class SecondPage: UICollectionViewCell {
     
     func LayOut() {
         addSubview(popUpView)
-        UserDefaults.standard.set(nil, forKey: "Gender") // Then it will be reduced from there
+        //UserDefaults.standard.set(nil, forKey: "Gender") // Then it will be reduced from there
         let grimySlider = UISlider()
         grimySlider.minimumValue = 0
         grimySlider.maximumValue = 10
@@ -131,7 +131,7 @@ class SecondPage: UICollectionViewCell {
         grimySlider.tintColor = UIColor(red: 128/255, green: 170/255, blue: 214/255, alpha: 1)
         grimySlider.value = 5
         grimySlider.addTarget(self, action: #selector(sliderValueDidChange(_ :)), for: .valueChanged)
-        
+        //UserDefaults.standard.set("07:00", forKey: "RemindHour")
         manGender.setTitle("Man", for: .normal)
         manGender.setTitleColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80), for: .normal)
         manGender.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)

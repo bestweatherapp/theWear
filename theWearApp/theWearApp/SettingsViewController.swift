@@ -30,7 +30,8 @@ class SettingsViewController: UIViewController {
         picker.layer.cornerRadius = 35
         picker.datePickerMode = UIDatePickerMode.time
         picker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-        return picker
+            return picker
+        
     }()
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -64,6 +65,7 @@ class SettingsViewController: UIViewController {
         dateFormatter.dateFormat = "HH:mm"
         let selectedDate: String = dateFormatter.string(from: datePicker.date)
         onMorning.setTitle(selectedDate, for: .normal)
+        UserDefaults.standard.removeObject(forKey: "RemindHour")
         UserDefaults.standard.setValue(selectedDate, forKey: "RemindHour")
         UIView.animate(withDuration: 0.5, animations: {
             self.datePickerView.alpha = 0
@@ -281,15 +283,22 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Layout()
+        if (UserDefaults.standard.string(forKey: "Gender") == "Woman")
+        {womanWasChoosen()}
+        else {manButton}
         if (UserDefaults.standard.string(forKey: "Notifications") == "Yes")
-        { notificationsSwitch.isOn = true}
-        else {notificationsSwitch.isOn = false}
+        {notificationsSwitch.isOn = true
+            datePicker.isEnabled = true
+        }
+        else {notificationsSwitch.isOn = false
+            datePicker.isEnabled = false
+        }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mm"
-        if (UserDefaults.standard.string(forKey: "RemindHour") != nil){
+        if (UserDefaults.standard.string(forKey: "RemindHour") != nil||UserDefaults.standard.string(forKey: "RemindHour") != "" ){
             let date = dateFormatter.date(from: UserDefaults.standard.string(forKey: "RemindHour")!)
             datePicker.date = date!
-            onMorning.setTitle( UserDefaults.standard.string(forKey: "RemindHour"), for: .normal) }
+            onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal) }
         else {datePicker.date = dateFormatter.date(from : "07:00")!
             onMorning.setTitle("07:00", for: .normal) }
         view.backgroundColor = .white
@@ -343,8 +352,10 @@ class SettingsViewController: UIViewController {
         if sender.isOn {
             //print("Notifications on")
             UserDefaults.standard.set("Yes", forKey: "Notifications")
+            datePicker.isEnabled = true
         } else {
             UserDefaults.standard.set("No", forKey: "Notifications")
+            datePicker.isEnabled = false
             //print("Notifications off")
         }
     }
