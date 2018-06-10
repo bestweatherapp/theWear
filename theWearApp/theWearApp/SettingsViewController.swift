@@ -70,7 +70,7 @@ class SettingsViewController: UIViewController {
     }()
     
     @objc func MorningView() {
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.4) {
             self.datePickerView.isHidden = false
         }
     }
@@ -165,11 +165,45 @@ class SettingsViewController: UIViewController {
     }()
     
     private let tempSegmentedControl: UISegmentedControl = {
-        let sc = UISegmentedControl()
+         let tempChoose = ["°C", "°F"]
+        let sc = UISegmentedControl(items: tempChoose)
         sc.translatesAutoresizingMaskIntoConstraints = false
-        sc.layer.cornerRadius = 20
+        sc.selectedSegmentIndex = 0
+        sc.tintColor = .white
+        sc.layer.borderWidth = 1
+        sc.layer.borderColor = UIColor.dark.cgColor
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.layer.cornerRadius = 15
         sc.backgroundColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
-        sc.addTarget(self, action: #selector(changeValue), for: .valueChanged)
+        sc.addTarget(self, action: #selector(changeTemp), for: .valueChanged)
+        return sc
+    }()
+    
+    private let windSegmentedControl: UISegmentedControl = {
+        let windChoose = ["mPs", "kPh"]
+        let sc = UISegmentedControl(items: windChoose)
+        sc.selectedSegmentIndex = 0
+        sc.tintColor = .white
+        sc.layer.borderWidth = 1
+        sc.layer.borderColor = UIColor.dark.cgColor
+        sc.layer.cornerRadius = 15
+        sc.backgroundColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.addTarget(self, action: #selector(changeWind), for: .valueChanged)
+        return sc
+    }()
+    
+    private let pressureSegmentedControl: UISegmentedControl = {
+        let pressureChoose = ["x", "y"]
+        let sc = UISegmentedControl(items: pressureChoose)
+        sc.selectedSegmentIndex = 0
+        sc.tintColor = .white
+        sc.layer.borderWidth = 1
+        sc.layer.borderColor = UIColor.dark.cgColor
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.layer.cornerRadius = 15
+        sc.backgroundColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
+        sc.addTarget(self, action: #selector(changePressure), for: .valueChanged)
         return sc
     }()
     
@@ -183,15 +217,36 @@ class SettingsViewController: UIViewController {
         Layout()
         view.backgroundColor = .white
     }
-    
-    @objc func changeValue(sender: UISegmentedControl) {
+    @objc func changeTemp(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
+        case 0:
+            UserDefaults.standard.set(0, forKey: "Temp")
         case 1:
-            print("1")
-        case 2:
-            print("2")
+            UserDefaults.standard.set(1, forKey: "Temp")
         default:
-            print("none")
+            UserDefaults.standard.set(0, forKey: "Temp")
+        }
+    }
+    
+    @objc func changeWind(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            UserDefaults.standard.set(0, forKey: "Wind")
+        case 1:
+            UserDefaults.standard.set(1, forKey: "Wind")
+        default:
+            UserDefaults.standard.set(0, forKey: "Wind")
+        }
+    }
+    
+    @objc func changePressure(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            UserDefaults.standard.set(0, forKey: "Pressure")
+        case 1:
+            UserDefaults.standard.set(1, forKey: "Pressure")
+        default:
+            UserDefaults.standard.set(0, forKey: "Pressure")
         }
     }
     
@@ -203,7 +258,6 @@ class SettingsViewController: UIViewController {
         [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, pressureLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, datePickerView].forEach {view.addSubview($0)}
         if UserDefaults.standard.string(forKey: "Gender") == "Man" {
             self.manButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
-            
         } else {
             self.womanButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
         }
@@ -227,63 +281,27 @@ class SettingsViewController: UIViewController {
             return
         }
         
-        let tempChoose = ["°C", "°F"]
-        let tempSegmentedControl = UISegmentedControl(items: tempChoose)
-        tempSegmentedControl.selectedSegmentIndex = 0
-        tempSegmentedControl.tintColor = .white
-        tempSegmentedControl.layer.borderWidth = 1
-        tempSegmentedControl.layer.borderColor = UIColor.dark.cgColor
-        tempSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        tempSegmentedControl.layer.cornerRadius = 15
-        tempSegmentedControl.backgroundColor = UIColor.dark
-        tempSegmentedControl.addTarget(self, action: #selector(changeValue), for: .valueChanged)
-        view.addSubview(tempSegmentedControl)
-        
-        tempSegmentedControl.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor).isActive = true
-        tempSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding).isActive = true
-        tempSegmentedControl.widthAnchor.constraint(equalToConstant: 90).isActive = true
-        tempSegmentedControl.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        let windChoose = ["mPs", "kPh"]
-        let windSegmentedControl = UISegmentedControl(items: windChoose)
-        windSegmentedControl.selectedSegmentIndex = 0
-        windSegmentedControl.tintColor = .white
-        windSegmentedControl.layer.borderWidth = 1
-        windSegmentedControl.layer.borderColor = UIColor.dark.cgColor
-        windSegmentedControl.layer.cornerRadius = 15
-        windSegmentedControl.backgroundColor = UIColor.dark
-        windSegmentedControl.addTarget(self, action: #selector(changeValue), for: .valueChanged)
-        view.addSubview(windSegmentedControl)
-        
-        windSegmentedControl.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 90, height: 30))
-        windSegmentedControl.centerYAnchor.constraint(equalTo: windLabel.centerYAnchor).isActive = true
-        
-        let pressureChoose = ["x", "y"]
-        let pressureSegmentedControl = UISegmentedControl(items: pressureChoose)
-        pressureSegmentedControl.selectedSegmentIndex = 0
-        pressureSegmentedControl.tintColor = .white
-        pressureSegmentedControl.layer.borderWidth = 1
-        pressureSegmentedControl.layer.borderColor = UIColor.dark.cgColor
-        pressureSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        pressureSegmentedControl.layer.cornerRadius = 15
-        pressureSegmentedControl.backgroundColor = UIColor.dark
-        pressureSegmentedControl.addTarget(self, action: #selector(changeValue), for: .valueChanged)
-        view.addSubview(pressureSegmentedControl)
-        
-        pressureSegmentedControl.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 90, height: 30))
-        pressureSegmentedControl.centerYAnchor.constraint(equalTo: pressureLabel.centerYAnchor).isActive = true
-        
         let notificationsSwitch = UISwitch()
         notificationsSwitch.setOn(false, animated: false)
         notificationsSwitch.translatesAutoresizingMaskIntoConstraints = false
-        //notificationsSwitch.tintColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
         notificationsSwitch.onTintColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 100)
         notificationsSwitch.thumbTintColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
         notificationsSwitch.backgroundColor = .white
         notificationsSwitch.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
-        view.addSubview(notificationsSwitch)
+       
+
+        [tempSegmentedControl, windSegmentedControl, pressureSegmentedControl, notificationsSwitch].forEach {view.addSubview($0)}
         
-        notificationsSwitch.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 65, height: 20))
+        tempSegmentedControl.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor).isActive = true
+        tempSegmentedControl.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 90, height: 30))
+        
+        windSegmentedControl.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 90, height: 30))
+        windSegmentedControl.centerYAnchor.constraint(equalTo: windLabel.centerYAnchor).isActive = true
+    
+        pressureSegmentedControl.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 90, height: 30))
+        pressureSegmentedControl.centerYAnchor.constraint(equalTo: pressureLabel.centerYAnchor).isActive = true
+        
+        notificationsSwitch.anchor(top: nil, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 65, height: 20))
         notificationsSwitch.centerYAnchor.constraint(equalTo: notificationsLabel.centerYAnchor).isActive = true
         notificationsSwitch.centerXAnchor.constraint(equalTo: pressureSegmentedControl.centerXAnchor).isActive = true
         
