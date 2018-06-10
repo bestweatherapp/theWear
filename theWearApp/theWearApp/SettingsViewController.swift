@@ -32,6 +32,7 @@ class SettingsViewController: UIViewController {
         picker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         return picker
     }()
+    
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
     }
     
@@ -63,7 +64,7 @@ class SettingsViewController: UIViewController {
         dateFormatter.dateFormat = "HH:mm"
         let selectedDate: String = dateFormatter.string(from: datePicker.date)
         onMorning.setTitle(selectedDate, for: .normal)
-        UserDefaults.standard.setValue(selectedDate, forKey: "RemindImHour")
+        UserDefaults.standard.setValue(selectedDate, forKey: "RemindHour")
         UIView.animate(withDuration: 0.5, animations: {
             self.datePickerView.alpha = 0
             self.blurEffect.alpha = 0
@@ -117,7 +118,7 @@ class SettingsViewController: UIViewController {
     private let onMorning: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("7:00", for: .normal)
+        button.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
         button.setTitleColor(UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100), for: .normal)
         button.addTarget(self, action: #selector(MorningView), for: .touchUpInside)
         return button
@@ -280,6 +281,10 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Layout()
+       
+       
+    
+       
         view.backgroundColor = .white
     }
     @objc func changeTemp(sender: UISegmentedControl) {
