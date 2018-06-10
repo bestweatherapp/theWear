@@ -54,10 +54,10 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
            nextButton.setTitle("Next", for: .normal)
         }
         if pageControl.currentPage == indexPath.item {
-//            After that WelcomePage will be closed and will never appear again
-//            UserDefaults.standard.set(true, forKey: "firstTimeOpened")
-//            let mainVC = ViewController()
-//            present(mainVC, animated: true, completion: nil)
+            UserDefaults.standard.set(true, forKey: "firstTimeOpened")
+            UserDefaults.standard.set("7:00", forKey: "RemindHour")
+            let mainVC = ViewController()
+            present(mainVC, animated: true, completion: nil)
         }
         pageControl.currentPage = nextIndex
         collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)

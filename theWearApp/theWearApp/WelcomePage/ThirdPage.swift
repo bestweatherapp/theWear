@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class ThirdPage: UICollectionViewCell {
     
@@ -21,15 +22,38 @@ class ThirdPage: UICollectionViewCell {
         return view
     }()
     
+    let allowNotifications = UIButton()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
         LayOut()
     }
+    @objc func AllowNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+            if granted {
+                UserDefaults.standard.set(1, forKey: "AllowUserNotifications")
+            } else {
+                UserDefaults.standard.set(0, forKey: "AllowUserNotifications")
+            }
+        }
+    }
     
     func LayOut() {
         addSubview(popUpView)
+        popUpView.addSubview(allowNotifications)
+        
+        allowNotifications.setTitle("Allow", for: .normal)
+        allowNotifications.setTitleColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80), for: .normal)
+        allowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+        allowNotifications.translatesAutoresizingMaskIntoConstraints = false
+        allowNotifications.addTarget(self, action: #selector(AllowNotifications), for: .touchUpInside)
+        
         popUpView.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 120, left: 50, bottom: 120, right: 50), size: .init())
+        
+        allowNotifications.centerXAnchor.constraint(equalTo: popUpView.centerXAnchor).isActive = true
+        allowNotifications.centerYAnchor.constraint(equalTo: popUpView.centerYAnchor).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

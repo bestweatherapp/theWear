@@ -9,7 +9,7 @@
 import Foundation
 class Methods
 {
-    func GetCurrentComment (Current : Current, day : ForecastDay) -> String {
+    func GetCurrentComment(Current : Current, day : ForecastDay) -> String {
         var comment_ = ""
         switch (Double(Current.temp!)) {
         case -1..<10:
@@ -91,7 +91,7 @@ class Methods
         return comment
     }
     //FUTURE and current clothes
-    func GetFutureComment (day: ForecastDay, avgmorning : Double, avgday : Double, avgevening : Double, gender: String) -> (String,[String]) {
+    func GetFutureComment(day: ForecastDay, avgmorning : Double, avgday : Double, avgevening : Double, gender: String) -> (String,[String]) {
         var comment = ""
         var images = [String]()
         switch Int((day.temperature_avg)!)

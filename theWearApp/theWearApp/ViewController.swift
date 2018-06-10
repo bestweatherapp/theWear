@@ -267,6 +267,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var allClothesForForecastTableView = [[String](repeating: "", count: 7),[String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7), [String](repeating: "", count: 7)]
     var allClothesForDetailedView = [[String]]()
     var globalCheck: Int?
+    var commentForNotification = ""
     
     
     private let slideOutMenu: UIView = {
@@ -1244,7 +1245,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     newDay.date = date_!
                     allDays.append(newDay)
                 }
-           
+                self.commentForNotification = allCommentsForDetailedView[0]
+            
                 self.allCommentsForDetailedView = allCommentsForDetailedView
                 self.allClothesForForecastTableView = allClothesForForecastTableView
                 self.allClothesForDetailedView = allClothesForDetailedView
@@ -1284,6 +1286,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.backgroundImage.image = UIImage(named: SetTheBackground(status: current_.status!, sunrise: allDays[0].sunrise!, currentHour: self.hour))
                         self.forecastTableView.reloadData()
                         self.forecastCollectionView.reloadData()
+                        self.commentForNotification = allCommentsForDetailedView[0]
+                        var hour = 0
+                        var minute = 50
+                            if UserDefaults.standard.string(forKey: "RemindHour")!.count == 5 {
+                                hour = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropLast(3))!
+                                minute = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropFirst(3))!
+                            } else {
+                                hour = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropLast(3))!
+                                minute = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropFirst(2))!
+                            }
+                        if CheckInternet.Connection() {
+                        
+                            scheduleNotification(atDate: createDate(hour: hour, minute: minute), body: allCommentsForDetailedView[0], title: "Weather forecast for a day")
+                        }
                         self.currentLocation.attributedText = NSMutableAttributedString(string: location, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                         self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                         self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
@@ -1337,8 +1353,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideKeyboardWhenTappedOutside()
+        UserDefaults.standard.set("0:59", forKey: "RemindHour")
         UpdateInfo(location: "Current location")
+        hideKeyboardWhenTappedOutside()
         view.addSubview(backgroundImage)
         backgroundImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
