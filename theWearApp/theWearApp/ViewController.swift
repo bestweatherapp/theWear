@@ -354,10 +354,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         image.contentMode = .scaleAspectFill
        return image
    }()
+    private let clouds: UIImageView = {
+        let view = UIImageView(image: UIImage(named: "cloudsForSplash"))
+        return view
+    }()
+    
     private let splashScreen: UIView = {
         let view = UIView()
         view.isHidden = false
-        view.backgroundColor = .clear
+        view.backgroundColor = .white
         return view
     }()
     
@@ -853,11 +858,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return image
     }()
     
-    private let backForSplash: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "backForSplash"))
-        return image
-    }()
-    
     private let sunriseLabel: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
@@ -920,7 +920,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         [forMorningAdditional1, forMorningAdditional2, forMorningAdditional3].forEach {morningAdditionalClothes.addSubview($0)}
         [forAfternoonAdditional1, forAfternoonAdditional2, forAfternoonAdditional3].forEach {afternoonAdditionalClothes.addSubview($0)}
         [forEveningAdditional1, forEveningAdditional2, forEveningAdditional3].forEach {eveningAdditionalClothes.addSubview($0)}
-        [backForSplash, theLabel, weaLabel, rLabel].forEach {splashScreen.addSubview($0)}
+        [theLabel, weaLabel, rLabel].forEach {splashScreen.addSubview($0)}
         
         switch UIScreen.main.nativeBounds.height {
         case 1136:
@@ -1102,7 +1102,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         backgroundImage.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
         
         // Splash Screen
-        backForSplash.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
+
         weaLabel.anchor(top: view.topAnchor, leading: theLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 160, height: 0))
         theLabel.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: paddingForSplash, bottom: 0, right: 0), size: .init(width: 100, height: 0))
         rLabel.anchor(top: view.topAnchor, leading: weaLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 25, height: 0))

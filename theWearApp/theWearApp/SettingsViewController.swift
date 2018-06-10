@@ -15,9 +15,63 @@ class SettingsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 35
         view.backgroundColor = UIColor(white: 1, alpha: 0.9)
+        view.layer.shadowColor = UIColor.myGray.cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize(width: -1, height: 1)
+        view.layer.shadowRadius = 10
         view.isHidden = true
         return view
     }()
+    
+    private let datePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.timeZone = NSTimeZone.local
+        picker.backgroundColor = .clear
+        picker.layer.cornerRadius = 35
+        picker.datePickerMode = UIDatePickerMode.time
+        picker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+        return picker
+    }()
+    @objc func datePickerValueChanged(_ sender: UIDatePicker) {
+    }
+    
+    private let closeDatePicker: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "close"), for: .normal)
+        button.addTarget(self, action: #selector(CloseDatePicker), for: .touchUpInside)
+        return button
+    }()
+    @objc func CloseDatePicker() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.datePickerView.alpha = 0
+            self.blurEffect.alpha = 0
+            self.view.layoutIfNeeded()
+        })
+        self.blurEffect.isHidden = true
+        self.datePickerView.isHidden = true
+    }
+    
+    private let okButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("OK", for: .normal)
+        button.setTitleColor(UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100), for: .normal)
+        button.addTarget(self, action: #selector(okButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    @objc func okButtonPressed() {
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let selectedDate: String = dateFormatter.string(from: datePicker.date)
+        onMorning.setTitle(selectedDate, for: .normal)
+        UserDefaults.standard.setValue(selectedDate, forKey: "RemindImHour")
+        UIView.animate(withDuration: 0.5, animations: {
+            self.datePickerView.alpha = 0
+            self.blurEffect.alpha = 0
+            self.view.layoutIfNeeded()
+        })
+        self.blurEffect.isHidden = true
+        self.datePickerView.isHidden = true
+    }
     
     private let closeButton: UIButton = {
         let button = UIButton()
@@ -70,10 +124,21 @@ class SettingsViewController: UIViewController {
     }()
     
     @objc func MorningView() {
-        UIView.animate(withDuration: 0.4) {
-            self.datePickerView.isHidden = false
-        }
+        UIView.animate(withDuration: 0.5, animations: {
+            self.datePickerView.alpha = 1
+            self.blurEffect.alpha = 1
+            self.view.layoutIfNeeded()
+        })
+        self.blurEffect.isHidden = false
+        self.datePickerView.isHidden = false
     }
+    
+    let blurEffect: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
+        let blurView = UIVisualEffectView(effect: blur)
+        blurView.isHidden = true
+        return blurView
+    }()
     
     private let tempLabel: UILabel = {
         let text = UILabel()
@@ -250,12 +315,30 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    private let notificationsSwitch: UISwitch = {
+        let nSwitch = UISwitch()
+        nSwitch.setOn(false, animated: false)
+        nSwitch.translatesAutoresizingMaskIntoConstraints = false
+        nSwitch.onTintColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 100)
+        nSwitch.thumbTintColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
+        nSwitch.backgroundColor = .white
+        nSwitch.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
+        return nSwitch
+    }()
+    
     @objc func switchChanged(_ sender: UISwitch) {
-        print("Switch value is \(sender.isOn)")
+        if sender.isOn {
+            print("Notifications on")
+        } else {
+            print("Notifications off")
+        }
     }
     
     private func Layout() {
-        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, pressureLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, datePickerView].forEach {view.addSubview($0)}
+        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, pressureLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, pressureSegmentedControl, notificationsSwitch, blurEffect, datePickerView].forEach {view.addSubview($0)}
+        datePickerView.addSubview(closeDatePicker)
+        datePickerView.addSubview(datePicker)
+        datePickerView.addSubview(okButton)
         if UserDefaults.standard.string(forKey: "Gender") == "Man" {
             self.manButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
         } else {
@@ -280,32 +363,38 @@ class SettingsViewController: UIViewController {
         default:
             return
         }
-        
-        let notificationsSwitch = UISwitch()
-        notificationsSwitch.setOn(false, animated: false)
-        notificationsSwitch.translatesAutoresizingMaskIntoConstraints = false
-        notificationsSwitch.onTintColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 100)
-        notificationsSwitch.thumbTintColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
-        notificationsSwitch.backgroundColor = .white
-        notificationsSwitch.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
-       
 
-        [tempSegmentedControl, windSegmentedControl, pressureSegmentedControl, notificationsSwitch].forEach {view.addSubview($0)}
         
+        // Temperature
         tempSegmentedControl.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor).isActive = true
         tempSegmentedControl.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 90, height: 30))
         
+        // Wind
         windSegmentedControl.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 90, height: 30))
         windSegmentedControl.centerYAnchor.constraint(equalTo: windLabel.centerYAnchor).isActive = true
     
+        // Pressure
         pressureSegmentedControl.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 90, height: 30))
         pressureSegmentedControl.centerYAnchor.constraint(equalTo: pressureLabel.centerYAnchor).isActive = true
         
-        notificationsSwitch.anchor(top: nil, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 65, height: 20))
+        // Notifications
         notificationsSwitch.centerYAnchor.constraint(equalTo: notificationsLabel.centerYAnchor).isActive = true
-        notificationsSwitch.centerXAnchor.constraint(equalTo: pressureSegmentedControl.centerXAnchor).isActive = true
+        notificationsSwitch.centerXAnchor.constraint(equalTo: tempSegmentedControl.centerXAnchor).isActive = true
         
-        datePickerView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 250, left: 150, bottom: 250, right: 150), size: .init())
+        // Date Picker
+        datePickerView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 175, left: 75, bottom: 175, right: 75), size: .init())
+        closeDatePicker.anchor(top: datePickerView.topAnchor, leading: nil, bottom: nil, trailing: datePickerView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 25, height: 25))
+        datePicker.anchor(top: closeDatePicker.bottomAnchor, leading: datePickerView.leadingAnchor, bottom: datePickerView.bottomAnchor, trailing: datePickerView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 35, right: 0), size: .init())
+        okButton.anchor(top: datePicker.bottomAnchor, leading: datePickerView.leadingAnchor, bottom: datePickerView.bottomAnchor, trailing: datePickerView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
+        
+        
+        // Blur effect
+        blurEffect.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
+        
+        
+        
+        
+        
         
         topLine.anchor(top: closeButton.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 25, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: 0.5))
         
