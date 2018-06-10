@@ -281,8 +281,10 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Layout()
-       
-       
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm" //Your date format
+        let date = dateFormatter.date(from: UserDefaults.standard.string(forKey: "RemindHour")!)
+        datePicker.date = date!
     
        
         view.backgroundColor = .white
