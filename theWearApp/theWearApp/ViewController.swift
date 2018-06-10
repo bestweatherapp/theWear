@@ -1237,16 +1237,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         allClothesForDetailedView.append(iconsClothesDay)
                         allClothesForDetailedView.append(iconsClothesEvening)
                     }
-                    
                     realComment = comment_.0
                     allClothesForForecastTableView.append(comment_.1)
                     allCommentsForDetailedView.append(realComment)
+                    if (allCommentsForDetailedView[0] == " ")
+                    {allCommentsForDetailedView.remove(at: allCommentsForDetailedView.startIndex)}
                     allTempsdays.append("\(Int(round(newDay.AllHours![12].temperature!)))°  \(Int(round(newDay.AllHours![0].temperature!)))°")
                     newDay.date = date_!
                     allDays.append(newDay)
                 }
                 self.commentForNotification = allCommentsForDetailedView[0]
-            
                 self.allCommentsForDetailedView = allCommentsForDetailedView
                 self.allClothesForForecastTableView = allClothesForForecastTableView
                 self.allClothesForDetailedView = allClothesForDetailedView
@@ -1297,9 +1297,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                 minute = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropFirst(2))!
                             }
                         if CheckInternet.Connection() {
-                        
+                            if (UserDefaults.standard.string(forKey: "Notifications") == "Yes"){
                             scheduleNotification(atDate: createDate(hour: hour, minute: minute), body: allCommentsForDetailedView[0], title: "Weather forecast for a day")
-                        }
+                            }  }
                         self.currentLocation.attributedText = NSMutableAttributedString(string: location, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                         self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                         self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
@@ -1353,7 +1353,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.set("0:59", forKey: "RemindHour")
+        //UserDefaults.standard.set("01:19", forKey: "RemindHour")
         UpdateInfo(location: "Current location")
         hideKeyboardWhenTappedOutside()
         view.addSubview(backgroundImage)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7233A9F20CDD80E00C55ABE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7233A9E20CDD80E00C55ABE /* Assets.xcassets */; };
 		A7BB513B20C09E43003AD0D0 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */; };
 		A7EBC80420C03455008A7C58 /* UserNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EBC80320C03455008A7C58 /* UserNotifications.swift */; };
 		BA071E6620CC8EDB00D6746B /* SetTheBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA071E6520CC8EDB00D6746B /* SetTheBackground.swift */; };
@@ -31,7 +32,6 @@
 		BA5630FB20B8D3E50052FAD2 /* SF-Pro-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA5630FA20B8D3CB0052FAD2 /* SF-Pro-Display-Bold.otf */; };
 		BA71B91920B9B621008DABAF /* SF-Pro-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA71B91820B9B606008DABAF /* SF-Pro-Display-Ultralight.otf */; };
 		BA71B91B20BA01DF008DABAF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA71B91A20BA01DF008DABAF /* SettingsViewController.swift */; };
-		BA891F8D20CDB8E4007D1844 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA891F8C20CDB8E3007D1844 /* Assets.xcassets */; };
 		BAA29D4B20C432B6003BB361 /* SecondPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA29D4A20C432B6003BB361 /* SecondPage.swift */; };
 		BAA29D4D20C43FF5003BB361 /* FirstPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA29D4C20C43FF5003BB361 /* FirstPage.swift */; };
 		BAA29D4F20C44008003BB361 /* ThirdPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA29D4E20C44008003BB361 /* ThirdPage.swift */; };
@@ -39,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A7233A9E20CDD80E00C55ABE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
 		A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
 		A7EBC80320C03455008A7C58 /* UserNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotifications.swift; sourceTree = "<group>"; };
 		BA071E6520CC8EDB00D6746B /* SetTheBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTheBackground.swift; sourceTree = "<group>"; };
@@ -65,7 +66,6 @@
 		BA5630FA20B8D3CB0052FAD2 /* SF-Pro-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Bold.otf"; sourceTree = "<group>"; };
 		BA71B91820B9B606008DABAF /* SF-Pro-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Ultralight.otf"; sourceTree = "<group>"; };
 		BA71B91A20BA01DF008DABAF /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		BA891F8C20CDB8E3007D1844 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Assets.xcassets; sourceTree = "<group>"; };
 		BAA29D4A20C432B6003BB361 /* SecondPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPage.swift; sourceTree = "<group>"; };
 		BAA29D4C20C43FF5003BB361 /* FirstPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPage.swift; sourceTree = "<group>"; };
 		BAA29D4E20C44008003BB361 /* ThirdPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPage.swift; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 		BA20553520B52BBC00EB9DDC /* theWearApp */ = {
 			isa = PBXGroup;
 			children = (
-				BA891F8C20CDB8E3007D1844 /* Assets.xcassets */,
+				A7233A9E20CDD80E00C55ABE /* Assets.xcassets */,
 				BA20553620B52BBD00EB9DDC /* AppDelegate.swift */,
 				BA20553820B52BBD00EB9DDC /* ViewController.swift */,
 				BA5630E120B6A5DD0052FAD2 /* SearchViewController.swift */,
@@ -219,10 +219,10 @@
 				BA5630FB20B8D3E50052FAD2 /* SF-Pro-Display-Bold.otf in Resources */,
 				BA5630F720B88ED20052FAD2 /* SF-Pro-Display-Medium.otf in Resources */,
 				BA5630F620B88ECD0052FAD2 /* SF-Pro-Display-Light.otf in Resources */,
+				A7233A9F20CDD80E00C55ABE /* Assets.xcassets in Resources */,
 				BA5630F120B87DF00052FAD2 /* NanumGothic-ExtraBold.ttf in Resources */,
 				BA5630F320B87DF00052FAD2 /* NanumGothic-Regular.ttf in Resources */,
 				BA20554120B52BBD00EB9DDC /* LaunchScreen.storyboard in Resources */,
-				BA891F8D20CDB8E4007D1844 /* Assets.xcassets in Resources */,
 				BA5630F220B87DF00052FAD2 /* NanumGothic-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -390,14 +390,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 78FSRJL5ZR;
+				DEVELOPMENT_TEAM = 99F33CAX5W;
 				INFOPLIST_FILE = theWearApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Inc..theWearApp-";
+				PRODUCT_BUNDLE_IDENTIFIER = "Inc..theWearApp------";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -409,14 +409,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 78FSRJL5ZR;
+				DEVELOPMENT_TEAM = 99F33CAX5W;
 				INFOPLIST_FILE = theWearApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Inc..theWearApp-";
+				PRODUCT_BUNDLE_IDENTIFIER = "Inc..theWearApp------";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

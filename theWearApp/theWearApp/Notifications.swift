@@ -38,6 +38,7 @@ func scheduleNotification(atDate date: Date, body: String, title: String) {
     UNUserNotificationCenter.current().add(request) { (error) in
         if let error = error {
             print("Error occured: \(error)")
+        
         }
     }
 }

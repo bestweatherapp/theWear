@@ -13,7 +13,6 @@ class UYLNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // Play sound and show alert to the user
         completionHandler([.alert,.sound])
     }
     

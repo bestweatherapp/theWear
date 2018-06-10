@@ -281,14 +281,20 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Layout()
+        if (UserDefaults.standard.string(forKey: "Notifications") == "Yes")
+        { notificationsSwitch.isOn = true}
+        else {notificationsSwitch.isOn = false}
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm" //Your date format
-        let date = dateFormatter.date(from: UserDefaults.standard.string(forKey: "RemindHour")!)
-        datePicker.date = date!
-    
-       
+        dateFormatter.dateFormat = "hh:mm"
+        if (UserDefaults.standard.string(forKey: "RemindHour") != nil){
+            let date = dateFormatter.date(from: UserDefaults.standard.string(forKey: "RemindHour")!)
+            datePicker.date = date!
+            onMorning.setTitle( UserDefaults.standard.string(forKey: "RemindHour"), for: .normal) }
+        else {datePicker.date = dateFormatter.date(from : "07:00")!
+            onMorning.setTitle("07:00", for: .normal) }
         view.backgroundColor = .white
     }
+    
     @objc func changeTemp(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -335,9 +341,11 @@ class SettingsViewController: UIViewController {
     
     @objc func switchChanged(_ sender: UISwitch) {
         if sender.isOn {
-            print("Notifications on")
+            //print("Notifications on")
+            UserDefaults.standard.set("Yes", forKey: "Notifications")
         } else {
-            print("Notifications off")
+            UserDefaults.standard.set("No", forKey: "Notifications")
+            //print("Notifications off")
         }
     }
     
