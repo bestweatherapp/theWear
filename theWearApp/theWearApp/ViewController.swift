@@ -130,21 +130,30 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             forecastForLabel.attributedText = NSAttributedString(string: "Forecast for \n\(convertDateFormaterForDailyForecastForDetailedView("\(self.currentForecastCity.AllForecastDay![indexPath.row].date!)"))", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
-            morningTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-            
-            afternoonTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-            
-            eveningTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-            
-            nightTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![3].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-            
-            morningTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-            
-            afternoonTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-            
-            eveningTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
-            
-            nightTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![3].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            if (UserDefaults.standard.integer(forKey: "Temperature") == 0){
+                morningTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+            else {morningTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].temperature!)*9/5+32))F", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+            if (UserDefaults.standard.integer(forKey: "Temperature") == 0){
+                afternoonTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+            else {afternoonTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].temperature!)*9/5+32))F", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+            if (UserDefaults.standard.integer(forKey: "Temperature") == 0){
+                eveningTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+            else { eveningTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].temperature!)*9/5+32))F", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+             if (UserDefaults.standard.integer(forKey: "Temperature") == 0){
+                nightTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![3].temperature!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+             else {nightTemp.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![3].temperature!)*9/5+32))F", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+            if (UserDefaults.standard.integer(forKey: "Temperature") == 0){
+                morningTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+            else { morningTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].feelslike!)*9/5+32))F", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+             if (UserDefaults.standard.integer(forKey: "Temperature") == 0){
+                afternoonTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+             else { afternoonTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].feelslike!)*9/5+32))F", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+            if (UserDefaults.standard.integer(forKey: "Temperature") == 0){
+                eveningTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+            else {eveningTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].feelslike!)*9/5+32))F", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+             if (UserDefaults.standard.integer(forKey: "Temperature") == 0){
+                nightTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![3].feelslike!)))°C", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
+             else { nightTempFeelsLike.attributedText = NSAttributedString(string: "\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![3].feelslike!)*9/5+32))F", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])}
             
             afternoonUpClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 2][0])
             afternoonDownClothes.image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 2][1])
@@ -1145,7 +1154,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     print("Not containing JSON")
                     return
                 }
-                
                 guard let current = json["current"] as?  [String : AnyObject] else {return}
                 current_.temp = current["temp_c"] as? Double
                 current_.datetime = current["last_updated"] as? String
@@ -1172,9 +1180,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         allDates.append("\(convertDateFormaterForDailyForecastForDateDescription(date_!))\n\(convertDateFormaterForDailyForecastForDate(date_!))")
                     }
                     var comment_: (String, [String]) = ("", [String]())
-                    guard let maxtemp_ = day["maxtemp_c"] as? Double else {return}
-                    guard let mintemp_ = day["mintemp_c"] as? Double else {return}
-                    guard let avgtemp_ = day["avgtemp_c"] as? Double else {return}
+                    
+                    guard var maxtemp_ = day["maxtemp_c"] as? Double else {return}
+                    guard var mintemp_ = day["mintemp_c"] as? Double else {return}
+                    guard var avgtemp_ = day["avgtemp_c"] as? Double else {return}
+                    
                     guard var wind_max_ = day["maxwind_kph"] as? Double? else {return}
                     wind_max_ = (wind_max_!) * 5/18
                     guard let avghum_ = day["avghumidity"] as? Double else {return}
@@ -1196,14 +1206,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                             guard let time = object["time"] as? String else {return}
                             var timeArr = time.split(separator: " ")
                             newHour.time = String(timeArr[1])
-                            newHour.feelslike = object["feelslike_c"] as? Double
+                            if (UserDefaults.standard.integer(forKey: "Temperature") == 0)
+                            {newHour.feelslike = object["feelslike_c"] as? Double}
+                            else {newHour.feelslike = (object["feelslike_c"] as? Double)!*9/5*32}
                             newHour.humidity = object["humidity"] as? Double
                             newHour.pressure = object["pressure_mb"] as? Double
                             guard let text = object["condition"] as? [String : AnyObject] else {return}
                             newHour.condition = text["text"] as? String
                             newHour.icon = text["icon"] as? String
-                            
-                            newHour.temperature = object["temp_c"] as? Double
+                            if (UserDefaults.standard.integer(forKey: "Temperature") == 0)
+                            { newHour.temperature = object["temp_c"] as? Double}
+                                else{ newHour.temperature = (object["temp_c"] as? Double)!*9/5*32}
                             newHour.chance_of_rain = object["chance_of_rain"] as? String
                             newHour.will_it_rain = object["will_it_rain"] as? Int
                             newHour.will_it_snow = object["will_it_snow"] as? Int
@@ -1280,10 +1293,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.allHours = allHours
                 if (UserDefaults.standard.integer(forKey: "Temperature") == 0)
                 {self.allHourlyTemps = allHourlyTemps}
-               // else {for item in allHourlyTemps
-              //  {item = item*9/5+32}
-                 //   self.allHourlyTemps = allHourlyTemps//converted to farehngheit
-              //  }
+                else {
+                    var farengheitTemps = [String]()
+                    for item in allHourlyTemps
+                    {farengheitTemps.append(String(Int(Int(item)!*9/5+32)))}
+                    self.allHourlyTemps = farengheitTemps
+                }
                 self.allHourlyTempsIcons = allHourlyTempsIcons
                 self.currentForecastCity = ForecastCity(Current: current_, ForecastDay: allDays)
                 myGroup.leave() // Task was completed
