@@ -11,7 +11,7 @@ import UIKit
 class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let backgroundImageView: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "backForSplash"))
+        let image = UIImageView(image: UIImage(named: "BlurDefaultBackground"))
         return image
     }()
     
@@ -29,7 +29,7 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
         button.setTitle("Next", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.setTitleColor(UIColor(white: 1, alpha: 0.9), for: .normal)
+        button.setTitleColor(UIColor.dark, for: .normal)
         button.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
         return button
     }()
@@ -39,7 +39,7 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
         button.setTitle("", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.setTitleColor(UIColor(white: 1, alpha: 0.9), for: .normal)
+        button.setTitleColor(UIColor.dark, for: .normal)
         button.addTarget(self, action: #selector(handlePrev), for: .touchUpInside)
         return button
     }()
@@ -51,7 +51,7 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
         if indexPath.item == 2 {
             nextButton.setTitle("Start", for: .normal)
         } else {
-           nextButton.setTitle("Next", for: .normal)
+            nextButton.setTitle("Next", for: .normal)
         }
         if pageControl.currentPage == indexPath.item {
             UserDefaults.standard.set(true, forKey: "firstTimeOpened")
@@ -103,11 +103,11 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FirstPage", for: indexPath) as! FirstPage
@@ -121,7 +121,7 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
         }
         return collectionView.dequeueReusableCell(withReuseIdentifier: "FirstPage", for: indexPath) as! FirstPage
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.height)
     }

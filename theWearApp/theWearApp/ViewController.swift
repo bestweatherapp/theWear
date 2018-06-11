@@ -55,9 +55,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return 7
         } else {
             if cities?.count == 0 {
-                    tableView.isHidden = true
-                    self.placeholderForFav.isHidden = false
-                    self.placeholderForFavLabel.isHidden = false
+                tableView.isHidden = true
+                self.placeholderForFav.isHidden = false
+                self.placeholderForFavLabel.isHidden = false
                 return 0
             } else {
                 tableView.isHidden = false
@@ -168,7 +168,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             morningAdditionalClothes.isScrollEnabled = false
             afternoonAdditionalClothes.isScrollEnabled = false
             eveningAdditionalClothes.isScrollEnabled = false
-
+            
             for i in 3...5 {
                 if allClothesForDetailedView[(indexPath.row * 4)].indices.contains(i) {
                     if i > 3 {
@@ -182,14 +182,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                     views[(i - 3) + 3].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 1][i])
                 }
-
+                
                 if allClothesForDetailedView[(indexPath.row * 4) + 2].indices.contains(i) {
                     if i > 3 {
                         afternoonAdditionalClothes.isScrollEnabled = true
                     }
                     views[(i - 3) + 6].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 2][i])
                 }
-
+                
                 if allClothesForDetailedView[(indexPath.row * 4) + 3].indices.contains(i) {
                     if i > 3 {
                         eveningAdditionalClothes.isScrollEnabled = true
@@ -219,17 +219,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             self.searchButton.isEnabled = true
             UpdateInfo(location: cities![(favouriteCitiesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current))
             UIView.animate(withDuration: 0.4) {
-                    self.slideOutMenu.frame.origin.x = -250
-                    self.blurEffect.alpha = 0
-                    let initialIndex = 0
-                    let indexPath = IndexPath(item: initialIndex, section: 0)
-                    self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                    self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                self.slideOutMenu.frame.origin.x = -250
+                self.blurEffect.alpha = 0
+                let initialIndex = 0
+                let indexPath = IndexPath(item: initialIndex, section: 0)
+                self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
                 self.view.layoutIfNeeded()
             }
         }
     }
- 
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(70)
     }
@@ -353,8 +353,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private var backgroundImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-       return image
-   }()
+        return image
+    }()
     private let clouds: UIImageView = {
         let view = UIImageView(image: UIImage(named: "cloudsForSplash"))
         return view
@@ -876,7 +876,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         blurView.isHidden = true
         return blurView
     }()
-  
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch? = touches.first
         if touch?.view != self.slideOutMenu && self.slideOutMenu.frame.origin.x == 0 {
@@ -950,7 +950,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         // TopStackView
         topStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 40))
-         menuButton.anchor(top: topStackView.topAnchor, leading: topStackView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
+        menuButton.anchor(top: topStackView.topAnchor, leading: topStackView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
         currentLocation.anchor(top: topStackView.topAnchor, leading: nil, bottom: topStackView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 100, height: 0))
         currentLocation.centerXAnchor.constraint(equalTo: topStackView.centerXAnchor).isActive = true
         searchButton.anchor(top: topStackView.topAnchor, leading: nil, bottom: nil, trailing: topStackView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 40, height: 40))
@@ -982,7 +982,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         // Detailed View
         detailedView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 40, left: view.frame.width + 25, bottom: 25, right: 0), size: .init(width: view.frame.width-50, height: 0))
-         scrollView.anchor(top: closeDetailedViewButton.bottomAnchor, leading: detailedView.leadingAnchor, bottom: detailedView.bottomAnchor, trailing: detailedView.trailingAnchor, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        scrollView.anchor(top: closeDetailedViewButton.bottomAnchor, leading: detailedView.leadingAnchor, bottom: detailedView.bottomAnchor, trailing: detailedView.trailingAnchor, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         
         // Top Part
         closeDetailedViewButton.anchor(top: detailedView.topAnchor, leading: nil, bottom: nil, trailing: detailedView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 25, height: 25))
@@ -1103,7 +1103,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         backgroundImage.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
         
         // Splash Screen
-
+        
         weaLabel.anchor(top: view.topAnchor, leading: theLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 160, height: 0))
         theLabel.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: paddingForSplash, bottom: 0, right: 0), size: .init(width: 100, height: 0))
         rLabel.anchor(top: view.topAnchor, leading: weaLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 25, height: 0))
@@ -1125,26 +1125,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         currentLocation = locationManager.location
         if (currentLocation != nil)
         {
-        let correctLocation = location.replacingOccurrences(of: " ", with: "%20")
-        let urlString = (location == "Current location") ? "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(String(describing: currentLocation.coordinate.latitude)),\(String(describing: currentLocation.coordinate.longitude))&days=7" : "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(correctLocation)&days=7"
-        guard let url = URL(string: urlString) else { return }
-
+            let correctLocation = location.replacingOccurrences(of: " ", with: "%20")
+            let urlString = (location == "Current location") ? "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(String(describing: currentLocation.coordinate.latitude)),\(String(describing: currentLocation.coordinate.longitude))&days=7" : "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(correctLocation)&days=7"
+            guard let url = URL(string: urlString) else { return }
+            
             let myGroup = DispatchGroup()
             myGroup.enter()
             
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                
                 guard error == nil else {
                     print("returned error")
                     return
                 }
                 guard let data = data else { return }
                 guard let json = (try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)) as? [String: Any] else {
-                        print("Not containing JSON")
-                        return
-                    }
-            
-            guard let current = json["current"] as?  [String : AnyObject] else {return}
+                    print("Not containing JSON")
+                    return
+                }
+                
+                guard let current = json["current"] as?  [String : AnyObject] else {return}
                 current_.temp = current["temp_c"] as? Double
                 current_.datetime = current["last_updated"] as? String
                 guard let condition = current["condition"] as? [String : AnyObject] else {return}
@@ -1161,7 +1161,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 for index in 0...6 {
                     guard let day1 = forecastday[index] as? [String : AnyObject] else {return}
                     var allhoursForDay = [AnyObject]()
-
+                    
                     guard let day = day1["day"] as? [String : AnyObject] else {return}
                     let date_ = day1["date"] as? String
                     if index == 0 {
@@ -1253,7 +1253,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.allDates = allDates
                 self.allTemps = allTempsdays
                 self.allTempsIcons = allTempsdaysIcons
-            
+                
                 if (self.hour) > 12 {
                     for i in (self.hour)..<24 {
                         allHours.append("\(i):00")
@@ -1278,41 +1278,41 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.allHourlyTemps = allHourlyTemps
                 self.allHourlyTempsIcons = allHourlyTempsIcons
                 self.currentForecastCity = ForecastCity(Current: current_, ForecastDay: allDays)
-            myGroup.leave() // Task was completed
-            myGroup.notify(queue: DispatchQueue.main) {
-                self.Animation()
-            }
+                myGroup.leave() // Task was completed
+                myGroup.notify(queue: DispatchQueue.main) {
+                    self.Animation()
+                }
                 DispatchQueue.main.async {
                     self.backgroundImage.image = UIImage(named: SetTheBackground(status: current_.status!, sunrise: allDays[0].sunrise!, currentHour: self.hour))
-                        self.forecastTableView.reloadData()
-                        self.forecastCollectionView.reloadData()
-                        self.commentForNotification = allCommentsForDetailedView[0]
-                        var hour = 0
-                        var minute = 50
-                            if UserDefaults.standard.string(forKey: "RemindHour")!.count == 5 {
-                                hour = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropLast(3))!
-                                minute = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropFirst(3))!
-                            } else {
-                                hour = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropLast(3))!
-                                minute = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropFirst(2))!
-                            }
-                        if CheckInternet.Connection() {
-                            if (UserDefaults.standard.string(forKey: "Notifications") == "Yes"){
+                    self.forecastTableView.reloadData()
+                    self.forecastCollectionView.reloadData()
+                    self.commentForNotification = allCommentsForDetailedView[0]
+                    var hour = 0
+                    var minute = 50
+                    if UserDefaults.standard.string(forKey: "RemindHour")!.count == 5 {
+                        hour = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropLast(3))!
+                        minute = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropFirst(3))!
+                    } else {
+                        hour = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropLast(3))!
+                        minute = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropFirst(2))!
+                    }
+                    if CheckInternet.Connection() {
+                        if (UserDefaults.standard.string(forKey: "Notifications") == "Yes"){
                             scheduleNotification(atDate: createDate(hour: hour, minute: minute), body: allCommentsForDetailedView[0], title: "Weather forecast for a day")
-                            }  }
-                        self.currentLocation.attributedText = NSMutableAttributedString(string: location, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
-                        self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
-                        self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
-                        let methods = Methods()
-                        let forecastday_ = self.currentForecastCity.AllForecastDay![0]
+                        }  }
+                    self.currentLocation.attributedText = NSMutableAttributedString(string: location, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                    self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                    self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                    let methods = Methods()
+                    let forecastday_ = self.currentForecastCity.AllForecastDay![0]
                     var comment = methods.GetCurrentComment(Current : current_, day : forecastday_)
-                        comment += methods.GetThunderComment(forecastday: forecastday_)
-                        self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                    comment += methods.GetThunderComment(forecastday: forecastday_)
+                    self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                 }
             }
             task.resume()
         }
-        }
+    }
     
     private let weaLabel: UILabel = {
         let text = UILabel()
@@ -1344,16 +1344,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         UIView.animate(withDuration: 0.4) {
             self.blurEffect.alpha = 0
             self.view.layoutIfNeeded()
-                let initialIndex = 0
-                let indexPath = IndexPath(item: initialIndex, section: 0)
-                self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            let initialIndex = 0
+            let indexPath = IndexPath(item: initialIndex, section: 0)
+            self.forecastCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            self.forecastTableView.scrollToRow(at: indexPath, at: .top, animated: true)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //UserDefaults.standard.set("01:19", forKey: "RemindHour")
+        UserDefaults.standard.set("01:19", forKey: "RemindHour")
         UpdateInfo(location: "Current location")
         hideKeyboardWhenTappedOutside()
         view.addSubview(backgroundImage)
@@ -1363,7 +1363,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         view.backgroundColor = .lightBlue
         NotificationCenter.default.addObserver(self, selector: #selector(UpdateFavourits), name: NSNotification.Name(rawValue: "upF"), object: nil)
-
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "closeSVC"), object: nil, queue: nil, using: catchNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(CloseSVC), name: NSNotification.Name(rawValue: "closeSVCA"), object: nil)
         
@@ -1386,7 +1386,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         LayOut()
         Animate()
         UpdateInfo(location: "Current location")
-       
+        
     }
     
     private func Animate() {
