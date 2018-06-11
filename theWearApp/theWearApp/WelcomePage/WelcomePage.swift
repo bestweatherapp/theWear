@@ -89,6 +89,8 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
     }
     
     override func viewDidLoad() {
+        UserDefaults.standard.set(0, forKey: "Notifications")
+        UserDefaults.standard.set(0, forKey: "Location")
         super.viewDidLoad()
         print(Int(view.frame.height))
         collectionView?.backgroundView = backgroundImageView

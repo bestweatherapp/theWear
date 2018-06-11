@@ -84,7 +84,12 @@ class ThirdPage: UICollectionViewCell {
     }
     
     @objc func DoNotAllowLocation() {
-        if UserDefaults.standard.integer(forKey: "Location") == 0 { } else {
+        if UserDefaults.standard.integer(forKey: "Location") == 0 {
+            self.doNotAllowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
+            self.allowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+            self.layoutIfNeeded()
+             UserDefaults.standard.set(0, forKey: "Location")
+        } else {
             UIView.animate(withDuration: 0.3, animations: {
                 self.doNotAllowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
                 self.allowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
@@ -123,7 +128,9 @@ class ThirdPage: UICollectionViewCell {
     @objc func DonotAllowNotifications() {
         print(UserDefaults.standard.integer(forKey: "Notifications"))
         if UserDefaults.standard.integer(forKey: "Notifications") == 0 {
-            
+            self.doNotallowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
+            self.allowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+            self.layoutIfNeeded()
         } else if (UserDefaults.standard.integer(forKey: "Notifications") == 1 ||
             UserDefaults.standard.integer(forKey: "Notifications") != 0) {
             UIView.animate(withDuration: 0.3, animations: {
