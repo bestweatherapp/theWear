@@ -142,6 +142,7 @@ class ThirdPage: UICollectionViewCell {
             })
             UserDefaults.standard.set(0, forKey: "Notifications")
         }
+        UserDefaults.standard.set("07:00", forKey: "RemindHour")
     }
     
     func LayOut() {

@@ -113,6 +113,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.forecastTableView {
+          
             morningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].icon!)
             afternoonTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].icon!)
             eveningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].icon!)
@@ -1111,6 +1112,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func UpdateInfo(location: String) {
+        
         var allDates = [String]()
         var allCommentsForDetailedView = [String]() // Add new var for all comments
         var allClothesForForecastTableView = [[String]]()
@@ -1274,8 +1276,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         allHourlyTempsIcons.append("https:" + allDays[0].AllHours![i].icon!)
                     }
                 }
+                
                 self.allHours = allHours
-                self.allHourlyTemps = allHourlyTemps
+                if (UserDefaults.standard.integer(forKey: "Temperature") == 0)
+                {self.allHourlyTemps = allHourlyTemps}
+               // else {for item in allHourlyTemps
+              //  {item = item*9/5+32}
+                 //   self.allHourlyTemps = allHourlyTemps//converted to farehngheit
+              //  }
                 self.allHourlyTempsIcons = allHourlyTempsIcons
                 self.currentForecastCity = ForecastCity(Current: current_, ForecastDay: allDays)
                 myGroup.leave() // Task was completed

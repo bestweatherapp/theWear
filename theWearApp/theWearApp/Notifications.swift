@@ -21,7 +21,7 @@ func createDate(hour: Int, minute: Int) -> Date {
     return calendar.date(from: components)!
 }
 
-func scheduleNotification(atDate date: Date, title: String, body : String) {
+func scheduleNotification(atDate date: Date, title: String) {
     
     removeNotifications(withIdentifiers: ["weatherForecastNotification"])
     
@@ -30,7 +30,7 @@ func scheduleNotification(atDate date: Date, title: String, body : String) {
     
     let content = UNMutableNotificationContent()
     content.title = title
-    content.body = body 
+    content.body = "Don't forget to check the forecast for today!"
     content.sound = UNNotificationSound.default()
     
     let request = UNNotificationRequest(identifier: "weatherForecastNotification", content: content, trigger: trigger)

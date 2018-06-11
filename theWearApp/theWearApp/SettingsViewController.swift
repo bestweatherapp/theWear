@@ -72,7 +72,7 @@ class SettingsViewController: UIViewController {
             self.blurEffect.alpha = 0
             self.view.layoutIfNeeded()
         })
-       // scheduleNotification(atDate: datePicker.date, title: "Daily weather forecast")
+        scheduleNotification(atDate: datePicker.date, title: "Daily notification")
         self.blurEffect.isHidden = true
         self.datePickerView.isHidden = true
     }
@@ -284,6 +284,12 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Layout()
+        if (UserDefaults.standard.integer(forKey: "Temperature") == 0)
+        {tempSegmentedControl.selectedSegmentIndex = 0}
+        else {tempSegmentedControl.selectedSegmentIndex = 1}
+        if (UserDefaults.standard.integer(forKey: "Wind") == 0)
+        {windSegmentedControl.selectedSegmentIndex = 0}
+        else {windSegmentedControl.selectedSegmentIndex = 1}
         if (UserDefaults.standard.string(forKey: "Gender") == "Woman")
         {womanWasChoosen()}
         else {manButton}
@@ -311,11 +317,11 @@ class SettingsViewController: UIViewController {
     @objc func changeTemp(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            UserDefaults.standard.set(0, forKey: "Temp")
+            UserDefaults.standard.set(0, forKey: "Temperature")
         case 1:
-            UserDefaults.standard.set(1, forKey: "Temp")
+            UserDefaults.standard.set(1, forKey: "Temperature")
         default:
-            UserDefaults.standard.set(0, forKey: "Temp")
+            UserDefaults.standard.set(0, forKey: "Temperature")
         }
     }
     
