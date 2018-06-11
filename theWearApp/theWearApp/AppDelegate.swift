@@ -10,7 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow()
         self.window?.makeKeyAndVisible()
-        
+        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         if let city = FetchCities() {
             cities = city
         } else {
@@ -58,6 +58,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SaveCity(cities: cities!)
         print("Will Terminate") // Practically never called
     }
+    func application(_ application: UIApplication,
+                     performFetchWithCompletionHandler completionHandler:
+        @escaping (UIBackgroundFetchResult) -> Void) {
+        
+         let sc = SettingsViewController()
+        
+        completionHandler(.newData)
+        let config = URLSessionConfiguration.background(withIdentifier: "bg")
+        let session = URLSession(configuration: config)
+        let comment =  NotificationComment(location: "Current location", session : session)
+        
+        scheduleNotification(atDate: createDate(hour: 22, minute: 17), title: "Notification", body : comment)
+    }
+    
 }
 extension AppDelegate: UNUserNotificationCenterDelegate {
     

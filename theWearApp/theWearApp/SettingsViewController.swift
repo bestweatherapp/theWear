@@ -72,6 +72,7 @@ class SettingsViewController: UIViewController {
             self.blurEffect.alpha = 0
             self.view.layoutIfNeeded()
         })
+       // scheduleNotification(atDate: datePicker.date, title: "Daily weather forecast")
         self.blurEffect.isHidden = true
         self.datePickerView.isHidden = true
     }
@@ -286,7 +287,7 @@ class SettingsViewController: UIViewController {
         if (UserDefaults.standard.string(forKey: "Gender") == "Woman")
         {womanWasChoosen()}
         else {manButton}
-        if (UserDefaults.standard.string(forKey: "Notifications") == "Yes")
+        if (UserDefaults.standard.integer(forKey: "Notifications") == 1)
         {notificationsSwitch.isOn = true
             datePicker.isEnabled = true
         }
@@ -294,13 +295,16 @@ class SettingsViewController: UIViewController {
             datePicker.isEnabled = false
         }
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm"
-        if (UserDefaults.standard.string(forKey: "RemindHour") != nil||UserDefaults.standard.string(forKey: "RemindHour") != "" ){
+        dateFormatter.dateFormat = "HH:mm"
+        print (UserDefaults.standard.string(forKey: "RemindHour")! )
+        if (UserDefaults.standard.string(forKey: "RemindHour") != nil&&UserDefaults.standard.string(forKey: "RemindHour") != "" ){
+            if (UserDefaults.standard.string(forKey: "RemindHour") != nil){
             let date = dateFormatter.date(from: UserDefaults.standard.string(forKey: "RemindHour")!)
             datePicker.date = date!
             onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal) }
         else {datePicker.date = dateFormatter.date(from : "07:00")!
             onMorning.setTitle("07:00", for: .normal) }
+        }
         view.backgroundColor = .white
     }
     
@@ -351,10 +355,10 @@ class SettingsViewController: UIViewController {
     @objc func switchChanged(_ sender: UISwitch) {
         if sender.isOn {
             //print("Notifications on")
-            UserDefaults.standard.set("Yes", forKey: "Notifications")
+            UserDefaults.standard.set(1, forKey: "Notifications")
             datePicker.isEnabled = true
         } else {
-            UserDefaults.standard.set("No", forKey: "Notifications")
+            UserDefaults.standard.set(0, forKey: "Notifications")
             datePicker.isEnabled = false
             //print("Notifications off")
         }

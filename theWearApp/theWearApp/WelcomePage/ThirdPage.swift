@@ -108,6 +108,7 @@ class ThirdPage: UICollectionViewCell {
         center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             if granted {
                 UserDefaults.standard.set(1, forKey: "Notifications")
+                UserDefaults.standard.set("07:00", forKey: "RemindHour")
             } else {
                 UserDefaults.standard.set(0, forKey: "Notifications")
             }
@@ -123,6 +124,7 @@ class ThirdPage: UICollectionViewCell {
         if UserDefaults.standard.integer(forKey: "Notifications") != 0 && UserDefaults.standard.integer(forKey: "Notifications") != 1 {
             UserDefaults.standard.set(1, forKey: "Notifications")
         }
+       //  scheduleNotification(atDate:createDate(hour: 07, minute: 00) , title: "Daily forecast")
     }
     
     @objc func DonotAllowNotifications() {

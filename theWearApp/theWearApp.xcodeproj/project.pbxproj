@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A72AA27620CED5260071CD7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A72AA27520CED5250071CD7E /* Assets.xcassets */; };
+		A72AA27820CEE7EE0071CD7E /* NotificationComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72AA27720CEE7EE0071CD7E /* NotificationComment.swift */; };
 		A7BB513B20C09E43003AD0D0 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */; };
 		A7EBC80420C03455008A7C58 /* UserNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EBC80320C03455008A7C58 /* UserNotifications.swift */; };
 		BA071E6620CC8EDB00D6746B /* SetTheBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA071E6520CC8EDB00D6746B /* SetTheBackground.swift */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		A72AA27520CED5250071CD7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
+		A72AA27720CEE7EE0071CD7E /* NotificationComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationComment.swift; sourceTree = "<group>"; };
 		A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
 		A7EBC80320C03455008A7C58 /* UserNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotifications.swift; sourceTree = "<group>"; };
 		BA071E6520CC8EDB00D6746B /* SetTheBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTheBackground.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */,
 				BA071E6520CC8EDB00D6746B /* SetTheBackground.swift */,
 				BA0A14C920CDCB70008E2FE3 /* Notifications.swift */,
+				A72AA27720CEE7EE0071CD7E /* NotificationComment.swift */,
 			);
 			path = theWearApp;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				BA5630EC20B8755C0052FAD2 /* DateFormaterFunctions.swift in Sources */,
 				BA5630E020B6297D0052FAD2 /* HourCell.swift in Sources */,
 				BA5630E220B6A5DD0052FAD2 /* SearchViewController.swift in Sources */,
+				A72AA27820CEE7EE0071CD7E /* NotificationComment.swift in Sources */,
 				A7BB513B20C09E43003AD0D0 /* InternetConnection.swift in Sources */,
 				BA5630E620B76B730052FAD2 /* Weather.swift in Sources */,
 				BAA29D4F20C44008003BB361 /* ThirdPage.swift in Sources */,

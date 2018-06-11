@@ -1289,17 +1289,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.commentForNotification = allCommentsForDetailedView[0]
                     var hour = 0
                     var minute = 50
+                    if (UserDefaults.standard.string(forKey: "RemindHour") != nil){
                     if UserDefaults.standard.string(forKey: "RemindHour")!.count == 5 {
                         hour = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropLast(3))!
                         minute = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropFirst(3))!
                     } else {
                         hour = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropLast(3))!
                         minute = Int(UserDefaults.standard.string(forKey: "RemindHour")!.dropFirst(2))!
-                    }
-                    if CheckInternet.Connection() {
-                        if (UserDefaults.standard.string(forKey: "Notifications") == "Yes"){
-                            scheduleNotification(atDate: createDate(hour: hour, minute: minute), body: allCommentsForDetailedView[0], title: "Weather forecast for a day")
-                        }  }
+                        }}
+                  
                     self.currentLocation.attributedText = NSMutableAttributedString(string: location, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                     self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                     self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
@@ -1353,7 +1351,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.set("01:19", forKey: "RemindHour")
         UpdateInfo(location: "Current location")
         hideKeyboardWhenTappedOutside()
         view.addSubview(backgroundImage)
