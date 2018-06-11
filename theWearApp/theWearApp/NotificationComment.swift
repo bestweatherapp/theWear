@@ -28,7 +28,7 @@ func NotificationComment(location: String, session : URLSession )-> String {
     
     if (currentLocation != nil)
     {
-        
+        //
         let correctLocation = location.replacingOccurrences(of: " ", with: "%20")
         let urlString = (location == "Current location") ? "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(String(describing: currentLocation.coordinate.latitude)),\(String(describing: currentLocation.coordinate.longitude))&days=7" : "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(correctLocation)&days=7"
         guard let url = URL(string: urlString) else { return "" }
