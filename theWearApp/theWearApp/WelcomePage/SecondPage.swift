@@ -28,7 +28,7 @@ class SecondPage: UICollectionViewCell {
     }()
     
     private let image: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "back"))
+        let image = UIImageView(image: UIImage(named: "for2page"))
         return image
     }()
     

@@ -237,7 +237,11 @@ class SettingsViewController: UIViewController {
          let tempChoose = ["°C", "°F"]
         let sc = UISegmentedControl(items: tempChoose)
         sc.translatesAutoresizingMaskIntoConstraints = false
-        sc.selectedSegmentIndex = 0
+        if UserDefaults.standard.integer(forKey: "Temperature") == 0 {
+           sc.selectedSegmentIndex = 0
+        } else {
+            sc.selectedSegmentIndex = 1
+        }
         sc.tintColor = .white
         sc.layer.borderWidth = 1
         sc.layer.borderColor = UIColor.dark.cgColor
@@ -251,7 +255,11 @@ class SettingsViewController: UIViewController {
     private let windSegmentedControl: UISegmentedControl = {
         let windChoose = ["mPs", "kPh"]
         let sc = UISegmentedControl(items: windChoose)
-        sc.selectedSegmentIndex = 0
+        if UserDefaults.standard.integer(forKey: "Wind") == 0 {
+            sc.selectedSegmentIndex = 0
+        } else {
+            sc.selectedSegmentIndex = 1
+        }
         sc.tintColor = .white
         sc.layer.borderWidth = 1
         sc.layer.borderColor = UIColor.dark.cgColor
@@ -262,19 +270,6 @@ class SettingsViewController: UIViewController {
         return sc
     }()
     
-    private let pressureSegmentedControl: UISegmentedControl = {
-        let pressureChoose = ["x", "y"]
-        let sc = UISegmentedControl(items: pressureChoose)
-        sc.selectedSegmentIndex = 0
-        sc.tintColor = .white
-        sc.layer.borderWidth = 1
-        sc.layer.borderColor = UIColor.dark.cgColor
-        sc.translatesAutoresizingMaskIntoConstraints = false
-        sc.layer.cornerRadius = 15
-        sc.backgroundColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
-        sc.addTarget(self, action: #selector(changePressure), for: .valueChanged)
-        return sc
-    }()
     
     @objc func CloseSettings() {
          NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
@@ -284,12 +279,8 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Layout()
-        if (UserDefaults.standard.integer(forKey: "Temperature") == 0)
-        {tempSegmentedControl.selectedSegmentIndex = 0}
-        else {tempSegmentedControl.selectedSegmentIndex = 1}
-        if (UserDefaults.standard.integer(forKey: "Wind") == 0)
-        {windSegmentedControl.selectedSegmentIndex = 0}
-        else {windSegmentedControl.selectedSegmentIndex = 1}
+  
+    
         if (UserDefaults.standard.string(forKey: "Gender") == "Woman")
         {womanWasChoosen()}
         else {manButton}
@@ -318,10 +309,13 @@ class SettingsViewController: UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             UserDefaults.standard.set(0, forKey: "Temperature")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
         case 1:
             UserDefaults.standard.set(1, forKey: "Temperature")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
         default:
             UserDefaults.standard.set(0, forKey: "Temperature")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
         }
     }
     
@@ -329,21 +323,13 @@ class SettingsViewController: UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             UserDefaults.standard.set(0, forKey: "Wind")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
         case 1:
             UserDefaults.standard.set(1, forKey: "Wind")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
         default:
             UserDefaults.standard.set(0, forKey: "Wind")
-        }
-    }
-    
-    @objc func changePressure(sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            UserDefaults.standard.set(0, forKey: "Pressure")
-        case 1:
-            UserDefaults.standard.set(1, forKey: "Pressure")
-        default:
-            UserDefaults.standard.set(0, forKey: "Pressure")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
         }
     }
     
@@ -371,7 +357,7 @@ class SettingsViewController: UIViewController {
     }
     
     private func Layout() {
-        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, pressureLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, pressureSegmentedControl, notificationsSwitch, blurEffect, datePickerView].forEach {view.addSubview($0)}
+        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, pressureLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, notificationsSwitch, blurEffect, datePickerView].forEach {view.addSubview($0)}
         datePickerView.addSubview(closeDatePicker)
         datePickerView.addSubview(datePicker)
         datePickerView.addSubview(okButton)
@@ -409,10 +395,6 @@ class SettingsViewController: UIViewController {
         windSegmentedControl.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 90, height: 30))
         windSegmentedControl.centerYAnchor.constraint(equalTo: windLabel.centerYAnchor).isActive = true
     
-        // Pressure
-        pressureSegmentedControl.anchor(top: nil, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: padding), size: .init(width: 90, height: 30))
-        pressureSegmentedControl.centerYAnchor.constraint(equalTo: pressureLabel.centerYAnchor).isActive = true
-        
         // Notifications
         notificationsSwitch.centerYAnchor.constraint(equalTo: notificationsLabel.centerYAnchor).isActive = true
         notificationsSwitch.centerXAnchor.constraint(equalTo: tempSegmentedControl.centerXAnchor).isActive = true
@@ -456,7 +438,7 @@ class SettingsViewController: UIViewController {
         
         onMorning.centerYAnchor.constraint(equalTo: notifyInMorning.centerYAnchor).isActive = true
         onMorning.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        onMorning.centerXAnchor.constraint(equalTo: pressureSegmentedControl.centerXAnchor).isActive = true
+        onMorning.centerXAnchor.constraint(equalTo: windSegmentedControl.centerXAnchor).isActive = true
         onMorning.widthAnchor.constraint(equalToConstant: 70).isActive = true
         onMorning.heightAnchor.constraint(equalToConstant: 20).isActive = true
         

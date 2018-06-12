@@ -72,8 +72,8 @@ class ThirdPage: UICollectionViewCell {
         locationManager.requestAlwaysAuthorization()
         if UserDefaults.standard.integer(forKey: "Location") == 1 { } else {
             UIView.animate(withDuration: 0.3, animations: {
-                self.allowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
-                self.doNotAllowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+                self.allowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 19)
+                self.doNotAllowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 18)
                 self.layoutIfNeeded()
             })
             UserDefaults.standard.set(1, forKey: "Location")
@@ -85,14 +85,14 @@ class ThirdPage: UICollectionViewCell {
     
     @objc func DoNotAllowLocation() {
         if UserDefaults.standard.integer(forKey: "Location") == 0 {
-            self.doNotAllowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
-            self.allowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+            self.doNotAllowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 19)
+            self.allowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 18)
             self.layoutIfNeeded()
              UserDefaults.standard.set(0, forKey: "Location")
         } else {
             UIView.animate(withDuration: 0.3, animations: {
-                self.doNotAllowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
-                self.allowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+                self.doNotAllowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 19)
+                self.allowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 18)
                 self.layoutIfNeeded()
             })
             UserDefaults.standard.set(0, forKey: "Location")
@@ -115,8 +115,8 @@ class ThirdPage: UICollectionViewCell {
         }
         if UserDefaults.standard.integer(forKey: "Notifications") == 1 { } else {
             UIView.animate(withDuration: 0.3, animations: {
-                self.allowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
-                self.doNotallowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+                self.allowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 19)
+                self.doNotallowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 18)
                 self.layoutIfNeeded()
             })
             UserDefaults.standard.set(1, forKey: "Notifications")
@@ -130,14 +130,14 @@ class ThirdPage: UICollectionViewCell {
     @objc func DonotAllowNotifications() {
         print(UserDefaults.standard.integer(forKey: "Notifications"))
         if UserDefaults.standard.integer(forKey: "Notifications") == 0 {
-            self.doNotallowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
-            self.allowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+            self.doNotallowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 21)
+            self.allowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 18)
             self.layoutIfNeeded()
         } else if (UserDefaults.standard.integer(forKey: "Notifications") == 1 ||
             UserDefaults.standard.integer(forKey: "Notifications") != 0) {
             UIView.animate(withDuration: 0.3, animations: {
-                self.doNotallowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
-                self.allowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+                self.doNotallowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 19)
+                self.allowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 18)
                 self.layoutIfNeeded()
             })
             UserDefaults.standard.set(0, forKey: "Notifications")
@@ -179,22 +179,22 @@ class ThirdPage: UICollectionViewCell {
         
         allowNotifications.setTitle("Of course", for: .normal)
         allowNotifications.setTitleColor(UIColor.dark, for: .normal)
-        allowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+        allowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 18)
         allowNotifications.addTarget(self, action: #selector(AllowNotifications), for: .touchUpInside)
         
         doNotallowNotifications.setTitle("No", for: .normal)
         doNotallowNotifications.setTitleColor(UIColor.dark, for: .normal)
-        doNotallowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+        doNotallowNotifications.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 18)
         doNotallowNotifications.addTarget(self, action: #selector(DonotAllowNotifications), for: .touchUpInside)
         
         allowLocation.setTitle("Sure", for: .normal)
         allowLocation.setTitleColor(UIColor.dark, for: .normal)
-        allowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+        allowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 18)
         allowLocation.addTarget(self, action: #selector(AllowLocation), for: .touchUpInside)
         
         doNotAllowLocation.setTitle("No", for: .normal)
         doNotAllowLocation.setTitleColor(UIColor.dark, for: .normal)
-        doNotAllowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+        doNotAllowLocation.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 18)
         doNotAllowLocation.addTarget(self, action: #selector(DoNotAllowLocation), for: .touchUpInside)
         
         popUpView.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 75, left: 30, bottom: 75, right: 30), size: .init())
@@ -204,13 +204,13 @@ class ThirdPage: UICollectionViewCell {
         setLocation.anchor(top: allowNotifications.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: padding * 3, left: 0, bottom: 0, right: 0), size: .init())
         setLocation.centerXAnchor.constraint(equalTo: popUpView.centerXAnchor).isActive = true
         
-        allowNotifications.anchor(top: setNotifications.bottomAnchor, leading: popUpView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: padding * 3, left: padding * 10, bottom: 0, right: 0), size: .init(width: 100, height: 40))
+        allowNotifications.anchor(top: setNotifications.bottomAnchor, leading: popUpView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: padding * 3, left: padding * 5, bottom: 0, right: 0), size: .init(width: 100, height: 40))
         
-        doNotallowNotifications.anchor(top: setNotifications.bottomAnchor, leading: nil, bottom: nil, trailing: popUpView.trailingAnchor, padding: .init(top: padding * 3, left: 0, bottom: 0, right: padding * 10), size: .init(width: 60, height: 40))
+        doNotallowNotifications.anchor(top: setNotifications.bottomAnchor, leading: nil, bottom: nil, trailing: popUpView.trailingAnchor, padding: .init(top: padding * 3, left: 0, bottom: 0, right: padding * 5), size: .init(width: 60, height: 40))
         
-        allowLocation.anchor(top: setLocation.bottomAnchor, leading: popUpView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: padding * 3, left: padding * 10, bottom: 0, right: 0), size: .init(width: 100, height: 40))
+        allowLocation.anchor(top: setLocation.bottomAnchor, leading: popUpView.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: padding * 3, left: padding * 5, bottom: 0, right: 0), size: .init(width: 100, height: 40))
         
-        doNotAllowLocation.anchor(top: setLocation.bottomAnchor, leading: nil, bottom: nil, trailing: popUpView.trailingAnchor, padding: .init(top: padding * 3, left: 0, bottom: 0, right: padding * 10), size: .init(width: 60, height: 40))
+        doNotAllowLocation.anchor(top: setLocation.bottomAnchor, leading: nil, bottom: nil, trailing: popUpView.trailingAnchor, padding: .init(top: padding * 3, left: 0, bottom: 0, right: padding * 5), size: .init(width: 60, height: 40))
         
     }
     
