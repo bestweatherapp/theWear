@@ -1415,6 +1415,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(UpdateFavourits), name: NSNotification.Name(rawValue: "upF"), object: nil)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "closeSVC"), object: nil, queue: nil, using: catchNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(CloseSVC), name: NSNotification.Name(rawValue: "closeSVCA"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Animate), name: NSNotification.Name(rawValue: "animateVC"), object: nil)
 //        if (UserDefaults.standard.integer(forKey: "Notifications")==0)
 //        {
 //            let center =  UNUserNotificationCenter.current()
@@ -1440,7 +1441,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         LayOut()
     }
     
-    private func Animate() {
+    @objc func Animate() {
         self.theLabel.frame.origin.x = 0
         self.weaLabel.frame.origin.x = 0
         UIView.animate(withDuration: 2, delay: 0.25, options: [.autoreverse, .repeat], animations: {

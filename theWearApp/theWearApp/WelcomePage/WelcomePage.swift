@@ -66,6 +66,7 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
             }
             let mainVC = ViewController()
             present(mainVC, animated: true, completion: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "animateVC"), object: nil)
         }
         pageControl.currentPage = nextIndex
         collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
