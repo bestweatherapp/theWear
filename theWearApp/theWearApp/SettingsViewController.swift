@@ -10,6 +10,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
+    // Date picker view
     private let datePickerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -23,6 +24,7 @@ class SettingsViewController: UIViewController {
         return view
     }()
     
+    // Date picker itself
     private let datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.timeZone = NSTimeZone.local
@@ -35,6 +37,7 @@ class SettingsViewController: UIViewController {
     }()
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
+        
     }
     
     private let closeDatePicker: UIButton = {
@@ -181,9 +184,15 @@ class SettingsViewController: UIViewController {
     
     private let manButton: UIButton = {
         let manGender = UIButton()
-        manGender.setTitle("Man", for: .normal)
-        manGender.setTitleColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80), for: .normal)
-        manGender.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+        if UserDefaults.standard.string(forKey: "Gender") == "Man" {
+            manGender.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
+            manGender.setTitle("Man", for: .normal)
+            manGender.setTitleColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80), for: .normal)
+        } else {
+            manGender.setTitle("Man", for: .normal)
+            manGender.setTitleColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80), for: .normal)
+            manGender.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+        }
         manGender.addTarget(self, action: #selector(manWasChoosen), for: .touchUpInside)
         return manGender
     }()
@@ -202,9 +211,15 @@ class SettingsViewController: UIViewController {
     }
     private let womanButton: UIButton = {
         let womanGender = UIButton()
-        womanGender.setTitle("Woman", for: .normal)
-        womanGender.setTitleColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80), for: .normal)
-        womanGender.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+        if (UserDefaults.standard.string(forKey: "Gender") == "Woman") {
+            womanGender.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
+            womanGender.setTitle("Woman", for: .normal)
+            womanGender.setTitleColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80), for: .normal)
+        } else {
+            womanGender.setTitle("Woman", for: .normal)
+            womanGender.setTitleColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80), for: .normal)
+            womanGender.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
+        }
         womanGender.addTarget(self, action: #selector(womanWasChoosen), for: .touchUpInside)
         return womanGender
     }()
@@ -277,20 +292,17 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Layout()
-        if (UserDefaults.standard.string(forKey: "Gender") == "Woman")
-        {womanWasChoosen()}
-        else {manButton}
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
-       
-        if (UserDefaults.standard.string(forKey: "RemindHour") != nil&&UserDefaults.standard.string(forKey: "RemindHour") != "" ){
-            if (UserDefaults.standard.string(forKey: "RemindHour") != nil){
+        if UserDefaults.standard.integer(forKey: "Notifications") == 1 {
             notificationsSwitch.isOn = true
             let date = dateFormatter.date(from: UserDefaults.standard.string(forKey: "RemindHour")!)
-            datePicker.date = date!
-            onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal) }
-        else {datePicker.date = dateFormatter.date(from : "07:00")!
-            onMorning.setTitle("07:00", for: .normal) }
+                datePicker.date = date!
+                onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
+            } else {
+                notificationsSwitch.isOn = false
+                datePicker.date = dateFormatter.date(from : "07:00")!
+                onMorning.setTitle("07:00", for: .normal)
         }
         view.backgroundColor = .white
     }
@@ -336,7 +348,6 @@ class SettingsViewController: UIViewController {
     
     @objc func switchChanged(_ sender: UISwitch) {
         if sender.isOn {
-            //print("Notifications on")
             UserDefaults.standard.set(1, forKey: "Notifications")
             onMorning.isEnabled = true
             onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
@@ -354,11 +365,6 @@ class SettingsViewController: UIViewController {
         datePickerView.addSubview(closeDatePicker)
         datePickerView.addSubview(datePicker)
         datePickerView.addSubview(okButton)
-        if UserDefaults.standard.string(forKey: "Gender") == "Man" {
-            self.manButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
-        } else {
-            self.womanButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 17)
-        }
         
         var padding: CGFloat = 0
         
@@ -378,7 +384,6 @@ class SettingsViewController: UIViewController {
         default:
             return
         }
-
         
         // Temperature
         tempSegmentedControl.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor).isActive = true
@@ -398,14 +403,8 @@ class SettingsViewController: UIViewController {
         datePicker.anchor(top: closeDatePicker.bottomAnchor, leading: datePickerView.leadingAnchor, bottom: datePickerView.bottomAnchor, trailing: datePickerView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 35, right: 0), size: .init())
         okButton.anchor(top: datePicker.bottomAnchor, leading: datePickerView.leadingAnchor, bottom: datePickerView.bottomAnchor, trailing: datePickerView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
         
-        
         // Blur effect
         blurEffect.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
-        
-        
-        
-        
-        
         
         topLine.anchor(top: closeButton.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 25, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: 0.5))
         

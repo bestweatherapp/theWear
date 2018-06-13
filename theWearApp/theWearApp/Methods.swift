@@ -94,7 +94,15 @@ class Methods
     func GetFutureComment(day: ForecastDay, avgmorning : Double, avgday : Double, avgevening : Double, gender: String) -> (String,[String]) {
         var comment = ""
         var images = [String]()
-        switch Int((day.temperature_avg)!)
+        var correctTemp = Int((day.temperature_avg)!)
+        if UserDefaults.standard.integer(forKey: "Grimy") == 10 {
+            correctTemp -= 1
+        } else if UserDefaults.standard.integer(forKey: "Grimy") == 0 {
+            correctTemp += 1
+        } else {
+            
+        }
+        switch correctTemp
         {
         case -70 ..< -30 :
             comment += " Extremely cold! Avoid being outside unless dressed up properly! "
@@ -245,7 +253,7 @@ class Methods
                 images.append("skirt-3")
                 images.append("flat-shoes")}
         case  25..<35:
-            if (Int((day.temperature_avg)!) > 29) && (Int(day.avghumidity!) > 70)
+            if (correctTemp > 29) && (Int(day.avghumidity!) > 70)
             {
                 comment += " Very hot outside. Mind the dehydration! Put on a t-shirt and shorts. "
                 if (gender == "Man"){

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A731953620D1B13C00D178C9 /* Assets 3.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A731953520D1B13C00D178C9 /* Assets 3.xcassets */; };
 		A7BB513B20C09E43003AD0D0 /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */; };
 		A7EBC80420C03455008A7C58 /* UserNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EBC80320C03455008A7C58 /* UserNotifications.swift */; };
 		BA071E6620CC8EDB00D6746B /* SetTheBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA071E6520CC8EDB00D6746B /* SetTheBackground.swift */; };
@@ -15,6 +14,7 @@
 		BA20553720B52BBD00EB9DDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA20553620B52BBD00EB9DDC /* AppDelegate.swift */; };
 		BA20553920B52BBD00EB9DDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA20553820B52BBD00EB9DDC /* ViewController.swift */; };
 		BA20554120B52BBD00EB9DDC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA20553F20B52BBD00EB9DDC /* LaunchScreen.storyboard */; };
+		BA45F95620D1CF3700313B1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA45F95520D1CF3700313B1A /* Assets.xcassets */; };
 		BA5630D720B5E2F90052FAD2 /* WelcomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5630D620B5E2F90052FAD2 /* WelcomePage.swift */; };
 		BA5630DE20B629710052FAD2 /* DayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5630DD20B629710052FAD2 /* DayCell.swift */; };
 		BA5630E020B6297D0052FAD2 /* HourCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5630DF20B6297D0052FAD2 /* HourCell.swift */; };
@@ -40,7 +40,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A731953520D1B13C00D178C9 /* Assets 3.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Assets 3.xcassets"; path = "../../../../Downloads/Assets 3.xcassets"; sourceTree = "<group>"; };
 		A7BB513A20C09E43003AD0D0 /* InternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
 		A7EBC80320C03455008A7C58 /* UserNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotifications.swift; sourceTree = "<group>"; };
 		BA071E6520CC8EDB00D6746B /* SetTheBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTheBackground.swift; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		BA20553820B52BBD00EB9DDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BA20554020B52BBD00EB9DDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA20554220B52BBD00EB9DDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA45F95520D1CF3700313B1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Assets.xcassets; sourceTree = "<group>"; };
 		BA5630D620B5E2F90052FAD2 /* WelcomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePage.swift; sourceTree = "<group>"; };
 		BA5630DD20B629710052FAD2 /* DayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCell.swift; sourceTree = "<group>"; };
 		BA5630DF20B6297D0052FAD2 /* HourCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourCell.swift; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		BA20553520B52BBC00EB9DDC /* theWearApp */ = {
 			isa = PBXGroup;
 			children = (
-				A731953520D1B13C00D178C9 /* Assets 3.xcassets */,
+				BA45F95520D1CF3700313B1A /* Assets.xcassets */,
 				BA20553620B52BBD00EB9DDC /* AppDelegate.swift */,
 				BA20553820B52BBD00EB9DDC /* ViewController.swift */,
 				BA5630E120B6A5DD0052FAD2 /* SearchViewController.swift */,
@@ -219,13 +219,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA71B91920B9B621008DABAF /* SF-Pro-Display-Ultralight.otf in Resources */,
-				A731953620D1B13C00D178C9 /* Assets 3.xcassets in Resources */,
 				BA5630FB20B8D3E50052FAD2 /* SF-Pro-Display-Bold.otf in Resources */,
 				BA5630F720B88ED20052FAD2 /* SF-Pro-Display-Medium.otf in Resources */,
 				BA5630F620B88ECD0052FAD2 /* SF-Pro-Display-Light.otf in Resources */,
 				BA5630F120B87DF00052FAD2 /* NanumGothic-ExtraBold.ttf in Resources */,
 				BA5630F320B87DF00052FAD2 /* NanumGothic-Regular.ttf in Resources */,
 				BA20554120B52BBD00EB9DDC /* LaunchScreen.storyboard in Resources */,
+				BA45F95620D1CF3700313B1A /* Assets.xcassets in Resources */,
 				BA5630F220B87DF00052FAD2 /* NanumGothic-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -394,14 +394,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 99F33CAX5W;
+				DEVELOPMENT_TEAM = 78FSRJL5ZR;
 				INFOPLIST_FILE = theWearApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Inc..theWearApp------";
+				PRODUCT_BUNDLE_IDENTIFIER = Inc..theWearApp00;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -413,14 +413,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 99F33CAX5W;
+				DEVELOPMENT_TEAM = 78FSRJL5ZR;
 				INFOPLIST_FILE = theWearApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Inc..theWearApp------";
+				PRODUCT_BUNDLE_IDENTIFIER = Inc..theWearApp00;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

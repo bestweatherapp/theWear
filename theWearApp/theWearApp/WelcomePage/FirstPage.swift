@@ -65,7 +65,8 @@ class FirstPage: UICollectionViewCell {
         
         switch UIScreen.main.nativeBounds.height {
         case 1136:
-            print("iPhone 5")
+            fontOfAdditionText = 14
+            imageSize = 80
         case 1334:
             fontOfAdditionText = 16
             imageSize = 100
@@ -73,7 +74,8 @@ class FirstPage: UICollectionViewCell {
             fontOfAdditionText = 14
             imageSize = 120
         case 2436:
-            print("iPhone X")
+            fontOfAdditionText = 16
+            imageSize = 100
         default:
             return
         }

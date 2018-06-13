@@ -113,8 +113,7 @@ class SecondPage: UICollectionViewCell {
     @objc func sliderValueDidChange(_ sender:UISlider!) {
         let roundedStepValue = round(sender.value / step) * step
         sender.value = roundedStepValue
-        
-        print(roundedStepValue)
+        UserDefaults.standard.set(roundedStepValue, forKey: "Grimy")
     }
     
     let manGender = UIButton()
@@ -128,8 +127,9 @@ class SecondPage: UICollectionViewCell {
         grimySlider.isContinuous = true
         grimySlider.tintColor = UIColor(red: 128/255, green: 170/255, blue: 214/255, alpha: 1)
         grimySlider.value = 5
+        UserDefaults.standard.set(grimySlider.value, forKey: "Grimy")
         grimySlider.addTarget(self, action: #selector(sliderValueDidChange(_ :)), for: .valueChanged)
-        //UserDefaults.standard.set("07:00", forKey: "RemindHour")
+        
         manGender.setTitle("Man", for: .normal)
         manGender.setTitleColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80), for: .normal)
         manGender.titleLabel?.font = UIFont(name: "SFProDisplay-Light", size: 16)
@@ -148,7 +148,9 @@ class SecondPage: UICollectionViewCell {
         
         switch UIScreen.main.nativeBounds.height {
         case 1136:
-            print("iPhone 5")
+            fontForAdditionText = 12
+            padding = 6
+            imageSize = 80
         case 1334:
             fontForAdditionText = 16
             padding = 6
@@ -158,7 +160,9 @@ class SecondPage: UICollectionViewCell {
             imageSize = 120
             padding = 12
         case 2436:
-            print("iPhone X")
+            fontForAdditionText = 16
+            padding = 6
+            imageSize = 100
         default:
             return
         }

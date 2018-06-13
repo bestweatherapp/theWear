@@ -54,8 +54,16 @@ class WelcomePage: UICollectionViewController, UICollectionViewDelegateFlowLayou
             nextButton.setTitle("Next", for: .normal)
         }
         if pageControl.currentPage == indexPath.item {
+            // Set firstTimeOpened
             UserDefaults.standard.set(true, forKey: "firstTimeOpened")
-            //UserDefaults.standard.set("7:00", forKey: "RemindHour")
+            // Set Man for Gender if you havent choosen anything
+            if UserDefaults.standard.string(forKey: "Gender") == nil {
+                UserDefaults.standard.set("Man", forKey: "Gender")
+            }
+            // Set notifications
+            if UserDefaults.standard.integer(forKey: "Notifications") == 1 {
+                scheduleNotification(atDate:createDate(hour: 07, minute: 00) , title: "Daily notifications")
+            }
             let mainVC = ViewController()
             present(mainVC, animated: true, completion: nil)
         }

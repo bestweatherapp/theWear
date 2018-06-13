@@ -1059,24 +1059,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         [theLabel, weaLabel, rLabel, dissabledInternetLabelOnSplash].forEach {splashScreen.addSubview($0)}
         
         switch UIScreen.main.nativeBounds.height {
+            // TODO FOR IPHONE 5S
         case 1136:
-            print("iPhone 5")
-            padding = 22
-            paddingForSplash = 0
+            padding = 15
+            lineWidth = 180
+            paddingForSplash = 20
         case 1334:
-            print("iPhone 7")
             padding = 33
             lineWidth = 259
             paddingForSplash = 45
         case 1920:
-            print("iPhone 7+")
             padding = 40.8
             lineWidth = 282.4
             paddingForSplash = 64.5
         case 2436:
-            print("iPhone X")
             padding = 33
-            paddingForSplash = 0
+            lineWidth = 259
+            paddingForSplash = 45
         default:
             return
         }
@@ -1084,6 +1083,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // Error label
         errorLabel.anchor(top: topStackView.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init())
         errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+       
         
         // Blur View
         blurEffect.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
@@ -1307,10 +1307,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
             }
         }
-        UIView.animate(withDuration: 0.5) {
-            self.errorLabel.alpha = 1
-            self.errorLabel.isHidden = false
-            self.view.layoutIfNeeded()
+        if check == false {
+            UIView.animate(withDuration: 0.5) {
+                self.errorLabel.alpha = 1
+                self.errorLabel.isHidden = false
+                self.view.layoutIfNeeded()
+            }
         }
         UIView.animate(withDuration: 0.4) {
             self.blurEffect.alpha = 0
@@ -1413,21 +1415,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(UpdateFavourits), name: NSNotification.Name(rawValue: "upF"), object: nil)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "closeSVC"), object: nil, queue: nil, using: catchNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(CloseSVC), name: NSNotification.Name(rawValue: "closeSVCA"), object: nil)
-        if (UserDefaults.standard.integer(forKey: "Notifications")==0)
-        {
-            let center =  UNUserNotificationCenter.current()
-            center.requestAuthorization(options: [.alert, .sound, .badge]) { (result, error) in
-                //handle result of request failure
-            }
-        }
-        locationManager.requestAlwaysAuthorization()
-        if CLLocationManager.locationServicesEnabled()
-        {   timer.invalidate()
-            locationManager.delegate = self
-            locationManager.startMonitoringSignificantLocationChanges()
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingHeading()
-        }
+//        if (UserDefaults.standard.integer(forKey: "Notifications")==0)
+//        {
+//            let center =  UNUserNotificationCenter.current()
+//            center.requestAuthorization(options: [.alert, .sound, .badge]) { (result, error) in
+//                //handle result of request failure
+//            }
+//        }
+//        locationManager.requestAlwaysAuthorization()
+//        if CLLocationManager.locationServicesEnabled()
+//        {   timer.invalidate()
+//            locationManager.delegate = self
+//            locationManager.startMonitoringSignificantLocationChanges()
+//            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//            locationManager.startUpdatingHeading()
+//        }
         forecastTableView.delegate = self
         forecastTableView.dataSource = self
         favouriteCitiesTableView.delegate = self
