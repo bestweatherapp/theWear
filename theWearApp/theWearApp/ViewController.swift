@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  theWearApp
-//
-//  Created by Maxim Reshetov on 23.05.2018.
-//  Copyright © 2018 theWear. All rights reserved.
-//
 
 import UIKit
 import CoreLocation
@@ -206,7 +199,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     views[(i - 3) + 9].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][i])
                 }
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
                 UIView.animate(withDuration: 0.6) {
                     self.topStackView.frame.origin.x = -self.view.frame.width
                     self.middleStackView.frame.origin.x = -self.view.frame.width
@@ -227,8 +220,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             self.currentLocation.isUserInteractionEnabled = true
             self.searchButton.isEnabled = true
 
-            UpdateWeather(location: cities![(favouriteCitiesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current)) { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
+            var check = UpdateWeather(location: cities![(favouriteCitiesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current)) { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
                 DispatchQueue.main.async {
+                    UIView.animate(withDuration: 0.5) {
+                        self.errorLabel.alpha = 0
+                        self.errorLabel.isHidden = true
+                        self.view.layoutIfNeeded()
+                    }
                     self.avgPressures = avgPress
                     self.allCommentsForDetailedView = allCommentsForDatailed
                     self.allClothesForForecastTableView = allClothesForFTB
@@ -256,13 +254,24 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         }}
                     
                     self.currentLocation.attributedText = NSMutableAttributedString(string: cities![(self.favouriteCitiesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current), attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
-                    self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                    if UserDefaults.standard.integer(forKey: "Temperature") == 0 {
+                        self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                    } else {
+                        self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°F", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                    }
                     self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                     let methods = Methods()
                     let forecastday_ = self.currentForecastCity.AllForecastDay![0]
                     var comment = methods.GetCurrentComment(Current : current_, day : forecastday_)
                     comment += methods.GetThunderComment(forecastday: forecastday_)
                     self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                }
+            }
+            if check == false {
+                UIView.animate(withDuration: 0.5) {
+                    self.errorLabel.alpha = 1
+                    self.errorLabel.isHidden = false
+                    self.view.layoutIfNeeded()
                 }
             }
             UIView.animate(withDuration: 0.4) {
@@ -316,6 +325,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var commentForNotification = ""
     var avgPressures = [Double](repeating: 0.0, count: 7)
     
+    private let dissabledInternetLabelOnSplash: UILabel = {
+        let text = UILabel()
+        text.sizeToFit()
+        text.alpha = 0
+        return text
+    }()
     
     private let slideOutMenu: UIView = {
         let view = UIView()
@@ -360,6 +375,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return button
     }()
     @objc func showSettings() {
+        [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = true}
+        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
+            self.slideOutMenu.frame.origin.x = -250
+            self.blurEffect.alpha = 0
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            self.blurEffect.isHidden = true
+        })
         let set = SettingsViewController()
         set.modalPresentationStyle = .overCurrentContext
         present(set, animated: true, completion: nil)
@@ -373,6 +396,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @objc func UpdateFavourits() {
         self.favouriteCitiesTableView.reloadData()
     }
+    
+    // Update current location Button
     private let updateWithCurrentLocationButton: UIButton = {
         let button = UIButton()
         button.setAttributedTitle(NSMutableAttributedString(string: "Current location", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedStringKey.foregroundColor:UIColor.myGray]), for: .normal)
@@ -381,8 +406,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return button
     }()
     @objc func UpdateWithCurrentLocation() {
-        UpdateWeather(location: "Current location") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
+        var check = UpdateWeather(location: "Current location") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
             DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.5) {
+                    self.errorLabel.alpha = 0
+                    self.errorLabel.isHidden = true
+                    self.view.layoutIfNeeded()
+                }
                 self.avgPressures = avgPress
                 self.allCommentsForDetailedView = allCommentsForDatailed
                 self.allClothesForForecastTableView = allClothesForFTB
@@ -395,7 +425,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.allHourlyTempsIcons = allHourlyTempsIcons
                 self.allHourlyTemps = allHourlyTemps
                 self.backgroundImage.image = UIImage(named: SetTheBackground(status: current_.status!, sunrise: allDays[0].sunrise!, currentHour: hour))
-                self.forecastTableView.reloadData()
                 self.forecastCollectionView.reloadData()
                 self.commentForNotification = allCommentsForDatailed[0]
                 var hour = 0
@@ -410,13 +439,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }}
                 
                 self.currentLocation.attributedText = NSMutableAttributedString(string: "Current location", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
-                self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                if UserDefaults.standard.integer(forKey: "Temperature") == 0 {
+                    self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                } else {
+                    self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°F", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                }
                 self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                 let methods = Methods()
                 let forecastday_ = self.currentForecastCity.AllForecastDay![0]
                 var comment = methods.GetCurrentComment(Current : current_, day : forecastday_)
                 comment += methods.GetThunderComment(forecastday: forecastday_)
                 self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+            }
+        }
+        if check == false {
+            UIView.animate(withDuration: 0.5) {
+                self.errorLabel.alpha = 1
+                self.errorLabel.isHidden = false
+                self.view.layoutIfNeeded()
             }
         }
         [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = true}
@@ -433,17 +473,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         })
     }
     
-    
     private var backgroundImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         return image
     }()
-    private let clouds: UIImageView = {
-        let view = UIImageView(image: UIImage(named: "cloudsForSplash"))
-        return view
-    }()
     
+    // Splash
     private let splashScreen: UIView = {
         let view = UIView()
         view.isHidden = false
@@ -451,6 +487,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return view
     }()
     
+    // Top
     private var topStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
@@ -464,13 +501,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return button
     }()
     @objc func OpenSlideOutMenu() {
-        [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = false}
         UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
             self.slideOutMenu.frame.origin.x = 0
             self.blurEffect.alpha = 1
             self.blurEffect.isHidden = false
             self.view.layoutIfNeeded()
         })
+        [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = false}
     }
     private let currentLocation: UILabel = {
         let text = UILabel()
@@ -498,7 +535,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.blurEffect.isHidden = false
             self.view.layoutIfNeeded()
         })
-        
     }
     @objc func CloseSVC() {
         UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
@@ -509,7 +545,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         })
     }
     
-    
+    // Middle
     private var middleStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -542,7 +578,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return text
     }()
     
-    
+    // Bottom
     private var bottomStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -553,10 +589,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         tableView.layer.cornerRadius = 30
         tableView.backgroundColor = UIColor(white: 1, alpha: 0.9)
         tableView.showsVerticalScrollIndicator = false
-        tableView.layer.shadowColor = UIColor.myGray.cgColor
-        tableView.layer.shadowOpacity = 0.5
-        tableView.layer.shadowOffset = CGSize(width: -1, height: 1)
-        tableView.layer.shadowRadius = 10
         return tableView
     }()
     let forecastCollectionView: UICollectionView = {
@@ -567,14 +599,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         collectionView.backgroundColor = UIColor(white: 1, alpha: 0.9)
         collectionView.isScrollEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.layer.shadowColor = UIColor.myGray.cgColor
-        collectionView.layer.shadowOpacity = 0.5
-        collectionView.layer.shadowOffset = CGSize(width: -1, height: 1)
-        collectionView.layer.shadowRadius = 10
         return collectionView
     }()
     
-    
+    // Detailed View
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.showsVerticalScrollIndicator = false
@@ -607,7 +635,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         scrollView.scrollToTop()
     }
     
-    
+    // Temps Icon
     private let morningTempIcon: UIImageView = {
         let image = UIImageView()
         return image
@@ -625,7 +653,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return image
     }()
     
-    
+    // Temps
     private let morningTemp: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
@@ -647,7 +675,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return text
     }()
     
-    
+    // Temps feels like
     private let morningTempFeelsLike: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
@@ -669,7 +697,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return text
     }()
     
-    
+    // Night clothes
     private let nightUpClothes: UIImageView = {
         let image = UIImageView()
         return image
@@ -686,7 +714,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let view = UIScrollView()
         return view
     }()
-    
     private let forNightAdditional1: UIImageView = {
         let image = UIImageView()
         return image
@@ -700,6 +727,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return image
     }()
     
+    // Morning clothes
     private let morningUpClothes: UIImageView = {
         let image = UIImageView()
         return image
@@ -716,7 +744,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let view = UIScrollView()
         return view
     }()
-    
     private let forMorningAdditional1: UIImageView = {
         let image = UIImageView()
         return image
@@ -730,6 +757,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return image
     }()
     
+    // Afternoon clothes
     private let afternoonUpClothes: UIImageView = {
         let image = UIImageView()
         return image
@@ -746,7 +774,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let view = UIScrollView()
         return view
     }()
-    
     private let forAfternoonAdditional1: UIImageView = {
         let image = UIImageView()
         return image
@@ -760,6 +787,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return image
     }()
     
+    // Evening clothes
     private let eveningUpClothes: UIImageView = {
         let image = UIImageView()
         return image
@@ -772,11 +800,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let image = UIImageView()
         return image
     }()
+    
     private let eveningAdditionalClothes: UIScrollView = {
         let view = UIScrollView()
         return view
     }()
-    
     private let forEveningAdditional1: UIImageView = {
         let image = UIImageView()
         return image
@@ -908,11 +936,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let image = UIImageView(image: UIImage(named: "windspeed"))
         return image
     }()
+    
     private let pressureIcon: UIImageView = {
         let image = UIImageView(image: UIImage(named: "gauge"))
         return image
     }()
-    
     private let pressureLabel: UILabel = {
         let text = UILabel()
         text.numberOfLines = 2
@@ -944,7 +972,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return label
     }()
     
-    
+    // Sunset and sunrise
     private let sunriseImage: UIImageView = {
         let image = UIImageView(image: UIImage(named: "sunrise"))
         return image
@@ -953,7 +981,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let image = UIImageView(image: UIImage(named: "sunset"))
         return image
     }()
-    
     private let sunriseLabel: UILabel = {
         let text = UILabel()
         text.textAlignment = .center
@@ -972,20 +999,33 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return blurView
     }()
     
+    private let weaLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        text.attributedText = NSAttributedString(string: "Wea", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Bold", size: 75)!])
+        text.backgroundColor = .clear
+        return text
+    }()
+    private let theLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        text.attributedText = NSAttributedString(string: "the", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 75)!])
+        text.backgroundColor = .clear
+        return text
+    }()
+    private let rLabel: UILabel = {
+        let text = UILabel()
+        text.textAlignment = .center
+        text.attributedText = NSAttributedString(string: "r", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Bold", size: 75)!])
+        text.backgroundColor = .clear
+        return text
+    }()
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch? = touches.first
+        
         if touch?.view != self.slideOutMenu && self.slideOutMenu.frame.origin.x == 0 {
-            self.forecastTableView.isUserInteractionEnabled = true
-            self.forecastCollectionView.isUserInteractionEnabled = true
-            self.searchButton.isUserInteractionEnabled = true
-            self.bottomStackView.isUserInteractionEnabled = true
-            self.topStackView.isUserInteractionEnabled = true
-            self.middleStackView.isUserInteractionEnabled = true
-            self.currentTemperature.isUserInteractionEnabled = true
-            self.currentCondition.isUserInteractionEnabled = true
-            self.currentAdvice.isUserInteractionEnabled = true
-            self.currentLocation.isUserInteractionEnabled = true
-            self.searchButton.isEnabled = true
+            [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = true}
             UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
                 self.slideOutMenu.frame.origin.x = -250
                 self.blurEffect.alpha = 0
@@ -1004,7 +1044,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     private func LayOut() {
         
-        [backgroundImage, topStackView, middleStackView, bottomStackView, detailedView, blurEffect, slideOutMenu, splashScreen].forEach {view.addSubview($0)}
+        [backgroundImage, topStackView, middleStackView, bottomStackView, detailedView, errorLabel, blurEffect, slideOutMenu, splashScreen].forEach {view.addSubview($0)}
         [menuButton, currentLocation, searchButton].forEach {topStackView.addArrangedSubview($0)}
         [currentTemperature, currentCondition, currentAdvice].forEach {middleStackView.addArrangedSubview($0)}
         [forecastCollectionView, forecastTableView].forEach {bottomStackView.addArrangedSubview($0)}
@@ -1016,7 +1056,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         [forMorningAdditional1, forMorningAdditional2, forMorningAdditional3].forEach {morningAdditionalClothes.addSubview($0)}
         [forAfternoonAdditional1, forAfternoonAdditional2, forAfternoonAdditional3].forEach {afternoonAdditionalClothes.addSubview($0)}
         [forEveningAdditional1, forEveningAdditional2, forEveningAdditional3].forEach {eveningAdditionalClothes.addSubview($0)}
-        [theLabel, weaLabel, rLabel].forEach {splashScreen.addSubview($0)}
+        [theLabel, weaLabel, rLabel, dissabledInternetLabelOnSplash].forEach {splashScreen.addSubview($0)}
         
         switch UIScreen.main.nativeBounds.height {
         case 1136:
@@ -1040,8 +1080,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         default:
             return
         }
+        
+        // Error label
+        errorLabel.anchor(top: topStackView.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init())
+        errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
         // Blur View
         blurEffect.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
+        
         
         // TopStackView
         topStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 40))
@@ -1203,41 +1249,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         backgroundImage.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
         
         // Splash Screen
-        
         weaLabel.anchor(top: view.topAnchor, leading: theLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 160, height: 0))
         theLabel.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: paddingForSplash, bottom: 0, right: 0), size: .init(width: 100, height: 0))
         rLabel.anchor(top: view.topAnchor, leading: weaLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: 25, height: 0))
         splashScreen.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        dissabledInternetLabelOnSplash.anchor(top: nil, leading: nil, bottom: splashScreen.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: padding, right: 0), size: .init())
+        dissabledInternetLabelOnSplash.centerXAnchor.constraint(equalTo: splashScreen.centerXAnchor).isActive = true
     }
     
-    private let weaLabel: UILabel = {
-        let text = UILabel()
-        text.textAlignment = .center
-        text.attributedText = NSAttributedString(string: "Wea", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Bold", size: 75)!])
-        text.backgroundColor = .clear
-        return text
-    }()
-    
-    private let theLabel: UILabel = {
-        let text = UILabel()
-        text.textAlignment = .center
-        text.attributedText = NSAttributedString(string: "the", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 75)!])
-        text.backgroundColor = .clear
-        return text
-    }()
-    
-    private let rLabel: UILabel = {
-        let text = UILabel()
-        text.textAlignment = .center
-        text.attributedText = NSAttributedString(string: "r", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Bold", size: 75)!])
-        text.backgroundColor = .clear
-        return text
-    }()
-    
     func catchNotification(notification: Notification) -> Void {
+         [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = true}
         guard let name = notification.userInfo!["name"] else {return}
-        UpdateWeather(location: "\(name)") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
+        var check = UpdateWeather(location: "\(name)") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
             DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.errorLabel.alpha = 0
+                    self.errorLabel.isHidden = true
+                    self.view.layoutIfNeeded()
+                })
                 self.avgPressures = avgPress
                 self.allCommentsForDetailedView = allCommentsForDatailed
                 self.allClothesForForecastTableView = allClothesForFTB
@@ -1265,7 +1294,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         }}
                     
                     self.currentLocation.attributedText = NSMutableAttributedString(string: "\(name)", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
-                    self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                    if UserDefaults.standard.integer(forKey: "Temperature") == 0 {
+                        self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                    } else {
+                        self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°F", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                    }
                     self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                     let methods = Methods()
                     let forecastday_ = self.currentForecastCity.AllForecastDay![0]
@@ -1273,6 +1306,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     comment += methods.GetThunderComment(forecastday: forecastday_)
                     self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
             }
+        }
+        UIView.animate(withDuration: 0.5) {
+            self.errorLabel.alpha = 1
+            self.errorLabel.isHidden = false
+            self.view.layoutIfNeeded()
         }
         UIView.animate(withDuration: 0.4) {
             self.blurEffect.alpha = 0
@@ -1284,11 +1322,37 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    var timer: Timer!
+    
+    @objc func DissabledInternetOnSplash() {
+        self.dissabledInternetLabelOnSplash.attributedText = NSMutableAttributedString(string: "There is no proper internet connection. Try again!", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        UIView.animate(withDuration: 0.5) {
+            self.dissabledInternetLabelOnSplash.alpha = 1
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.sizeToFit()
+        label.isHidden = true
+        label.alpha = 0
+        label.attributedText = NSMutableAttributedString(string: "Something went wrong. Try again!", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         Animate()
-        UpdateWeather(location: "Current location") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
+        timer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DissabledInternetOnSplash), userInfo: nil, repeats: false)
+        
+        var check = UpdateWeather(location: "Current location") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
             DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.5) {
+                    self.errorLabel.alpha = 0
+                    self.errorLabel.isHidden = true
+                    self.view.layoutIfNeeded()
+                }
                 self.avgPressures = avgPress
                 self.allCommentsForDetailedView = allCommentsForDatailed
                 self.allClothesForForecastTableView = allClothesForFTB
@@ -1304,6 +1368,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.forecastTableView.reloadData()
                 self.forecastCollectionView.reloadData()
                 self.commentForNotification = allCommentsForDatailed[0]
+                self.timer.invalidate()
+                self.timer = nil
                 var hour = 0
                 var minute = 0
                 if (UserDefaults.standard.string(forKey: "RemindHour") != nil){
@@ -1316,7 +1382,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }}
                 
                 self.currentLocation.attributedText = NSMutableAttributedString(string: "Current location", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 18)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
-                self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                if UserDefaults.standard.integer(forKey: "Temperature") == 0 {
+                    self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°C", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                } else {
+                    self.currentTemperature.attributedText = NSMutableAttributedString(string: String(Int(round(current_.temp!))) + "°F", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 80)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+                }
                 self.currentCondition.attributedText = NSMutableAttributedString(string: current_.condition!, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 30)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                 let methods = Methods()
                 let forecastday_ = self.currentForecastCity.AllForecastDay![0]
@@ -1324,6 +1394,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 comment += methods.GetThunderComment(forecastday: forecastday_)
                 self.currentAdvice.attributedText = NSMutableAttributedString(string: comment, attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
                 self.Animation()
+            }
+        }
+        if check == false {
+            UIView.animate(withDuration: 0.5) {
+                self.errorLabel.alpha = 1
+                self.errorLabel.isHidden = false
+                self.view.layoutIfNeeded()
             }
         }
         hideKeyboardWhenTappedOutside()
@@ -1334,7 +1411,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         view.backgroundColor = .lightBlue
         NotificationCenter.default.addObserver(self, selector: #selector(UpdateFavourits), name: NSNotification.Name(rawValue: "upF"), object: nil)
-        
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "closeSVC"), object: nil, queue: nil, using: catchNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(CloseSVC), name: NSNotification.Name(rawValue: "closeSVCA"), object: nil)
         
@@ -1385,7 +1461,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return .lightContent
     }
 }
-extension UIView {
+extension UIView { // Extension for anchoring UI elements
     func anchor(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, trailing: NSLayoutXAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero) {
         translatesAutoresizingMaskIntoConstraints = false
         

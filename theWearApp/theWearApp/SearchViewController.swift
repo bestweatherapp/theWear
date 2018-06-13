@@ -9,7 +9,7 @@
 import UIKit
 
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    // TODO: Check apixu - google integration
+
     private var pendingRequestWorkItem: DispatchWorkItem?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -117,7 +117,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func SuitableCitiesRequest(inputText: String) {
         let input = inputText.replacingOccurrences(of: " ", with: "%20")
-       
         let url = URL(string: "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=\(input)&types=(cities)&language=en&key=AIzaSyDCBBOmhf9mpqKW0T-2d3zaCdB-LpJmKTc")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             guard error == nil else {

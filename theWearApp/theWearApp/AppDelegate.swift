@@ -38,14 +38,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print("Did enter background")
+        window?.endEditing(true)
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         //locationManager.requestAlwaysAuthorization()
         print("Will enter foreground")
-        window?.makeKeyAndVisible()
-        window?.rootViewController = ViewController()
+        if (UserDefaults.standard.bool(forKey: "firstTimeOpened")) {
+            self.window?.rootViewController = ViewController()
+        } else {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            let welcomePage = WelcomePage(collectionViewLayout: layout)
+            self.window?.rootViewController = welcomePage
+        }
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {

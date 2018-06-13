@@ -1,10 +1,3 @@
-//
-//  ThirdPage.swift
-//  theWearApp
-//
-//  Created by Maxim Reshetov on 03.06.2018.
-//  Copyright © 2018 theWear. All rights reserved.
-//
 
 import UIKit
 import UserNotifications
@@ -24,7 +17,7 @@ class ThirdPage: UICollectionViewCell {
     }()
     
     private let image: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "notifications"))
+        let image = UIImageView(image: UIImage(named: "for3page"))
         return image
     }()
     

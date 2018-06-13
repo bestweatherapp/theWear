@@ -121,8 +121,13 @@ class SettingsViewController: UIViewController {
     private let onMorning: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
-        button.setTitleColor(UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100), for: .normal)
+        if UserDefaults.standard.integer(forKey: "Notifications") == 1 {
+            button.setTitleColor(UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100), for: .normal)
+            button.isEnabled = true
+        } else {
+            button.setTitleColor(UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 100), for: .normal)
+            button.isEnabled = false
+        }
         button.addTarget(self, action: #selector(MorningView), for: .touchUpInside)
         return button
     }()
@@ -155,13 +160,6 @@ class SettingsViewController: UIViewController {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
         text.attributedText = NSAttributedString(string: "Wind", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 20)!, NSAttributedStringKey.foregroundColor:UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)])
-        return text
-    }()
-    
-    private let pressureLabel: UILabel = {
-        let text = UILabel()
-        text.translatesAutoresizingMaskIntoConstraints = false
-        text.attributedText = NSAttributedString(string: "Pressure", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 20)!, NSAttributedStringKey.foregroundColor:UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)])
         return text
     }()
     
@@ -284,13 +282,6 @@ class SettingsViewController: UIViewController {
         if (UserDefaults.standard.string(forKey: "Gender") == "Woman")
         {womanWasChoosen()}
         else {manButton}
-        if (UserDefaults.standard.integer(forKey: "Notifications") == 1)
-        {notificationsSwitch.isOn = true
-            datePicker.isEnabled = true
-        }
-        else {notificationsSwitch.isOn = false
-            datePicker.isEnabled = false
-        }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
         print (UserDefaults.standard.string(forKey: "RemindHour")! )
@@ -348,16 +339,19 @@ class SettingsViewController: UIViewController {
         if sender.isOn {
             //print("Notifications on")
             UserDefaults.standard.set(1, forKey: "Notifications")
-            datePicker.isEnabled = true
+            onMorning.isEnabled = true
+            onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
+            onMorning.setTitleColor(UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100), for: .normal)
         } else {
             UserDefaults.standard.set(0, forKey: "Notifications")
-            datePicker.isEnabled = false
-            //print("Notifications off")
+            onMorning.isEnabled = false
+            onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
+            onMorning.setTitleColor(UIColor(red: 1216/255, green: 216/255, blue: 216/255, alpha: 100), for: .normal)
         }
     }
     
     private func Layout() {
-        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, pressureLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, notificationsSwitch, blurEffect, datePickerView].forEach {view.addSubview($0)}
+        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, notificationsSwitch, blurEffect, datePickerView].forEach {view.addSubview($0)}
         datePickerView.addSubview(closeDatePicker)
         datePickerView.addSubview(datePicker)
         datePickerView.addSubview(okButton)
@@ -425,9 +419,7 @@ class SettingsViewController: UIViewController {
         
         windLabel.anchor(top: tempLabel.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 20, left: padding, bottom: 0, right: 0), size: .init(width: 100, height: 0))
         
-        pressureLabel.anchor(top: windLabel.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 20, left: padding, bottom: 0, right: 0), size: .init(width: 100, height: 0))
-        
-        notificationLine.anchor(top: pressureLabel.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 35, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: 0.5))
+        notificationLine.anchor(top: windLabel.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 35, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: 0.5))
         notificationForLineLabel.widthAnchor.constraint(equalToConstant: 70).isActive = true
         notificationForLineLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         notificationForLineLabel.centerYAnchor.constraint(equalTo: notificationLine.centerYAnchor).isActive = true

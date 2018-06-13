@@ -4,7 +4,9 @@ import CoreLocation
 
 let locationManager = CLLocationManager()
 
-func UpdateWeather(location: String, completion: @escaping (_ avgPress: [Double], _ allCommentsForDV: [String], _ allClothesForForecastTV: [[String]], _ allClothesForDV: [[String]], _ allDates: [String], _ allTemps: [String], _ allTempsIcons: [String], _ allHours: [String], _ forecastCity: ForecastCity, _ allHourlyTempsIcons: [String], _ allHourlyTemps: [String], _ allDays: [ForecastDay], _ current: Current, _ hour: Int) -> ()) {
+
+
+func UpdateWeather(location: String, completion: @escaping (_ avgPress: [Double], _ allCommentsForDV: [String], _ allClothesForForecastTV: [[String]], _ allClothesForDV: [[String]], _ allDates: [String], _ allTemps: [String], _ allTempsIcons: [String], _ allHours: [String], _ forecastCity: ForecastCity, _ allHourlyTempsIcons: [String], _ allHourlyTemps: [String], _ allDays: [ForecastDay], _ current: Current, _ hour: Int) -> ()) -> Bool {
     
     var allDates = [String]()
     var allCommentsForDetailedView = [String]() // Add new var for all comments
@@ -21,11 +23,10 @@ func UpdateWeather(location: String, completion: @escaping (_ avgPress: [Double]
     let hour = Calendar.current.component(.hour, from: Date()) // Current Hour
     currentLocation = locationManager.location
     
-    if (currentLocation != nil)
-    {
+    if (currentLocation != nil) {
         let correctLocation = location.replacingOccurrences(of: " ", with: "%20")
         let urlString = (location == "Current location") ? "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(String(describing: currentLocation.coordinate.latitude)),\(String(describing: currentLocation.coordinate.longitude))&days=7" : "https://api.apixu.com/v1/forecast.json?key=ef0ae6ee03be447ba2f215216180405&q=\(correctLocation)&days=7"
-        guard let url = URL(string: urlString) else { return }
+        guard let url = URL(string: urlString) else { return false }
         
         let myGroup = DispatchGroup()
         myGroup.enter()
@@ -182,11 +183,11 @@ func UpdateWeather(location: String, completion: @escaping (_ avgPress: [Double]
                 current_.temp = current_.temp! * 9/5 + 32
             }
             
-            
              completion(averagePressures, allCommentsForDetailedView, allClothesForForecastTableView, allClothesForDetailedView, allDates, allTempsdays, allTempsdaysIcons, allHours, ForecastCity(Current: current_, ForecastDay: allDays), allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour)
             myGroup.leave()            
         }
         task.resume()
+        return true
     }
-    
+    return true
 }
