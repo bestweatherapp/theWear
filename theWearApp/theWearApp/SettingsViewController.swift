@@ -277,16 +277,15 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Layout()
-  
-    
         if (UserDefaults.standard.string(forKey: "Gender") == "Woman")
         {womanWasChoosen()}
         else {manButton}
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
-        print (UserDefaults.standard.string(forKey: "RemindHour")! )
+       
         if (UserDefaults.standard.string(forKey: "RemindHour") != nil&&UserDefaults.standard.string(forKey: "RemindHour") != "" ){
             if (UserDefaults.standard.string(forKey: "RemindHour") != nil){
+            notificationsSwitch.isOn = true
             let date = dateFormatter.date(from: UserDefaults.standard.string(forKey: "RemindHour")!)
             datePicker.date = date!
             onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal) }

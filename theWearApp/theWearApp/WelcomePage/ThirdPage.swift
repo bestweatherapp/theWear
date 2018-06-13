@@ -141,7 +141,9 @@ class ThirdPage: UICollectionViewCell {
     func LayOut() {
         addSubview(popUpView)
         [text, image, allowNotifications, setNotifications, doNotallowNotifications, setLocation, allowLocation, doNotAllowLocation].forEach {popUpView.addSubview($0)}
-        
+        UserDefaults.standard.set(0, forKey: "Location")//not enabled by default
+        UserDefaults.standard.set(0, forKey: "Notifications")
+         UserDefaults.standard.set("07:00", forKey: "RemindHour")
         var fontForAdditionText: CGFloat = 0
         var padding: CGFloat = 0
         var imageSize: CGFloat = 0

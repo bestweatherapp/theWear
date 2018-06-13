@@ -1,7 +1,7 @@
 
 import UIKit
 import CoreLocation
-
+import UserNotifications
 
 extension UIImageView { // Extension for downloading an image from http request
     func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
@@ -1345,7 +1345,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         Animate()
         timer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DissabledInternetOnSplash), userInfo: nil, repeats: false)
-        
+       
         var check = UpdateWeather(location: "Current location") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
@@ -1413,10 +1413,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(UpdateFavourits), name: NSNotification.Name(rawValue: "upF"), object: nil)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "closeSVC"), object: nil, queue: nil, using: catchNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(CloseSVC), name: NSNotification.Name(rawValue: "closeSVCA"), object: nil)
-        
+        if (UserDefaults.standard.integer(forKey: "Notifications")==0)
+        {
+            let center =  UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound, .badge]) { (result, error) in
+                //handle result of request failure
+            }
+        }
         locationManager.requestAlwaysAuthorization()
         if CLLocationManager.locationServicesEnabled()
-        {
+        {   timer.invalidate()
             locationManager.delegate = self
             locationManager.startMonitoringSignificantLocationChanges()
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
