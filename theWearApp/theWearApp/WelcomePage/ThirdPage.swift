@@ -17,7 +17,7 @@ class ThirdPage: UICollectionViewCell {
     }()
     
     private let image: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "for3page"))
+        let image = UIImageView(image: UIImage(named: "for3Page"))
         return image
     }()
     
