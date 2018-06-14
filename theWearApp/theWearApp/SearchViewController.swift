@@ -80,7 +80,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private let suitableCititesTableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
-        tableView.layer.cornerRadius = 30
         tableView.backgroundColor = .clear
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
