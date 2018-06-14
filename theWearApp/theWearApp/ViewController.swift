@@ -1367,7 +1367,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         Animate()
         timer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DissabledInternetOnSplash), userInfo: nil, repeats: false)
-       
+        locationManager.requestAlwaysAuthorization()
+        //if CLLocationManager.locationServicesEnabled(){}
         var check = UpdateWeather(location: "Current location") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
@@ -1459,6 +1460,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forecastTableView.register(DayCell.self, forCellReuseIdentifier: "tableViewcell")
         forecastCollectionView.register(HourCell.self, forCellWithReuseIdentifier: "collectionViewCell")
         LayOut()
+        
+        
     }
     
     @objc func Animate() {
