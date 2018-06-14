@@ -96,9 +96,9 @@ class Methods
         var images = [String]()
         var correctTemp = Int((day.temperature_avg)!)
         if UserDefaults.standard.integer(forKey: "Grimy") == 10 {
-            correctTemp -= 1
-        } else if UserDefaults.standard.integer(forKey: "Grimy") == 0 {
             correctTemp += 1
+        } else if UserDefaults.standard.integer(forKey: "Grimy") == 0 {
+            correctTemp -= 1
         } else {
             
         }

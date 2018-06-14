@@ -203,10 +203,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 UIView.animate(withDuration: 0.6) {
+                    self.errorLabel.isHidden = true
+                    self.errorLabel.alpha = 0
                     self.topStackView.frame.origin.x = -self.view.frame.width
                     self.middleStackView.frame.origin.x = -self.view.frame.width
                     self.bottomStackView.frame.origin.x = -self.view.frame.width
                     self.detailedView.frame.origin.x = 25
+                    self.view.layoutIfNeeded()
                 }
             }
         } else {
@@ -1082,6 +1085,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         switch UIScreen.main.nativeBounds.height {
         case 1136:
+            // Not available
             padding = 15
             lineWidth = 180
             paddingForSplash = 20
