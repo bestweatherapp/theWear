@@ -147,6 +147,43 @@ class SettingsViewController: UIViewController {
         self.datePickerView.isHidden = false
     }
     
+    private let notificationsSwitch: UISwitch = {
+        let nSwitch = UISwitch()
+        if UserDefaults.standard.integer(forKey: "Notifications") == 1  {
+            nSwitch.isOn = true
+        } else {
+            nSwitch.isOn = false
+        }
+        nSwitch.translatesAutoresizingMaskIntoConstraints = false
+        nSwitch.onTintColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 100)
+        nSwitch.thumbTintColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
+        nSwitch.backgroundColor = .white
+        nSwitch.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
+        return nSwitch
+    }()
+    
+    @objc func switchChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+                if granted {
+                    UserDefaults.standard.set(1, forKey: "Notifications")
+                } else {
+                    UserDefaults.standard.set(0, forKey: "Notifications")
+                }
+            }
+            UserDefaults.standard.set(1, forKey: "Notifications")
+            onMorning.isEnabled = true
+            onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
+            onMorning.setTitleColor(UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100), for: .normal)
+        } else {
+            UserDefaults.standard.set(0, forKey: "Notifications")
+            onMorning.isEnabled = false
+            onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
+            onMorning.setTitleColor(UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 100), for: .normal)
+        }
+    }
+    
     let blurEffect: UIVisualEffectView = {
         let blur = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
         let blurView = UIVisualEffectView(effect: blur)
@@ -248,6 +285,7 @@ class SettingsViewController: UIViewController {
         return label
     }()
     
+    // Temperature
     private let tempSegmentedControl: UISegmentedControl = {
          let tempChoose = ["°C", "°F"]
         let sc = UISegmentedControl(items: tempChoose)
@@ -266,7 +304,21 @@ class SettingsViewController: UIViewController {
         sc.addTarget(self, action: #selector(changeTemp), for: .valueChanged)
         return sc
     }()
+    @objc func changeTemp(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            UserDefaults.standard.set(0, forKey: "Temperature")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
+        case 1:
+            UserDefaults.standard.set(1, forKey: "Temperature")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
+        default:
+            UserDefaults.standard.set(0, forKey: "Temperature")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
+        }
+    }
     
+    // Wind
     private let windSegmentedControl: UISegmentedControl = {
         let windChoose = ["mPs", "kPh"]
         let sc = UISegmentedControl(items: windChoose)
@@ -284,12 +336,60 @@ class SettingsViewController: UIViewController {
         sc.addTarget(self, action: #selector(changeWind), for: .valueChanged)
         return sc
     }()
-    
+    @objc func changeWind(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            UserDefaults.standard.set(0, forKey: "Wind")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
+        case 1:
+            UserDefaults.standard.set(1, forKey: "Wind")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
+        default:
+            UserDefaults.standard.set(0, forKey: "Wind")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
+        }
+    }
     
     @objc func CloseSettings() {
          NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
         dismiss(animated: true, completion: nil)
     }
+    
+    let step:Float = 5
+    
+    @objc func sliderValueDidChange(_ sender:UISlider!) {
+        let roundedStepValue = round(sender.value / step) * step
+        sender.value = roundedStepValue
+        UserDefaults.standard.set(roundedStepValue, forKey: "Grimy")
+    }
+    
+    // Grimy images
+    private let coldImage: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "cold"))
+        image.contentMode = .scaleAspectFill
+        return image
+    }()
+    private let normalImage: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "normal"))
+        image.contentMode = .scaleAspectFill
+        return image
+    }()
+    private let hotImage: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "hot"))
+        image.contentMode = .scaleAspectFill
+        return image
+    }()
+    
+    private let grimySlider: UISlider = {
+        let grimySlider = UISlider()
+        grimySlider.minimumValue = 0
+        grimySlider.maximumValue = 10
+        grimySlider.isContinuous = true
+        grimySlider.tintColor = UIColor.dark
+        grimySlider.value = UserDefaults.standard.float(forKey: "Grimy")
+        grimySlider.addTarget(self, action: #selector(sliderValueDidChange(_ :)), for: .valueChanged)
+        return grimySlider
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -310,73 +410,8 @@ class SettingsViewController: UIViewController {
         view.backgroundColor = .white
     }
     
-    @objc func changeTemp(sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            UserDefaults.standard.set(0, forKey: "Temperature")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
-        case 1:
-            UserDefaults.standard.set(1, forKey: "Temperature")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
-        default:
-            UserDefaults.standard.set(0, forKey: "Temperature")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
-        }
-    }
-    
-    @objc func changeWind(sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            UserDefaults.standard.set(0, forKey: "Wind")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
-        case 1:
-            UserDefaults.standard.set(1, forKey: "Wind")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
-        default:
-            UserDefaults.standard.set(0, forKey: "Wind")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":"Current location"])
-        }
-    }
-    
-    private let notificationsSwitch: UISwitch = {
-        let nSwitch = UISwitch()
-        if UserDefaults.standard.integer(forKey: "Notifications") == 1  {
-            nSwitch.isOn = true
-        } else {
-            nSwitch.isOn = false
-        }
-        nSwitch.translatesAutoresizingMaskIntoConstraints = false
-        nSwitch.onTintColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 100)
-        nSwitch.thumbTintColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
-        nSwitch.backgroundColor = .white
-        nSwitch.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
-        return nSwitch
-    }()
-    
-    @objc func switchChanged(_ sender: UISwitch) {
-        if sender.isOn {
-            let center = UNUserNotificationCenter.current()
-            center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-                if granted {
-                    UserDefaults.standard.set(1, forKey: "Notifications")
-                } else {
-                    UserDefaults.standard.set(0, forKey: "Notifications")
-                }
-            }
-            UserDefaults.standard.set(1, forKey: "Notifications")
-            onMorning.isEnabled = true
-            onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
-            onMorning.setTitleColor(UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100), for: .normal)
-        } else {
-            UserDefaults.standard.set(0, forKey: "Notifications")
-            onMorning.isEnabled = false
-            onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
-            onMorning.setTitleColor(UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 100), for: .normal)
-        }
-    }
-    
     private func Layout() {
-        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, notificationsSwitch, blurEffect, datePickerView].forEach {view.addSubview($0)}
+        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, notificationsSwitch, blurEffect, datePickerView, coldImage, normalImage, hotImage, grimySlider].forEach {view.addSubview($0)}
         datePickerView.addSubview(closeDatePicker)
         datePickerView.addSubview(datePicker)
         datePickerView.addSubview(okButton)
@@ -399,6 +434,20 @@ class SettingsViewController: UIViewController {
         default:
             return
         }
+        
+        // Grimy Slider
+        grimySlider.anchor(top: manButton.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: padding, left: 0, bottom: 0, right: 0), size: .init(width: 175, height: 40))
+        grimySlider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        // Grimy images
+        normalImage.anchor(top: grimySlider.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 10, height: 10))
+        normalImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        coldImage.anchor(top: grimySlider.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 10, height: 10))
+        coldImage.centerXAnchor.constraint(equalTo: grimySlider.leadingAnchor).isActive = true
+        
+        hotImage.anchor(top: grimySlider.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 10, height: 10))
+        hotImage.centerXAnchor.constraint(equalTo: grimySlider.trailingAnchor).isActive = true
         
         // Temperature
         tempSegmentedControl.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor).isActive = true

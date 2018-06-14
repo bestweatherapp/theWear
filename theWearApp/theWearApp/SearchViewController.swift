@@ -25,7 +25,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dismiss(animated: true, completion: nil)
-        // TODO: Rascharit how to send correct city
         NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":self.suitableCities[(suitableCititesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current)])
     }
     
@@ -91,20 +90,15 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
-        var methods = Methods()
+        let methods = Methods()
         pendingRequestWorkItem?.cancel()
-        var text = textField.text
-       // print (methods.ContainsCyrillyc(text: text!))
-        if (methods.ContainsCyrillyc(text: text!) == true)
-        {
-           // textField.text = nil
+        let text = textField.text
+        if (methods.ContainsCyrillyc(text: text!) == true) {
             textField.text = ""
             self.suitableCititesTableView.dataSource = nil
             self.suitableCititesTableView.reloadData()
             return
-        }
-        else
-        {
+        } else {
             self.suitableCititesTableView.dataSource = self
             let correctText = text?.folding(options: .diacriticInsensitive, locale: .current)
             let requestWorkitem = DispatchWorkItem {[weak self] in
@@ -115,7 +109,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: requestWorkitem)
             pendingRequestWorkItem = requestWorkitem
 
-    }
+        }
     }
     var suitableCities = [String]()
     
@@ -154,34 +148,20 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     private func LayOut() {
         view.addSubview(searchView)
-        searchView.addSubview(closeSearchViewButton)
-        searchView.addSubview(searchTextField)
-        searchView.addSubview(suitableCititesTableView)
-        searchView.addSubview(topLine)
-        searchView.addSubview(bottomLine)
-        searchView.addSubview(googleLogo)
+        [closeSearchViewButton, searchTextField, suitableCititesTableView, topLine, bottomLine, googleLogo].forEach {searchView.addSubview($0)}
         
         topLine.anchor(top: closeSearchViewButton.bottomAnchor, leading: searchView.leadingAnchor, bottom: nil, trailing: searchView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0.5))
         bottomLine.anchor(top: searchTextField.bottomAnchor, leading: searchView.leadingAnchor, bottom: nil, trailing: searchView.trailingAnchor, padding: .init(top: 5, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0.5))
+        closeSearchViewButton.anchor(top: searchView.topAnchor, leading: nil, bottom: nil, trailing: searchView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 25), size: .init(width: 25, height: 25))
         
-        
-        closeSearchViewButton.trailingAnchor.constraint(equalTo: searchView.trailingAnchor, constant: -25).isActive = true
-        closeSearchViewButton.topAnchor.constraint(equalTo: searchView.topAnchor, constant: 25).isActive = true
-        closeSearchViewButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        closeSearchViewButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         searchView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         searchView.heightAnchor.constraint(equalToConstant: 450).isActive = true
         searchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         searchView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        searchTextField.topAnchor.constraint(equalTo: topLine.bottomAnchor, constant: 5).isActive = true
-        searchTextField.leadingAnchor.constraint(equalTo: searchView.leadingAnchor, constant: 25).isActive = true
-        searchTextField.trailingAnchor.constraint(equalTo: searchView.trailingAnchor, constant: -25).isActive = true
-        suitableCititesTableView.topAnchor.constraint(equalTo: bottomLine.bottomAnchor, constant: 0).isActive = true
-        suitableCititesTableView.leadingAnchor.constraint(equalTo: searchView.leadingAnchor).isActive = true
-        suitableCititesTableView.trailingAnchor.constraint(equalTo: searchView.trailingAnchor).isActive = true
-        suitableCititesTableView.bottomAnchor.constraint(equalTo: googleLogo.topAnchor).isActive = true
-        
-        googleLogo.anchor(top: nil, leading: nil, bottom: searchView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 10, right: 0), size: .init(width: 125, height: 20))
+
+        searchTextField.anchor(top: topLine.bottomAnchor, leading: searchView.leadingAnchor, bottom: nil, trailing: searchView.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init())
+        suitableCititesTableView.anchor(top: bottomLine.bottomAnchor, leading: searchView.leadingAnchor, bottom: googleLogo.topAnchor, trailing: searchView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
+        googleLogo.anchor(top: nil, leading: nil, bottom: searchView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 10, right: 0), size: .init(width: 125, height: 18))
         googleLogo.centerXAnchor.constraint(equalTo: searchView.centerXAnchor).isActive = true
     }
     

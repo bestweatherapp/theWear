@@ -106,8 +106,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.forecastTableView {
-            let group = DispatchGroup()
-            group.enter()
             morningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].icon!)
             afternoonTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].icon!)
             eveningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].icon!)
@@ -203,8 +201,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     views[(i - 3) + 9].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][i])
                 }
             }
-            group.leave()
-            group.notify(queue: DispatchQueue.main) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 UIView.animate(withDuration: 0.6) {
                     self.topStackView.frame.origin.x = -self.view.frame.width
                     self.middleStackView.frame.origin.x = -self.view.frame.width
@@ -225,7 +222,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             self.currentLocation.isUserInteractionEnabled = true
             self.searchButton.isEnabled = true
 
-            var check = UpdateWeather(location: cities![(favouriteCitiesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current)) { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
+            let check = UpdateWeather(location: cities![(favouriteCitiesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current)) { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.5) {
                         self.errorLabel.alpha = 0
@@ -336,7 +333,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         text.alpha = 0
         return text
     }()
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.sizeToFit()
+        label.isHidden = true
+        label.alpha = 0
+        label.attributedText = NSMutableAttributedString(string: "Something went wrong. Try again!", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
+        return label
+    }()
     
+    // Slide Out
     private let slideOutMenu: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -411,7 +417,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return button
     }()
     @objc func UpdateWithCurrentLocation() {
-        var check = UpdateWeather(location: "Current location") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
+        let check = UpdateWeather(location: "Current location") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
                     self.errorLabel.alpha = 0
@@ -834,7 +840,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return image
     }()
     
-    
+    // Other Details
     private let forecastForLabel: UILabel = {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
@@ -1075,7 +1081,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         [theLabel, weaLabel, rLabel, dissabledInternetLabelOnSplash].forEach {splashScreen.addSubview($0)}
         
         switch UIScreen.main.nativeBounds.height {
-            // TODO FOR IPHONE 5S
         case 1136:
             padding = 15
             lineWidth = 180
@@ -1136,10 +1141,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         placeholderForFavLabel.anchor(top: placeholderForFav.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 15, left: 0, bottom: 0, right: 0), size: .init())
         placeholderForFavLabel.centerXAnchor.constraint(equalTo: slideOutMenu.centerXAnchor).isActive = true
         
-        googleLogo.anchor(top: nil, leading: nil, bottom: slideOutMenu.bottomAnchor, trailing: slideOutMenu.centerXAnchor, padding: .init(top: 0, left: 0, bottom: 10, right: 10), size: .init(width: 80, height: 15))
-        
+        // Logos
+        googleLogo.anchor(top: nil, leading: nil, bottom: nil, trailing: slideOutMenu.centerXAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 10), size: .init(width: 80, height: 15))
+        googleLogo.centerYAnchor.constraint(equalTo: apixuLogo.centerYAnchor).isActive = true
         apixuLogo.anchor(top: nil, leading: slideOutMenu.centerXAnchor, bottom: slideOutMenu.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 10, bottom: 10, right: 0), size: .init(width: 80, height: 20))
-        
         
         // Detailed View
         detailedView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 40, left: view.frame.width + 25, bottom: 25, right: 0), size: .init(width: view.frame.width-50, height: 0))
@@ -1280,7 +1285,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func catchNotification(notification: Notification) -> Void {
          [forecastTableView, forecastCollectionView, topStackView, middleStackView, bottomStackView].forEach {$0.isUserInteractionEnabled = true}
         guard let name = notification.userInfo!["name"] else {return}
-        var check = UpdateWeather(location: "\(name)") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
+        let check = UpdateWeather(location: "\(name)") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5, animations: {
                     self.errorLabel.alpha = 0
@@ -1354,22 +1359,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    private let errorLabel: UILabel = {
-        let label = UILabel()
-        label.sizeToFit()
-        label.isHidden = true
-        label.alpha = 0
-        label.attributedText = NSMutableAttributedString(string: "Something went wrong. Try again!", attributes: [NSAttributedStringKey.font:UIFont.init(name: "SFProDisplay-Light", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor(white: 1, alpha: 0.9)])
-        return label
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         Animate()
         timer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(DissabledInternetOnSplash), userInfo: nil, repeats: false)
         locationManager.requestAlwaysAuthorization()
-        //if CLLocationManager.locationServicesEnabled(){}
-        var check = UpdateWeather(location: "Current location") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
+        let check = UpdateWeather(location: "Current location") { (avgPress, allCommentsForDatailed, allClothesForFTB, allClothesForDV, allDates, allTempsDay, allTempsDayIcons, allHours, forecastCity, allHourlyTempsIcons, allHourlyTemps, allDays, current_, hour) in
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
                     self.errorLabel.alpha = 0
@@ -1428,30 +1423,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         hideKeyboardWhenTappedOutside()
         view.addSubview(backgroundImage)
-        backgroundImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        backgroundImage.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
         view.backgroundColor = .lightBlue
         NotificationCenter.default.addObserver(self, selector: #selector(UpdateFavourits), name: NSNotification.Name(rawValue: "upF"), object: nil)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "closeSVC"), object: nil, queue: nil, using: catchNotification)
         NotificationCenter.default.addObserver(self, selector: #selector(CloseSVC), name: NSNotification.Name(rawValue: "closeSVCA"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(Animate), name: NSNotification.Name(rawValue: "animateVC"), object: nil)
-//        if (UserDefaults.standard.integer(forKey: "Notifications")==0)
-//        {
-//            let center =  UNUserNotificationCenter.current()
-//            center.requestAuthorization(options: [.alert, .sound, .badge]) { (result, error) in
-//                //handle result of request failure
-//            }
-//        }
-//        locationManager.requestAlwaysAuthorization()
-//        if CLLocationManager.locationServicesEnabled()
-//        {   timer.invalidate()
-//            locationManager.delegate = self
-//            locationManager.startMonitoringSignificantLocationChanges()
-//            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//            locationManager.startUpdatingHeading()
-//        }
         forecastTableView.delegate = self
         forecastTableView.dataSource = self
         favouriteCitiesTableView.delegate = self
@@ -1460,8 +1437,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         forecastTableView.register(DayCell.self, forCellReuseIdentifier: "tableViewcell")
         forecastCollectionView.register(HourCell.self, forCellWithReuseIdentifier: "collectionViewCell")
         LayOut()
-        
-        
     }
     
     @objc func Animate() {
@@ -1515,7 +1490,6 @@ extension UIView { // Extension for anchoring UI elements
         if size.height != 0 {
             heightAnchor.constraint(equalToConstant: size.height).isActive = true
         }
-        
     }
 }
 extension UIViewController {
@@ -1533,12 +1507,9 @@ extension UIColor {
     static var lightBlue = UIColor(red: 124/255, green: 214/255, blue: 255/255, alpha: 1)
     static var myGray = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 100)
 }
-extension Notification.Name {
-    static let genderChanged = Notification.Name("peru")
-}
 extension UIScrollView {
     func scrollToTop() {
-        let desiredOffset = CGPoint(x: 0, y: -contentInset.top)
-        setContentOffset(desiredOffset, animated: true)
+        let offset = CGPoint(x: 0, y: -contentInset.top)
+        setContentOffset(offset, animated: true)
     }
 }

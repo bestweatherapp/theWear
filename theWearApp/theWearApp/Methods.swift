@@ -318,7 +318,7 @@ class Methods
         for element in day.AllHours!
         {
             var date = element.time?.components(separatedBy: " ")
-            var time = Int(date![0].components(separatedBy: ":")[0])
+            let time = Int(date![0].components(separatedBy: ":")[0])
             if (element.condition! == "Thundery outbreaks possible")
             {
                 switch (time!)
@@ -345,7 +345,7 @@ class Methods
         }
         for element in day.AllHours!{
             var date = element.time?.components(separatedBy: " ")
-            var time = Int(date![0].components(separatedBy: ":")[0])
+            let time = Int(date![0].components(separatedBy: ":")[0])
             if (Int(element.chance_of_rain!)! > 49)||(element.will_it_rain == 1)||(element.condition!.range(of: "rain") != nil)||(element.condition! == "Light rain")||(element.condition!.range(of: "rains") != nil)||(element.condition!.range(of: "sleet") != nil)||(element.condition!.range(of: "drizzle") != nil)||(element.condition!.range(of: "shower") != nil)||(element.condition! == "Heavy rain")||(element.condition!.range(of: "showers") != nil )
             {
                 switch (time!)
@@ -426,7 +426,6 @@ class Methods
     }
     func ContainsCyrillyc (text : String)-> (Bool)
     {
-        var index : [Int]
         let characters =  "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"
         let eng = Array(characters)
         let chars = Array(text)

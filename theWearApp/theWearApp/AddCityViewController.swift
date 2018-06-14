@@ -64,8 +64,8 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
  
     @objc func textFieldDidChange(_ textField: UITextField) {
         pendingRequestWorkItem?.cancel()
-        var methods = Methods ()
-        var text = textField.text!
+        let methods = Methods ()
+        let text = textField.text!
         if (methods.ContainsCyrillyc(text: text))
         {
             //textField.text = nil
