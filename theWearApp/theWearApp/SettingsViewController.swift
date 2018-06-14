@@ -363,21 +363,38 @@ class SettingsViewController: UIViewController {
         UserDefaults.standard.set(roundedStepValue, forKey: "Grimy")
     }
     
-    // Grimy images
-    private let coldImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "cold"))
-        image.contentMode = .scaleAspectFill
-        return image
+    // Grimy states
+    private let cold: UILabel = {
+        let text = UILabel()
+        text.sizeToFit()
+        text.attributedText = NSAttributedString(string: "Cold", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 17)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        return text
     }()
-    private let normalImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "normal"))
-        image.contentMode = .scaleAspectFill
-        return image
+    private let normal: UILabel = {
+        let text = UILabel()
+        text.sizeToFit()
+        text.attributedText = NSAttributedString(string: "Normal", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 17)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        return text
     }()
-    private let hotImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "hot"))
-        image.contentMode = .scaleAspectFill
-        return image
+    private let hot: UILabel = {
+        let text = UILabel()
+        text.sizeToFit()
+        text.attributedText = NSAttributedString(string: "Hot", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 17)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        return text
+    }()
+    
+    private let grimyForLineLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .white
+        label.attributedText = NSAttributedString(string: "How grimy are you?", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Ultralight", size: 12)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        return label
+    }()
+    private let grimyLine: UIView = {
+        let line = UIView()
+        line.backgroundColor = UIColor.dark
+        return line
     }()
     
     private let grimySlider: UISlider = {
@@ -411,7 +428,7 @@ class SettingsViewController: UIViewController {
     }
     
     private func Layout() {
-        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, notificationsSwitch, coldImage, normalImage, hotImage, grimySlider, blurEffect, datePickerView].forEach {view.addSubview($0)}
+        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, notificationsSwitch, cold, normal, hot, grimySlider, blurEffect, datePickerView, grimyLine, grimyForLineLabel].forEach {view.addSubview($0)}
         datePickerView.addSubview(closeDatePicker)
         datePickerView.addSubview(datePicker)
         datePickerView.addSubview(okButton)
@@ -436,18 +453,24 @@ class SettingsViewController: UIViewController {
         }
         
         // Grimy Slider
-        grimySlider.anchor(top: manButton.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: padding, left: 0, bottom: 0, right: 0), size: .init(width: 175, height: 40))
+        grimySlider.anchor(top: grimyForLineLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: 175, height: 40))
         grimySlider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         // Grimy images
-        normalImage.anchor(top: grimySlider.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 10, height: 10))
-        normalImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        normal.anchor(top: grimySlider.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init())
+        normal.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        coldImage.anchor(top: grimySlider.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 10, height: 10))
-        coldImage.centerXAnchor.constraint(equalTo: grimySlider.leadingAnchor).isActive = true
+        cold.anchor(top: grimySlider.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init())
+        cold.centerXAnchor.constraint(equalTo: grimySlider.leadingAnchor).isActive = true
         
-        hotImage.anchor(top: grimySlider.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init(width: 10, height: 10))
-        hotImage.centerXAnchor.constraint(equalTo: grimySlider.trailingAnchor).isActive = true
+        hot.anchor(top: grimySlider.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0), size: .init())
+        hot.centerXAnchor.constraint(equalTo: grimySlider.trailingAnchor).isActive = true
+        
+        // Grimy line and label
+        grimyLine.anchor(top: manButton.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 25, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: 0.5))
+        grimyForLineLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        grimyForLineLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        grimyForLineLabel.centerYAnchor.constraint(equalTo: grimyLine.centerYAnchor).isActive = true
         
         // Temperature
         tempSegmentedControl.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor).isActive = true

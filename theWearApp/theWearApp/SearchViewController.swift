@@ -159,7 +159,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         searchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         searchView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 
-        searchTextField.anchor(top: topLine.bottomAnchor, leading: searchView.leadingAnchor, bottom: nil, trailing: searchView.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init())
+        searchTextField.anchor(top: topLine.bottomAnchor, leading: searchView.leadingAnchor, bottom: nil, trailing: searchView.trailingAnchor, padding: .init(top: 5, left: 25, bottom: 0, right: 25), size: .init(width: 0, height: 35))
         suitableCititesTableView.anchor(top: bottomLine.bottomAnchor, leading: searchView.leadingAnchor, bottom: googleLogo.topAnchor, trailing: searchView.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init())
         googleLogo.anchor(top: nil, leading: nil, bottom: searchView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 10, right: 0), size: .init(width: 125, height: 18))
         googleLogo.centerXAnchor.constraint(equalTo: searchView.centerXAnchor).isActive = true

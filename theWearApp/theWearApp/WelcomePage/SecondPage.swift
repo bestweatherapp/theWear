@@ -71,7 +71,7 @@ class SecondPage: UICollectionViewCell {
         let text = UILabel()
         text.sizeToFit()
         text.textAlignment = .center
-        text.attributedText = NSAttributedString(string: "How grimmy you are?", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
+        text.attributedText = NSAttributedString(string: "How grimmy are you?", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Medium", size: 15)!, NSAttributedStringKey.foregroundColor:UIColor.dark])
         return text
     }()
     
