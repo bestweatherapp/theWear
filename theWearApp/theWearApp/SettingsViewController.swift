@@ -430,7 +430,7 @@ class SettingsViewController: UIViewController {
     }
     
     private func Layout() {
-        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, notificationsSwitch, cold, normal, hot, grimySlider, blurEffect, datePickerView, grimyLine, grimyForLineLabel].forEach {view.addSubview($0)}
+        [closeButton, topLine, tempLabel, temperatureForLineLabel, windLabel, notificationsLabel, notifyInMorning, onMorning, notificationLine, genderLine, notificationForLineLabel, genderForLineLabel, manButton, womanButton, tempSegmentedControl, windSegmentedControl, notificationsSwitch, cold, normal, hot, grimySlider, grimyLine, grimyForLineLabel, blurEffect, datePickerView].forEach {view.addSubview($0)}
         datePickerView.addSubview(closeDatePicker)
         datePickerView.addSubview(datePicker)
         datePickerView.addSubview(okButton)
