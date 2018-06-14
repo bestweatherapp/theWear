@@ -421,7 +421,9 @@ class SettingsViewController: UIViewController {
             
             } else {
                 notificationsSwitch.isOn = false
-                datePicker.date = dateFormatter.date(from : "07:00")!
+            if (UserDefaults.standard.string(forKey: "RemindHour") != nil && UserDefaults.standard.string(forKey: "RemindHour") != "")
+            { datePicker.date = dateFormatter.date(from : UserDefaults.standard.string(forKey: "RemindHour")!)!}
+            else { datePicker.date = dateFormatter.date(from : "07:00")!}
                 onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
         }
         view.backgroundColor = .white
