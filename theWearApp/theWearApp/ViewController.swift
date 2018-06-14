@@ -106,7 +106,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.forecastTableView {
-          
+            let group = DispatchGroup()
+            group.enter()
             morningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![9].icon!)
             afternoonTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].icon!)
             eveningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].icon!)
@@ -202,7 +203,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     views[(i - 3) + 9].image = UIImage(named: allClothesForDetailedView[(indexPath.row * 4) + 3][i])
                 }
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
+            group.leave()
+            group.notify(queue: DispatchQueue.main) {
                 UIView.animate(withDuration: 0.6) {
                     self.topStackView.frame.origin.x = -self.view.frame.width
                     self.middleStackView.frame.origin.x = -self.view.frame.width
