@@ -425,6 +425,7 @@ class SettingsViewController: UIViewController {
             { datePicker.date = dateFormatter.date(from : UserDefaults.standard.string(forKey: "RemindHour")!)!}
             else { datePicker.date = dateFormatter.date(from : "07:00")!}
                 onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
+            UserDefaults.standard.synchronize()
         }
         view.backgroundColor = .white
     }

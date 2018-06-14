@@ -93,6 +93,7 @@ class AddCityViewController: UIViewController, UITableViewDelegate, UITableViewD
         var favourites = [String]()
         if (UserDefaults.standard.array(forKey: "cities") != nil)
         { favourites = UserDefaults.standard.array(forKey: "cities") as! [String]}
+        UserDefaults.standard.synchronize()
         
         let input = inputText.replacingOccurrences(of: " ", with: "%20")
         let url = URL(string: "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=\(input)&types=(cities)&language=en&key=AIzaSyDCBBOmhf9mpqKW0T-2d3zaCdB-LpJmKTc")
