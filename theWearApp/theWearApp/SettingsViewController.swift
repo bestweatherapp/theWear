@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class SettingsViewController: UIViewController {
     
@@ -68,7 +69,7 @@ class SettingsViewController: UIViewController {
         dateFormatter.dateFormat = "HH:mm"
         let selectedDate: String = dateFormatter.string(from: datePicker.date)
         onMorning.setTitle(selectedDate, for: .normal)
-        UserDefaults.standard.removeObject(forKey: "RemindHour")
+        //UserDefaults.standard.removeObject(forKey: "RemindHour")
         UserDefaults.standard.setValue(selectedDate, forKey: "RemindHour")
         UIView.animate(withDuration: 0.5, animations: {
             self.datePickerView.alpha = 0
@@ -348,6 +349,15 @@ class SettingsViewController: UIViewController {
     
     @objc func switchChanged(_ sender: UISwitch) {
         if sender.isOn {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+                if granted {
+                    UserDefaults.standard.set(1, forKey: "Notifications")
+                    UserDefaults.standard.set("07:00", forKey: "RemindHour")
+                } else {
+                    UserDefaults.standard.set(0, forKey: "Notifications")
+                }
+            }
             UserDefaults.standard.set(1, forKey: "Notifications")
             onMorning.isEnabled = true
             onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
@@ -356,7 +366,7 @@ class SettingsViewController: UIViewController {
             UserDefaults.standard.set(0, forKey: "Notifications")
             onMorning.isEnabled = false
             onMorning.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
-            onMorning.setTitleColor(UIColor(red: 1216/255, green: 216/255, blue: 216/255, alpha: 100), for: .normal)
+            onMorning.setTitleColor(UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 100), for: .normal)
         }
     }
     

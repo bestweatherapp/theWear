@@ -29,6 +29,11 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         NotificationCenter.default.post(name: Notification.Name(rawValue: "closeSVC"), object: nil, userInfo: ["name":self.suitableCities[(suitableCititesTableView.indexPathForSelectedRow?.row)!].folding(options: .diacriticInsensitive, locale: .current)])
     }
     
+    private let googleLogo: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "123"))
+        return image
+    }()
+    
     private let topLine: UIView = {
         let line = UIView()
         line.backgroundColor = UIColor.dark
@@ -155,6 +160,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         searchView.addSubview(suitableCititesTableView)
         searchView.addSubview(topLine)
         searchView.addSubview(bottomLine)
+        searchView.addSubview(googleLogo)
         
         topLine.anchor(top: closeSearchViewButton.bottomAnchor, leading: searchView.leadingAnchor, bottom: nil, trailing: searchView.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0.5))
         bottomLine.anchor(top: searchTextField.bottomAnchor, leading: searchView.leadingAnchor, bottom: nil, trailing: searchView.trailingAnchor, padding: .init(top: 5, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0.5))
@@ -174,7 +180,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         suitableCititesTableView.topAnchor.constraint(equalTo: bottomLine.bottomAnchor, constant: 0).isActive = true
         suitableCititesTableView.leadingAnchor.constraint(equalTo: searchView.leadingAnchor).isActive = true
         suitableCititesTableView.trailingAnchor.constraint(equalTo: searchView.trailingAnchor).isActive = true
-        suitableCititesTableView.bottomAnchor.constraint(equalTo: searchView.bottomAnchor).isActive = true
+        suitableCititesTableView.bottomAnchor.constraint(equalTo: googleLogo.topAnchor).isActive = true
+        
+        googleLogo.anchor(top: nil, leading: nil, bottom: searchView.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 10, right: 0), size: .init(width: 125, height: 20))
+        googleLogo.centerXAnchor.constraint(equalTo: searchView.centerXAnchor).isActive = true
     }
     
     override func viewDidLoad() {

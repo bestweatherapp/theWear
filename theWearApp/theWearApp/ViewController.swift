@@ -111,9 +111,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             afternoonTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![15].icon!)
             eveningTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![21].icon!)
             nightTempIcon.downloadedFrom(link: "https:" + self.currentForecastCity.AllForecastDay![indexPath.row].AllHours![3].icon!)
-            //
-            maxWinSpeedLabel.attributedText = NSAttributedString(string: "Maximum wind speed:\n\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].windSpeed_max!))) mPs", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
+            if UserDefaults.standard.integer(forKey: "Wind") == 0 {
+                 maxWinSpeedLabel.attributedText = NSAttributedString(string: "Maximum wind speed:\n\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].windSpeed_max!))) mPs", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            } else {
+                 maxWinSpeedLabel.attributedText = NSAttributedString(string: "Maximum wind speed:\n\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].windSpeed_max!) * 3.6)) kPH", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
+            }
             pressureLabel.attributedText = NSAttributedString(string: "Average pressure:\n\(Int(round(avgPressures[indexPath.row]))) Mb", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
             
             avgHumidityLabel.attributedText = NSAttributedString(string: "Average Humidity:\n\(Int(round(self.currentForecastCity.AllForecastDay![indexPath.row].avghumidity!)))%", attributes: [NSAttributedStringKey.font: UIFont.init(name: "SFProDisplay-Light", size: 14)!, NSAttributedStringKey.foregroundColor:UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 80)])
@@ -478,6 +481,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         image.contentMode = .scaleAspectFill
         return image
     }()
+    
+    // Logos
+    private let googleLogo: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "123"))
+        return image
+    }()
+    private let apixuLogo: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "124"))
+        return image
+    }()
+    
     
     // Splash
     private let splashScreen: UIView = {
@@ -1048,7 +1062,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         [menuButton, currentLocation, searchButton].forEach {topStackView.addArrangedSubview($0)}
         [currentTemperature, currentCondition, currentAdvice].forEach {middleStackView.addArrangedSubview($0)}
         [forecastCollectionView, forecastTableView].forEach {bottomStackView.addArrangedSubview($0)}
-        [placeholderForFavLabel, favouriteCitiesTableView, updateWithCurrentLocationButton, settingsButton, addCityButton, placeholderForFav].forEach {slideOutMenu.addSubview($0)}
+        [placeholderForFavLabel, favouriteCitiesTableView, updateWithCurrentLocationButton, settingsButton, addCityButton, placeholderForFav, googleLogo, apixuLogo].forEach {slideOutMenu.addSubview($0)}
         [scrollView, closeDetailedViewButton, forecastForLabel].forEach {detailedView.addSubview($0)}
         [topLine, feelsLikeLine1, feelsLikeLine2, commentLine1, commentLine2, clothesLine1, clothesLine2, detailsLine1, detailsLine2, morningTempIcon, afternoonTempIcon, eveningTempIcon, nightTempIcon, morningTemp, afternoonTemp, eveningTemp, nightTemp, morningTempFeelsLike, afternoonTempFeelsLike, eveningTempFeelsLike, nightTempFeelsLike, adviceInDetailedViewLabel, feelsLikeLabel, descrLabel, clothesLabel, DetailsLabel, maxWinSpeedLabel, maxWindSpeedIcon, avgHumidityLabel, avgHumidityIcon, sunriseImage, sunsetImage, sunriseLabel, sunsetLabel, nightUpClothes, nightDownClothes, nightShoes, nightAdditionalClothes, morningUpClothes, morningDownClothes, morningShoes, morningAdditionalClothes, afternoonUpClothes, afternoonDownClothes, afternoonShoes, afternoonAdditionalClothes, eveningUpClothes, eveningDownClothes, eveningShoes, eveningAdditionalClothes, nightLabel, morningLabel, afternoonLabel, eveningLabel, pressureIcon, pressureLabel].forEach {scrollView.addSubview($0)}
         
@@ -1115,10 +1129,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         settingsButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 25, bottom: 0, right: 0), size: .init(width: 35, height: 35))
         addCityButton.anchor(top: slideOutMenu.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 25), size: .init(width: 35, height: 35))
         updateWithCurrentLocationButton.anchor(top: nil, leading: slideOutMenu.leadingAnchor, bottom: favouriteCitiesTableView.topAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 0, left: 15, bottom: 15, right: 15), size: .init(width: 0, height: 15))
-        favouriteCitiesTableView.anchor(top: slideOutMenu.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: slideOutMenu.bottomAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 150, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        favouriteCitiesTableView.anchor(top: slideOutMenu.topAnchor, leading: slideOutMenu.leadingAnchor, bottom: apixuLogo.topAnchor, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 150, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
         placeholderForFav.anchor(top: updateWithCurrentLocationButton.bottomAnchor, leading: slideOutMenu.leadingAnchor, bottom: nil, trailing: slideOutMenu.trailingAnchor, padding: .init(top: 75, left: 85, bottom: 0, right: 85), size: .init(width: 80, height: 80))
         placeholderForFavLabel.anchor(top: placeholderForFav.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 15, left: 0, bottom: 0, right: 0), size: .init())
         placeholderForFavLabel.centerXAnchor.constraint(equalTo: slideOutMenu.centerXAnchor).isActive = true
+        
+        googleLogo.anchor(top: nil, leading: nil, bottom: slideOutMenu.bottomAnchor, trailing: slideOutMenu.centerXAnchor, padding: .init(top: 0, left: 0, bottom: 10, right: 10), size: .init(width: 80, height: 15))
+        
+        apixuLogo.anchor(top: nil, leading: slideOutMenu.centerXAnchor, bottom: slideOutMenu.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 10, bottom: 10, right: 0), size: .init(width: 80, height: 20))
         
         
         // Detailed View

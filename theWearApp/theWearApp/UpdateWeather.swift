@@ -144,14 +144,12 @@ func UpdateWeather(location: String, completion: @escaping (_ avgPress: [Double]
                 allCommentsForDetailedView.append(realComment)
                 if (allCommentsForDetailedView[0] == " ") {
                     allCommentsForDetailedView.remove(at: allCommentsForDetailedView.startIndex)
-                    
                 }
                 if (UserDefaults.standard.integer(forKey: "Temperature") == 0) {
                     allTempsdays.append("\(Int(round(newDay.AllHours![12].temperature!)))°C  \(Int(round(newDay.AllHours![0].temperature!)))°C")
                 } else {
                     allTempsdays.append("\(Int(round(newDay.AllHours![12].temperature! * 9/5 + 32)))°F  \(Int(round(newDay.AllHours![0].temperature! * 9/5 + 32)))°F")
                 }
-                
                 newDay.date = date_!
                 allDays.append(newDay)
             }
