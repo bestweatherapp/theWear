@@ -126,6 +126,7 @@ class SettingsViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         if UserDefaults.standard.integer(forKey: "Notifications") == 1 {
+            button.setTitle(UserDefaults.standard.string(forKey: "RemindHour"), for: .normal)
             button.setTitleColor(UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100), for: .normal)
             button.isEnabled = true
         } else {
@@ -303,7 +304,6 @@ class SettingsViewController: UIViewController {
             } else {
                 notificationsSwitch.isOn = false
                 datePicker.date = dateFormatter.date(from : "07:00")!
-                onMorning.setTitle("07:00", for: .normal)
         }
         view.backgroundColor = .white
     }
@@ -338,7 +338,11 @@ class SettingsViewController: UIViewController {
     
     private let notificationsSwitch: UISwitch = {
         let nSwitch = UISwitch()
-        nSwitch.setOn(false, animated: false)
+        if UserDefaults.standard.integer(forKey: "Notifications") == 1  {
+            nSwitch.isOn = true
+        } else {
+            nSwitch.isOn = false
+        }
         nSwitch.translatesAutoresizingMaskIntoConstraints = false
         nSwitch.onTintColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 100)
         nSwitch.thumbTintColor = UIColor(red: 107/255, green: 107/255, blue: 107/255, alpha: 100)
@@ -353,7 +357,6 @@ class SettingsViewController: UIViewController {
             center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
                 if granted {
                     UserDefaults.standard.set(1, forKey: "Notifications")
-                    UserDefaults.standard.set("07:00", forKey: "RemindHour")
                 } else {
                     UserDefaults.standard.set(0, forKey: "Notifications")
                 }
