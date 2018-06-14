@@ -1142,7 +1142,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         placeholderForFavLabel.centerXAnchor.constraint(equalTo: slideOutMenu.centerXAnchor).isActive = true
         
         // Logos
-        googleLogo.anchor(top: nil, leading: nil, bottom: nil, trailing: slideOutMenu.centerXAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 10), size: .init(width: 85, height: 15))
+        googleLogo.anchor(top: nil, leading: nil, bottom: nil, trailing: slideOutMenu.centerXAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 10), size: .init(width: 95, height: 15))
         googleLogo.centerYAnchor.constraint(equalTo: apixuLogo.centerYAnchor).isActive = true
         apixuLogo.anchor(top: nil, leading: slideOutMenu.centerXAnchor, bottom: slideOutMenu.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 10, bottom: 10, right: 0), size: .init(width: 80, height: 25))
         
